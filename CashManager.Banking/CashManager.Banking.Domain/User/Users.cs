@@ -30,9 +30,7 @@ public class Users
     [DataType(DataType.Date)]
     public DateTime CreatedAt { get; set; }
 
-    [InverseProperty("FkUser")]
-    public ICollection<Account> Accounts { get; set; } = new List<Account>();
+    public ICollection<Account> Accounts { get; } = new List<Account>();
 
-    [InverseProperty("FkUser")]
-    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public ICollection<Transaction> Transactions { get; } = new List<Transaction>();
 }
