@@ -27,8 +27,8 @@ public class Account
     [DataType(DataType.Date)]
     public DateTime CloseDateTime { get; set; }
 
-    [ForeignKey(nameof(FkUser))]
-    public int FkUser { get; set; }
+    [ForeignKey(nameof(UserId))]
+    public int UserId { get; set; }
 
     public Users User { get; set; } = null!;
 }

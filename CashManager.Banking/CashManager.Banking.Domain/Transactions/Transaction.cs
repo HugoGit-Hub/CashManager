@@ -24,8 +24,8 @@ public class Transaction
     [DataType(DataType.Date)]
     public string Date { get; set; } = null!;
 
-    [ForeignKey(nameof(FkUser))]
-    public int FkUser { get; set; }
+    [ForeignKey(nameof(UserId))]
+    public int UserId { get; set; }
 
     public Users User { get; set; } = null!;
 }
