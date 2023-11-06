@@ -1,6 +1,7 @@
 using CashManager.Banking.Application;
 using CashManager.Banking.Infrastructure;
 using CashManager.Banking.Infrastructure.Context;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<CashManagerBankingContext>(options =>
 builder.Services
     .AddApplication()
     .AddInfrastructure();
+
+builder.Services.AddMapster();
 
 var app = builder.Build();
 
