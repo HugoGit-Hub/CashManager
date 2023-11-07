@@ -18,6 +18,9 @@ public class Account
     public string Number { get; set; } = null!;
 
     [Required]
+    public double Value { get; set; }
+
+    [Required]
     public BankAccountEnum Bank { get; set; }
 
     [Required]
