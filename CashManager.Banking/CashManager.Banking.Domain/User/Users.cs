@@ -1,7 +1,6 @@
 ﻿using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.Transactions;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashManager.Banking.Domain.User;
 
