@@ -12,9 +12,9 @@ public class CashManagerBankingContext : DbContext
     {
     }
 
-    public DbSet<Account>? Accounts { get; set; }
+    public DbSet<Account> Accounts { get; set; } = null!;
 
-    public DbSet<Transaction>? Transactions { get; set; }
+    public DbSet<Transaction> Transactions { get; set; } = null!;
 
-    public DbSet<Users>? Users { get; set; }
+    public DbSet<Users> Users { get; set; } = null!;
 }
