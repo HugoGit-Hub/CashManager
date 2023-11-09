@@ -6,5 +6,5 @@ public interface IAuthenticationService
 {
     public Task<string> Login(string email, string password, CancellationToken cancellationToken);
 
-    public Task<string> Register(Users user, CancellationToken cancellationToken);
+    public Task<Users> Register(Users user, CancellationToken cancellationToken);
 }
