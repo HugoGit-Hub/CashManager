@@ -19,4 +19,9 @@ internal class AuthenticationRepository : IAuthenticationRepository
         var result = await _context.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
         return result;
     }
+
+    public async Task<bool> IsCredentialsCorrects(string email, string password, CancellationToken cancellationToken)
+    {
+        return await _context.Users.AnyAsync(u => u.Email == email && u.Password == password, cancellationToken);
+    }
 }

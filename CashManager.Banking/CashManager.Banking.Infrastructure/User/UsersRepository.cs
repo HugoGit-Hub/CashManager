@@ -3,11 +3,11 @@ using CashManager.Banking.Infrastructure.Context;
 
 namespace CashManager.Banking.Infrastructure.User;
 
-public class UserRepository : IUsersRepository
+public class UsersRepository : IUsersRepository
 {
     private readonly CashManagerBankingContext _context;
 
-    public UserRepository(CashManagerBankingContext context)
+    public UsersRepository(CashManagerBankingContext context)
     {
         _context = context;
     }
