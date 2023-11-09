@@ -5,7 +5,8 @@ using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CashManagerBankingContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Authorization using Bearer scheme",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -26,8 +40,9 @@ builder.Services
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
+            RequireExpirationTime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperTokenKey")), //TODO: Replace this hard coded token key
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("M+ND73ZDpkzjè_GzdP%354DZok98e4z5d7f75f_çuzd")), //TODO: Replace this hard coded token key
             ValidIssuer = "CashManager.Banking", //TODO: set this in config file
             ValidAudience = "CashManager" //TODO: set this in config file
         };
@@ -50,25 +65,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-
-app.Use(async (context, next) =>
-{
-    var user = context.User;
-    var nameIdentifierClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-    if (nameIdentifierClaim is null)
-    {
-        context.Response.StatusCode = 401;
-        await context.Response.WriteAsync("Unauthorized");
-        return;
-    }
-
-    if (user.Identity is ClaimsIdentity claimsIdentity)
-    {
-        claimsIdentity.AddClaim(nameIdentifierClaim);
-    }
-
-    await next.Invoke();
-});
 
 app.UseAuthorization();
 
