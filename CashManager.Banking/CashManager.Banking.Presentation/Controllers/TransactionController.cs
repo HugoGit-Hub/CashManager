@@ -1,6 +1,7 @@
 ﻿using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashManager.Banking.Presentation.Controllers;
@@ -16,6 +17,7 @@ public class TransactionController : Controller
         _transactionService = transactionService;
     }
 
+    [Authorize]
     [HttpPost(nameof(Post))]
     public async Task<ActionResult<TransactionDto>> Post(TransactionDto transactionDto, CancellationToken cancellationToken)
     {
