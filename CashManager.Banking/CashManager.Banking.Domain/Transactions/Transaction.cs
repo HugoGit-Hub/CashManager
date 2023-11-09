@@ -21,6 +21,9 @@ public class Transaction
     public TransactionTypeEnum Type { get; set; }
 
     [Required]
+    public TransactionStateEnum State { get; set; }
+
+    [Required]
     [DataType(DataType.Date)]
     public string Date { get; set; } = null!;
 

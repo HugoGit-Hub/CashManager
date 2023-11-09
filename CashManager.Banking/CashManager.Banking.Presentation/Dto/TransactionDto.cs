@@ -1,5 +1,4 @@
-﻿using CashManager.Banking.Domain.Transactions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CashManager.Banking.Presentation.Dto;
 
@@ -17,6 +16,9 @@ public record TransactionDto
 
     [Required]
     public int Type { get; set; }
+
+    [Required]
+    public int State { get; set; }
 
     [Required]
     [DataType(DataType.Date)]
