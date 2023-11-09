@@ -1,5 +1,11 @@
-﻿using CashManager.Banking.Domain.Authentication;
+﻿using System.ComponentModel.DataAnnotations;
+using CashManager.Banking.Domain.Authentication;
+using CashManager.Banking.Domain.User;
+using CashManager.Banking.Infrastructure.Authentication;
+using CashManager.Banking.Presentation.Dto;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Authentication;
 
 namespace CashManager.Banking.Presentation.Controllers;
 
@@ -15,8 +21,41 @@ public class AuthenticationController : Controller
     }
 
     [HttpPost(nameof(Login))]
-    public Task<string> Login(string email, string password)
+    public async Task<ActionResult<string>> Login(
+        [DataType(DataType.EmailAddress)] string email,
+        [DataType(DataType.Password)] string password, 
+        CancellationToken cancellationToken)
     {
+        try
+        {
+            var result = await _authenticationService.Login(email, password, cancellationToken);
+            return Ok(result);
+        }
+        catch (InvalidCredentialException)
+        {
+            return Unauthorized();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
+    }
 
+    [HttpPost(nameof(Register))]
+    public async Task<ActionResult<UserDto>> Register(UserDto userDto, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _authenticationService.Register(userDto.Adapt<Users>(), cancellationToken);
+            return Ok(result.Adapt<UserDto>());
+        }
+        catch (ExistingEmailException)
+        {
+            return Unauthorized();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
     }
 }
