@@ -27,7 +27,7 @@ public class TransactionController : Controller
         return Ok(result);
     }
 
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetAll))]
     public async Task<ActionResult<TransactionDto>> GetAll(int userId, CancellationToken cancellationToken)
     {
