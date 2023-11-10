@@ -15,4 +15,9 @@ internal class TransactionService : ITransactionService
     {
         return await _transactionRepository.Post(transaction, cancellationToken);
     }
+
+    public async Task<IEnumerable<Transaction>> GetAll(int userId, CancellationToken cancellationToken)
+    {
+        return await _transactionRepository.GetAll(userId, cancellationToken);
+    }
 }
