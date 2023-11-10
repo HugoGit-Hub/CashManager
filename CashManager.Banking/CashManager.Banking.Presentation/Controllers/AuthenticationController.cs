@@ -6,6 +6,7 @@ using CashManager.Banking.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashManager.Banking.Presentation.Controllers;
 
@@ -20,6 +21,7 @@ public class AuthenticationController : Controller
         _authenticationService = authenticationService;
     }
 
+    [AllowAnonymous]
     [HttpPost(nameof(Login))]
     public async Task<ActionResult<string>> Login(
         [DataType(DataType.EmailAddress)] string email,
@@ -41,6 +43,7 @@ public class AuthenticationController : Controller
         }
     }
 
+    [AllowAnonymous]
     [HttpPost(nameof(Register))]
     public async Task<ActionResult<UserDto>> Register(UserDto userDto, CancellationToken cancellationToken)
     {

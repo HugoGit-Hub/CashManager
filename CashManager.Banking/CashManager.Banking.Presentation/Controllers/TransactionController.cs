@@ -17,11 +17,12 @@ public class TransactionController : Controller
         _transactionService = transactionService;
     }
 
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "ApiKeyScheme")]
     [HttpPost(nameof(Post))]
     public async Task<ActionResult<TransactionDto>> Post(TransactionDto transactionDto, CancellationToken cancellationToken)
     {
         var result = await _transactionService.Post(transactionDto.Adapt<Transaction>(), cancellationToken);
+
         return Ok(result);
     }
 }
