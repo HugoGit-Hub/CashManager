@@ -1,5 +1,6 @@
 ﻿using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace CashManager.Banking.Infrastructure.Transactions;
 
@@ -18,5 +19,11 @@ internal class TransactionRepository : ITransactionRepository
         await _context.SaveChangesAsync(cancellationToken);
 
         return result.Entity;
+    }
+
+    public async Task<IEnumerable<Transaction>> GetAll(int userId, CancellationToken cancellationToken)
+    {
+        var result = await _context.Transactions.Where(Transaction => Transaction.UserId == userId).ToListAsync(cancellationToken);
+       return result;
     }
 }
