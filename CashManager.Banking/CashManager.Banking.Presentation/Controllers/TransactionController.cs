@@ -37,4 +37,13 @@ public class TransactionController : Controller
             return StatusCode(500, ex);
         }
     }
+
+    [Authorize]
+    [HttpGet(nameof(GetAll))]
+    public async Task<ActionResult<TransactionDto>> GetAll(int userId, CancellationToken cancellationToken)
+    {
+        var result = await _transactionService.GetAll(userId, cancellationToken);
+
+        return Ok(result.Adapt<IEnumerable<TransactionDto>>());
+    }   
 }
