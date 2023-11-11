@@ -2,5 +2,5 @@
 
 public interface ITransactionService
 {
-    public Task<Transaction> Post(Transaction transaction, CancellationToken cancellationToken);
+    public Task<Transaction> SignAndPost(Transaction transaction, CancellationToken cancellationToken);
 }

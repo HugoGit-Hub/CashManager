@@ -27,6 +27,8 @@ public class Transaction
     [DataType(DataType.Date)]
     public string Date { get; set; } = null!;
 
+    public string? Signature { get; set; }
+
     [ForeignKey(nameof(UserId))]
     public int UserId { get; set; }
 

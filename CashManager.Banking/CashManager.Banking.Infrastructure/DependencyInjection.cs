@@ -1,6 +1,4 @@
 ﻿using CashManager.Banking.Domain.Authentication;
-using CashManager.Banking.Domain.Encryption;
-using CashManager.Banking.Domain.Token;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Authentication;
