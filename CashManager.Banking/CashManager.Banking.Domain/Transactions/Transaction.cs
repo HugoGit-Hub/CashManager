@@ -25,7 +25,7 @@ public class Transaction
 
     [Required]
     [DataType(DataType.Date)]
-    public string Date { get; set; } = null!;
+    public DateTime Date { get; set; }
 
     public string? Signature { get; set; }
 

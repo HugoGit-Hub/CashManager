@@ -22,7 +22,7 @@ public record TransactionDto
 
     [Required]
     [DataType(DataType.Date)]
-    public string Date { get; set; } = null!;
+    public DateTime Date { get; set; }
 
     [Required]
     public int UserId { get; set; }
