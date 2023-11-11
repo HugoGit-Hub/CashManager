@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using CashManager.Banking.Domain.Encryption;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
