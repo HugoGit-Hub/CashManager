@@ -21,9 +21,10 @@ internal class TransactionRepository : ITransactionRepository
         return result.Entity;
     }
 
-    public async Task<IEnumerable<Transaction>> GetAll(int userId, CancellationToken cancellationToken)
-    {
-        var result = await _context.Transactions.Where(transaction => transaction.UserId == userId).ToListAsync(cancellationToken);
-       return result;
+    public async Task<IEnumerable<Transaction>> GetAll(int id, CancellationToken cancellationToken)
+    { 
+        return await _context.Transactions
+            .Where(t => t.UserId == id)
+            .ToListAsync(cancellationToken);
     }
 }
