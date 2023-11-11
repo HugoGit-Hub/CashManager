@@ -23,6 +23,9 @@ public class UsersRepository : IUsersRepository
 
     public async Task<Users> Get(string email, CancellationToken cancellationToken)
     {
-        return await _context.Users.FirstAsync(u => u.Email == email, cancellationToken);
+        return await _context.Users
+            .Include(u => u.Transactions)
+            .Include(u => u.Accounts)
+            .FirstAsync(u => u.Email == email, cancellationToken);
     }
 }
