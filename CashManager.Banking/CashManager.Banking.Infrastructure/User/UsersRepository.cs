@@ -1,5 +1,6 @@
 ﻿using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace CashManager.Banking.Infrastructure.User;
 
@@ -16,6 +17,12 @@ public class UsersRepository : IUsersRepository
     {
         var result = await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+
         return result.Entity;
+    }
+
+    public async Task<Users> Get(string email, CancellationToken cancellationToken)
+    {
+        return await _context.Users.FirstAsync(u => u.Email == email, cancellationToken);
     }
 }
