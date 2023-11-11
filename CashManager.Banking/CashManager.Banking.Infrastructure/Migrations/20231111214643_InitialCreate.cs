@@ -36,6 +36,7 @@ namespace CashManager.Banking.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Owner = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Number = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
+                    Value = table.Column<double>(type: "float", nullable: false),
                     Bank = table.Column<int>(type: "int", nullable: false),
                     OpenDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CloseDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -61,7 +62,9 @@ namespace CashManager.Banking.Infrastructure.Migrations
                     Creditor = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
                     Debtor = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Signature = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

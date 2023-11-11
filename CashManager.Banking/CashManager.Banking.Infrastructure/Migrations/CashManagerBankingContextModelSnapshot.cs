@@ -75,9 +75,8 @@ namespace CashManager.Banking.Infrastructure.Migrations
                         .HasMaxLength(34)
                         .HasColumnType("nvarchar(34)");
 
-                    b.Property<string>("Date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Debtor")
                         .IsRequired()
