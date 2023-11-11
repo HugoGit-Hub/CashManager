@@ -1,6 +1,6 @@
-﻿namespace CashManager.Banking.Infrastructure.CurrentUser;
+﻿namespace CashManager.Banking.Domain.CurrentUser;
 
 public interface ICurrentUserService
 {
-    public string? GetClaim(string claimType);
+    public string GetClaim(string claimType);
 }
