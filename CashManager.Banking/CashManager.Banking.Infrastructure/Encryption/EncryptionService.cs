@@ -1,6 +1,6 @@
-﻿using CashManager.Banking.Domain.Encryption;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace CashManager.Banking.Infrastructure.Encryption;
 
@@ -26,13 +26,13 @@ internal class EncryptionService : IEncryptionService
         return Convert.ToBase64String(memoryStream.ToArray());
     }
 
-    public string Hash(string data)
+    public string HashWithSalt<TEntity>(TEntity data)
     {
-        var passwordBytes = Encoding.UTF8.GetBytes(data);
+        var dataBytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data));
         var saltBytes = Encoding.UTF8.GetBytes(Salt);
-        var combinedBytes = new byte[passwordBytes.Length + saltBytes.Length];
-        Buffer.BlockCopy(passwordBytes, 0, combinedBytes, 0, passwordBytes.Length);
-        Buffer.BlockCopy(saltBytes, 0, combinedBytes, passwordBytes.Length, saltBytes.Length);
+        var combinedBytes = new byte[dataBytes.Length + saltBytes.Length];
+        Buffer.BlockCopy(dataBytes, 0, combinedBytes, 0, dataBytes.Length);
+        Buffer.BlockCopy(saltBytes, 0, combinedBytes, dataBytes.Length, saltBytes.Length);
 
         using var sha512 = SHA512.Create();
         var hashBytes = sha512.ComputeHash(combinedBytes);
