@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CashManager.Banking.Domain.Authentication;
+﻿using CashManager.Banking.Domain.Authentication;
 using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Authentication;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Authentication;
 
 namespace CashManager.Banking.Presentation.Controllers;
 
@@ -31,6 +31,7 @@ public class AuthenticationController : Controller
         try
         {
             var result = await _authenticationService.Login(email, password, cancellationToken);
+
             return Ok(result);
         }
         catch (InvalidCredentialException)
@@ -39,7 +40,7 @@ public class AuthenticationController : Controller
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.Message);
         }
     }
 
@@ -58,7 +59,7 @@ public class AuthenticationController : Controller
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.Message);
         }
     }
 }

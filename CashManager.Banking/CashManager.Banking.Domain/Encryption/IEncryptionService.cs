@@ -1,4 +1,4 @@
-﻿namespace CashManager.Banking.Infrastructure.Encryption;
+﻿namespace CashManager.Banking.Domain.Encryption;
 
 public interface IEncryptionService
 {

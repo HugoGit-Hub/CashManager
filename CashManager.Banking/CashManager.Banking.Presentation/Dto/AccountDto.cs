@@ -1,5 +1,4 @@
-﻿using CashManager.Banking.Domain.Accounts;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CashManager.Banking.Presentation.Dto;
 

@@ -1,8 +1,8 @@
-﻿using System.Security.Authentication;
-using CashManager.Banking.Domain.Authentication;
+﻿using CashManager.Banking.Domain.Authentication;
+using CashManager.Banking.Domain.Encryption;
 using CashManager.Banking.Domain.User;
-using CashManager.Banking.Infrastructure.Encryption;
 using CashManager.Banking.Infrastructure.Token;
+using System.Security.Authentication;
 
 namespace CashManager.Banking.Infrastructure.Authentication;
 

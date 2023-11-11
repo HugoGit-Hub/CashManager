@@ -1,5 +1,6 @@
 ﻿using CashManager.Banking.Application.Transactions;
 using CashManager.Banking.Domain.Transactions;
+using CashManager.Banking.Infrastructure.CurrentUser;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +35,28 @@ public class TransactionController : Controller
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.Message);
         }
     }
+
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [HttpGet(nameof(GetAll))]
+    public async Task<ActionResult<TransactionDto>> GetAll(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _transactionService.GetAll(cancellationToken);
+        
+            return Ok(result.Adapt<IEnumerable<TransactionDto>>());
+        }
+        catch (ClaimTypeNullException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+
+    }   
 }

@@ -1,6 +1,7 @@
 using CashManager.Banking.Application;
 using CashManager.Banking.Infrastructure;
 using CashManager.Banking.Infrastructure.Context;
+using CashManager.Banking.Presentation.Configuration.Schemes;
 using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using CashManager.Banking.Presentation.Configuration.Schemes;
-using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +56,8 @@ builder.Services
         options.HeaderField = "ApiKey";
         options.HeaderAttemptedValue = ",.PjqV#.|X>kgp{?JsygExquC;tVuf5%"; //TODO: Replace this hard coded api key
     });
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services
     .AddApplication()
