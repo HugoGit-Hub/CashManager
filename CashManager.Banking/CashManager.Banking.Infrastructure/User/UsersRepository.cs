@@ -1,4 +1,5 @@
-﻿using CashManager.Banking.Domain.User;
+﻿using CashManager.Banking.Domain.Accounts;
+using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,5 +28,12 @@ public class UsersRepository : IUsersRepository
             .Include(u => u.Transactions)
             .Include(u => u.Accounts)
             .FirstAsync(u => u.Email == email, cancellationToken);
+    }
+
+    public async Task<Users> GetByAccountNumber(string accountNumber, CancellationToken cancellationToken)
+    {
+        return await _context.Users
+            .Include(u => u.Accounts)
+            .FirstAsync(u => u.Accounts.Any(a => a.Number == accountNumber), cancellationToken);
     }
 }
