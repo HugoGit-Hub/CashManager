@@ -25,4 +25,10 @@ internal class AccountRepository : IAccountRepository
 
         return result.Entity;
     }
+    
+    public async Task<Account> Get(CancellationToken cancellationToken)
+    {
+        var result = await _context.Accounts.FirstAsync(cancellationToken);
+        return result;
+    }
 }
