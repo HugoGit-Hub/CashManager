@@ -11,9 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Banking.Applica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Banking.Presentation", "CashManager.Banking\CashManager.Banking.Presentation\CashManager.Banking.Presentation.csproj", "{FB82EE71-14EF-4D19-AFA5-84B3D3A06D7A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6A2FDF6-0382-4CF1-A3F9-B1415D293E43}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86666C37-3EFE-4412-BFA5-42D05FD7BFA2}"
 	ProjectSection(SolutionItems) = preProject
 		CashManager.Banking\docker-compose.yml = CashManager.Banking\docker-compose.yml
+		CashManager.Banking\Dockerfile = CashManager.Banking\Dockerfile
 	EndProjectSection
 EndProject
 Global
