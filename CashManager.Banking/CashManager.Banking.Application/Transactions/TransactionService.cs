@@ -2,8 +2,8 @@
 using CashManager.Banking.Domain.Encryption;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Domain.User;
-using System.Security.Claims;
 using CashManager.Banking.Domain.Accounts;
+using System.Security.Claims;
 
 namespace CashManager.Banking.Application.Transactions;
 
