@@ -1,31 +1,16 @@
-version: '3.4'
-
 services:
-  api:
-    container_name: api
-    build:
-      context: "./"
-      dockerfile: Dockerfile
-    ports:
-      - 5000:5000
-      - 5001:5001
-    environment:
-      ASPNETCORE_HTTP_PORT: https://+:5001
-      ASPNETCORE_URLS: http://+:5000
-    depends_on:
-      - sqlserver
-
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     user: root
     container_name: sqlserver
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password123!
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=Password123!"
     ports:
       - 1433:1433
     volumes:
       - ./data:/var/opt/mssql/data
       - ./log:/var/opt/mssql/log
       - ./secrets:/var/opt/mssql/secrets
-    restart: always
+volumes:
+  sqlserver_data:
