@@ -3,4 +3,8 @@
 public interface ITransactionRepository
 {
     public Task<Transaction> Post(Transaction transaction, CancellationToken cancellationToken);
+
+    public Task<Transaction?> Get(int id, CancellationToken cancellationToken);
+
+    public Task<Transaction> Update(Transaction transaction, CancellationToken cancellationToken);
 }

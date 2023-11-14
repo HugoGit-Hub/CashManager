@@ -19,4 +19,17 @@ internal class TransactionRepository : ITransactionRepository
 
         return result.Entity;
     }
+
+    public async Task<Transaction?> Get(int id, CancellationToken cancellationToken)
+    {
+        return await _context.Transactions.FindAsync(new object[] { id }, cancellationToken);
+    }
+
+    public async Task<Transaction> Update(Transaction transaction, CancellationToken cancellationToken)
+    {
+        var result = _context.Transactions.Update(transaction);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return result.Entity;
+    }
 }
