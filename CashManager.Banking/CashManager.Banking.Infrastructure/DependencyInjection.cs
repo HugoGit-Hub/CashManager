@@ -2,12 +2,14 @@
 using CashManager.Banking.Domain.Authentication;
 using CashManager.Banking.Domain.CurrentUser;
 using CashManager.Banking.Domain.Encryption;
+using CashManager.Banking.Domain.HttpClients;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Accounts;
 using CashManager.Banking.Infrastructure.Authentication;
 using CashManager.Banking.Infrastructure.CurrentUser;
 using CashManager.Banking.Infrastructure.Encryption;
+using CashManager.Banking.Infrastructure.HttpClients;
 using CashManager.Banking.Infrastructure.Token;
 using CashManager.Banking.Infrastructure.Transactions;
 using CashManager.Banking.Infrastructure.User;
@@ -24,6 +26,7 @@ public static class DependencyInjection
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IEncryptionService, EncryptionService>();
+        services.AddScoped<IHttpClientService, HttpClientService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IUsersRepository, UsersRepository>();
