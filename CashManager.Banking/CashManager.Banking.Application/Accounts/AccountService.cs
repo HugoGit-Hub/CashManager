@@ -37,7 +37,6 @@ internal class AccountService : IAccountService
 
     public async Task<Account> Get(CancellationToken cancellationToken)
     {
-        var result = await _accountRepository.Get();
-        return result.Value;
+        return await _accountRepository.Get(cancellationToken);
     }
 }
