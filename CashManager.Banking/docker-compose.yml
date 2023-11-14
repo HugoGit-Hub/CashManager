@@ -1,6 +1,20 @@
 version: '3.4'
 
 services:
+  api:
+    container_name: api
+    build:
+      context: "./"
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+      - 5001:5001
+    environment:
+      ASPNETCORE_HTTP_PORT: https://+:5001
+      ASPNETCORE_URLS: http://+:5000
+    depends_on:
+      - sqlserver
+
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     user: root
