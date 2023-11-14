@@ -21,11 +21,14 @@ public class Transaction
     public TransactionTypeEnum Type { get; set; }
 
     [Required]
+    public double Amount { get; set; }
+
+    [Required]
     public TransactionStateEnum State { get; set; }
 
     [Required]
     [DataType(DataType.Date)]
-    public string Date { get; set; } = null!;
+    public DateTime Date { get; set; }
 
     public string? Signature { get; set; }
 

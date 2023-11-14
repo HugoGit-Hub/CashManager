@@ -18,12 +18,12 @@ public record TransactionDto
     public int Type { get; set; }
 
     [Required]
+    public double Amount { get; set; }
+
+    [Required]
     public int State { get; set; }
 
     [Required]
     [DataType(DataType.Date)]
-    public string Date { get; set; } = null!;
-
-    [Required]
-    public int UserId { get; set; }
+    public DateTime Date { get; set; }
 }

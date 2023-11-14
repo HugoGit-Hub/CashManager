@@ -32,6 +32,10 @@ internal class TransactionService : ITransactionService
             throw new BadTransactionStateException($"Bad transaction state : {transaction.State}");
         }
 
+        // TODO: Exception with no user accounts
+        var user = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
+        transaction.UserId = user.Id;
+
         var transactionSignature = _encryptionService.HashWithSalt(transaction);
         transaction.Signature = transactionSignature;
 
@@ -44,5 +48,19 @@ internal class TransactionService : ITransactionService
         var user = await _usersRepository.Get(email, cancellationToken);
 
         return user.Transactions;
+    }
+
+    public async Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken)
+    {
+        var transactionSignature = _encryptionService.HashWithSalt(transaction);
+        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullReferenceException();
+        if (transactionSignature != storedTransaction.Signature)
+        {
+            throw new WrongSignatureException();
+        }
+
+        transaction.State = TransactionStateEnum.Success;
+
+        return await _transactionRepository.Update(transaction, cancellationToken);
     }
 }

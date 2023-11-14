@@ -5,14 +5,14 @@
 namespace CashManager.Banking.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAccountValue : Migration
+    public partial class TransactionAmount : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<double>(
-                name: "Value",
-                table: "Accounts",
+                name: "Amount",
+                table: "Transactions",
                 type: "float",
                 nullable: false,
                 defaultValue: 0.0);
@@ -22,8 +22,8 @@ namespace CashManager.Banking.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Value",
-                table: "Accounts");
+                name: "Amount",
+                table: "Transactions");
         }
     }
 }
