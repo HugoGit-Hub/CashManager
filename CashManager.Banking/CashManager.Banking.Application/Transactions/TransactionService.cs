@@ -1,4 +1,5 @@
-﻿using CashManager.Banking.Domain.CurrentUser;
+﻿using CashManager.Banking.Domain.Accounts;
+using CashManager.Banking.Domain.CurrentUser;
 using CashManager.Banking.Domain.Encryption;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Domain.User;
@@ -10,19 +11,22 @@ internal class TransactionService : ITransactionService
 {
     private readonly ITransactionRepository _transactionRepository;
     private readonly IUsersRepository _usersRepository;
+    private readonly IAccountRepository _accountRepository;
     private readonly IEncryptionService _encryptionService;
     private readonly ICurrentUserService _currentUserService;
 
     public TransactionService(
         ITransactionRepository transactionRepository,
         IUsersRepository usersRepository,
+        IAccountRepository accountRepository,
         IEncryptionService encryptionService,
         ICurrentUserService currentUserService)
     {
         _transactionRepository = transactionRepository;
+        _usersRepository = usersRepository;
+        _accountRepository = accountRepository;
         _encryptionService = encryptionService;
         _currentUserService = currentUserService;
-        _usersRepository = usersRepository;
     }
 
     public async Task<Transaction> SignAndPost(Transaction transaction, CancellationToken cancellationToken)
@@ -31,8 +35,13 @@ internal class TransactionService : ITransactionService
         {
             throw new BadTransactionStateException($"Bad transaction state : {transaction.State}");
         }
-
-        // TODO: Exception with no user accounts
+        
+        var account = await _accountRepository.Get(transaction.Creditor, cancellationToken);
+        if (account == null)
+        {
+            throw new UserAccountNotFoundException($"No account found for this user");
+        }
+        
         var user = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
         transaction.UserId = user.Id;
 

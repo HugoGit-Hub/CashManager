@@ -13,9 +13,9 @@ internal class AccountRepository : IAccountRepository
         _context = context;
     }
 
-    public Task<Account> Get(string number, CancellationToken cancellationToken)
+    public async Task<Account?> Get(string number, CancellationToken cancellationToken)
     {
-        return _context.Accounts.FirstAsync(a => a.Number == number, cancellationToken);
+        return await _context.Accounts.FirstOrDefaultAsync(a => a.Number == number, cancellationToken);
     }
 
     public async Task<Account> Update(Account account, CancellationToken cancellationToken)

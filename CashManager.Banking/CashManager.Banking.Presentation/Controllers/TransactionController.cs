@@ -35,7 +35,7 @@ public class TransactionController : Controller
 
             return Ok(result.Adapt<TransactionDto>());
         }
-        catch (BadTransactionStateException ex)
+        catch (Exception ex) when (ex is BadTransactionStateException or UserAccountNotFoundException)
         {
             return BadRequest(ex.Message);
         }
