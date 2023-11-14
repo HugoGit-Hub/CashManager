@@ -22,7 +22,7 @@ internal class TransactionRepository : ITransactionRepository
 
     public async Task<Transaction?> Get(int id, CancellationToken cancellationToken)
     {
-        return await _context.Transactions.FindAsync(new object[] { id }, cancellationToken);
+        return await _context.Transactions.FindAsync(id, cancellationToken);
     }
 
     public async Task<Transaction> Update(Transaction transaction, CancellationToken cancellationToken)

@@ -1,11 +1,12 @@
 ﻿using CashManager.Banking.Domain.HttpClients;
-using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 
 namespace CashManager.Banking.Infrastructure.HttpClients;
 
 internal class HttpClientService : IHttpClientService
 {
-    public async Task<HttpResponseMessage> Post<TDto>(string url, TDto dto, CancellationToken cancellationToken)
+    public HttpResponseMessage Post<TDto>(string url, TDto dto)
     {
         var uri = new Uri(url);
         var client = new HttpClient
@@ -13,6 +14,9 @@ internal class HttpClientService : IHttpClientService
             BaseAddress = new Uri(uri.GetLeftPart(UriPartial.Authority))
         };
 
-        return await client.PostAsJsonAsync(uri.LocalPath, dto, cancellationToken);
+        var content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
+        var response = client.PostAsync(uri, content).Result;
+
+        return response.EnsureSuccessStatusCode();
     }
 }

@@ -73,19 +73,19 @@ public class TransactionController : Controller
     [HttpPut(nameof(ValidateTransaction))]
     public async Task<ActionResult<TransactionDto>> ValidateTransaction(
         TransactionDto transactionDto, 
-        string url, 
+        //string url, 
         CancellationToken cancellationToken)
     {
         try
         {
             var validate = await _transactionService.Validate(transactionDto.Adapt<Transaction>(), cancellationToken);
             await _accountService.Transaction(validate.Creditor, validate.Debtor, validate.Amount, cancellationToken);
-            await _httpClientService.Post(url, transactionDto, cancellationToken);
+            //_httpClientService.Post(url, transactionDto);
 
             return Ok(validate.Adapt<TransactionDto>());
         }
-        catch (Exception ex) 
-            when (ex is NullReferenceException or WrongSignatureException or NonDebatableAccountException)
+        catch (Exception ex)
+            when (ex is NullTransactionException or WrongSignatureException or NonDebatableAccountException)
         {
             return BadRequest(ex);
         }

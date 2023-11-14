@@ -61,11 +61,14 @@ internal class TransactionService : ITransactionService
 
     public async Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken)
     {
+        var userId = _currentUserService.GetClaim(ClaimTypes.NameIdentifier);
+        transaction.UserId = Convert.ToInt32(userId);
+
         var transactionSignature = _encryptionService.HashWithSalt(transaction);
-        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullReferenceException();
+        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullTransactionException();
         if (transactionSignature != storedTransaction.Signature)
         {
-            throw new WrongSignatureException();
+            
         }
 
         transaction.State = TransactionStateEnum.Success;
