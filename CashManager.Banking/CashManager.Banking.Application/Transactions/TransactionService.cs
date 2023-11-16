@@ -37,9 +37,9 @@ internal class TransactionService : ITransactionService
         }
         
         var account = await _accountRepository.Get(transaction.Creditor, cancellationToken);
-        if (account == null)
+        if (account is null)
         {
-            throw new UserAccountNotFoundException($"No account found for this user");
+            throw new UserAccountNotFoundException("No account found for this user");
         }
         
         var user = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
@@ -61,15 +61,31 @@ internal class TransactionService : ITransactionService
 
     public async Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken)
     {
+        var userId = _currentUserService.GetClaim(ClaimTypes.NameIdentifier);
+        transaction.UserId = Convert.ToInt32(userId);
+
+        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullTransactionException();
+        transaction.Id = 0;
+
         var transactionSignature = _encryptionService.HashWithSalt(transaction);
-        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullReferenceException();
         if (transactionSignature != storedTransaction.Signature)
         {
             throw new WrongSignatureException();
         }
 
-        transaction.State = TransactionStateEnum.Success;
+        var updatedTransaction = new Transaction
+        {
+            Id = storedTransaction.Id,
+            Creditor = transaction.Creditor,
+            Debtor = transaction.Debtor,
+            Type = transaction.Type,
+            Amount = transaction.Amount,
+            State = TransactionStateEnum.Success,
+            Date = transaction.Date,
+            Signature = transactionSignature,
+            UserId = transaction.UserId
+        };
 
-        return await _transactionRepository.Update(transaction, cancellationToken);
+        return await _transactionRepository.Update(updatedTransaction, cancellationToken);
     }
 }

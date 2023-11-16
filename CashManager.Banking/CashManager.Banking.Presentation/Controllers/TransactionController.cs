@@ -1,8 +1,10 @@
 ﻿using CashManager.Banking.Application.Accounts;
 using CashManager.Banking.Application.Transactions;
 using CashManager.Banking.Domain.Accounts;
+using CashManager.Banking.Domain.HttpClients;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Infrastructure.CurrentUser;
+using CashManager.Banking.Infrastructure.HttpClients;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +18,16 @@ public class TransactionController : Controller
 {
     private readonly ITransactionService _transactionService;
     private readonly IAccountService _accountService;
+    private readonly IHttpClientService _httpClientService;
 
     public TransactionController(
         ITransactionService transactionService,
-        IAccountService accountService)
+        IAccountService accountService,
+        IHttpClientService httpClientService)
     {
         _transactionService = transactionService;
         _accountService = accountService;
+        _httpClientService = httpClientService;
     }
 
     [Authorize(AuthenticationSchemes = "ApiKeyScheme")]
@@ -67,19 +72,25 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(ValidateTransaction))]
-    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto, CancellationToken cancellationToken)
+    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto, string url, CancellationToken cancellationToken)
     {
         try
         {
             var validate = await _transactionService.Validate(transactionDto.Adapt<Transaction>(), cancellationToken);
             await _accountService.Transaction(validate.Creditor, validate.Debtor, validate.Amount, cancellationToken);
+            await _httpClientService.Post(url, transactionDto, cancellationToken);
 
             return Ok(validate.Adapt<TransactionDto>());
         }
-        catch (Exception ex) 
-            when (ex is NullReferenceException or WrongSignatureException or NonDebatableAccountException)
+        catch (Exception ex) when (
+            ex is NullTransactionException 
+                or NullAccountException
+                or WrongSignatureException 
+                or NonDebatableAccountException
+                or HttpCallbackRequestException
+                or UriFormatException)
         {
-            return BadRequest(ex);
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
