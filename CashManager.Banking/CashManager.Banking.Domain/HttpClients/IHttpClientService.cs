@@ -2,5 +2,5 @@
 
 public interface IHttpClientService
 {
-    public HttpResponseMessage Post<TDto>(string url, TDto dto);
+    public Task Post<TDto>(string url, TDto dto, CancellationToken cancellationToken);
 }

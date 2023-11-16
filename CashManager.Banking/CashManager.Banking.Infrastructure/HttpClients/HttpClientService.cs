@@ -6,7 +6,7 @@ namespace CashManager.Banking.Infrastructure.HttpClients;
 
 internal class HttpClientService : IHttpClientService
 {
-    public HttpResponseMessage Post<TDto>(string url, TDto dto)
+    public async Task Post<TDto>(string url, TDto dto, CancellationToken cancellationToken)
     {
         var uri = new Uri(url);
         var client = new HttpClient
@@ -15,8 +15,11 @@ internal class HttpClientService : IHttpClientService
         };
 
         var content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
-        var response = client.PostAsync(uri, content).Result;
+        var response = await client.PostAsync(uri, content, cancellationToken);
 
-        return response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpCallbackRequestException($"Something went wrong during the http callback request : {response.ReasonPhrase}");
+        }
     }
 }
