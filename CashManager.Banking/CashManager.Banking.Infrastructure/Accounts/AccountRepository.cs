@@ -18,6 +18,13 @@ internal class AccountRepository : IAccountRepository
         return await _context.Accounts.FirstOrDefaultAsync(a => a.Number == number, cancellationToken);
     }
 
+    public async Task<Account?> Get(int id, CancellationToken cancellationToken)
+    {
+        var result = await _context.Accounts.FindAsync(id, cancellationToken);
+
+        return result;
+    }
+
     public async Task<Account> Update(Account account, CancellationToken cancellationToken)
     {
         var result = _context.Accounts.Update(account);
