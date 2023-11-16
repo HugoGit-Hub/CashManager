@@ -1,4 +1,5 @@
-﻿using CashManager.Banking.Domain.Accounts;
+﻿using CashManager.Banking.Application.Accounts;
+using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -6,10 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CashManager.Banking.Presentation.Controllers;
 
-
 [Route("api/[controller]")]
 [ApiController]
-public class AccountController : ControllerBase
+public class AccountController : Controller
 {
     private readonly IAccountService _accountService;
 
@@ -20,12 +20,21 @@ public class AccountController : ControllerBase
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(Get))]
-    public async Task<AccountDto> Get(CancellationToken cancellationToken)
+    public async Task<ActionResult<AccountDto>> Get(CancellationToken cancellationToken)
     {
-        var account = await _accountService.Get(cancellationToken);
+        try
+        {
+            var account = await _accountService.Get(cancellationToken);
 
-        return account.Adapt<AccountDto>();
+            return Ok(account.Adapt<AccountDto>());
+        }
+        catch (NullAccountException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 }
-
-
