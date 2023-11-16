@@ -1,5 +1,6 @@
 ﻿using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace CashManager.Banking.Infrastructure.Transactions;
 
@@ -22,7 +23,9 @@ internal class TransactionRepository : ITransactionRepository
 
     public async Task<Transaction?> Get(int id, CancellationToken cancellationToken)
     {
-        return await _context.Transactions.FindAsync(id, cancellationToken);
+        return await _context.Transactions
+            .AsNoTracking()
+            .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
 
     public async Task<Transaction> Update(Transaction transaction, CancellationToken cancellationToken)
