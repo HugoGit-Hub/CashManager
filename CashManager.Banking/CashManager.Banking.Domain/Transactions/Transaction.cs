@@ -30,6 +30,9 @@ public class Transaction
     [DataType(DataType.Date)]
     public DateTime Date { get; set; }
 
+    [Required]
+    public Guid Guid { get; set; }
+
     public string? Signature { get; set; }
 
     [ForeignKey(nameof(UserId))]

@@ -44,6 +44,7 @@ internal class TransactionService : ITransactionService
         
         var user = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
         transaction.UserId = user.Id;
+        transaction.Guid = Guid.NewGuid();
 
         var transactionSignature = _encryptionService.HashWithSalt(transaction);
         transaction.Signature = transactionSignature;
@@ -82,6 +83,7 @@ internal class TransactionService : ITransactionService
             Amount = transaction.Amount,
             State = TransactionStateEnum.Success,
             Date = transaction.Date,
+            Guid = transaction.Guid,
             Signature = transactionSignature,
             UserId = transaction.UserId
         };
