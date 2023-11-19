@@ -1,4 +1,11 @@
+'use client';
+
 import './globals.css'
+import 'react-notifications/lib/notifications.css';
+
+import React from "react";
+// @ts-ignore
+import {NotificationContainer} from 'react-notifications';
 
 export default function RootLayout({
   children,
@@ -7,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" data-theme="light">
-      <body>{children}</body>
+      <body>
+        {children}
+        <NotificationContainer />
+      </body>
     </html>
   )
 }

@@ -1,8 +1,11 @@
 import React from 'react'
+import NavigationBar from '../components/NavigationBar'
 
 const Account = () => {
   return (
-    <div>Account</div>
+    <div>
+      <NavigationBar />
+    </div>
   )
 }
 
