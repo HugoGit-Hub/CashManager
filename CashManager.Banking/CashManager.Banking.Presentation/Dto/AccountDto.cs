@@ -15,6 +15,9 @@ public record AccountDto
     public string Number { get; set; } = null!;
 
     [Required]
+    public double Value { get; set; }
+
+    [Required]
     public int Bank { get; set; }
 
     [Required]
