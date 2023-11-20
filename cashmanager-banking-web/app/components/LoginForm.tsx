@@ -1,5 +1,6 @@
 'use client';
 
+import { fetchBanking } from '../utils/FetchBanking';
 import { notifications } from '../utils/Notifications';
 import { useRouter } from 'next/navigation';
 
@@ -20,7 +21,7 @@ function LoginForm() {
                 headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
             };
     
-            await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/Authentication/Login?email=${credentials.email}&password=${credentials.password}`, request)
+            await fetchBanking(`/Authentication/Login?email=${credentials.email}&password=${credentials.password}`, request)
             .then(response => {
                 if (response.ok) {
                     notifications("success", "Connecté");

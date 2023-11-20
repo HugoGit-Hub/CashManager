@@ -1,18 +1,23 @@
 'use client';
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavigationBar from '../components/NavigationBar'
 import { useRouter } from 'next/navigation';
 import { notifications } from '../utils/Notifications';
+import { fetchBanking } from '../utils/FetchBanking';
 
 const Account = () => {
   const router = useRouter();
-  let accounts = [];
+  const [accounts, setAccounts] = useState<Account[]>([]);
 
   const handleRowClick = () => {
     router.push('/transaction');
   };
-
+  
+  useEffect(() => {
+    getAccounts();
+  }, []);
+  
   const getAccounts = async () => {
     try {
       var request = {
@@ -23,7 +28,7 @@ const Account = () => {
         }),
       }
 
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/Account/Get`, request)
+      await fetchBanking(`/Account/Get`, request)
       .then(response => {
         if (response.ok) {
           notifications("success", "Compte(s) récupéré(s)");
@@ -31,11 +36,13 @@ const Account = () => {
         }            
     
         if (response.status === 401) {
-          notifications("info", "Email ou mot de passe incorrects");
+          notifications("info", "Sesssion expirée");
+          router.push("/");
         }
       })
       .then(data => {
-        accounts = data;
+        setAccounts(data);
+        console.log(data);
       });
     } catch (error) {
       notifications("error", "Une erreur réseau est survenue");
@@ -48,7 +55,7 @@ const Account = () => {
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
-            <tr>
+            <tr >
               <th>Id</th>
               <th>Numéro de compte</th>
               <th>Nom</th>
@@ -56,12 +63,20 @@ const Account = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="hover" onClick={handleRowClick}>
-              <th>1</th>
-              <td>7162534129374650980325648293046354</td>
-              <td>User</td>
-              <td>300 $</td>
-            </tr>
+            {accounts.length > 0 ? (
+              accounts.map(account => (
+                <tr key={account.Id} className="hover" onClick={handleRowClick}>
+                  <th>{account.Id}</th>
+                  <td>{account.Nummber}</td>
+                  <td>{account.Owner}</td>
+                  <td>{account.Value} €</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td>Aucun comptes bancaires</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
