@@ -1,4 +1,4 @@
-interface Account {
+ export interface Account {
     Id: number,
     Nummber: string
     Owner: string,

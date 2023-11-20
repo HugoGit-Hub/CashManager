@@ -5,6 +5,7 @@ import NavigationBar from '../components/NavigationBar'
 import { useRouter } from 'next/navigation';
 import { notifications } from '../utils/Notifications';
 import { fetchBanking } from '../utils/FetchBanking';
+import { Account } from '../interfaces/Account';
 
 const Account = () => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const Account = () => {
   
   useEffect(() => {
     getAccounts();
+    console.log(accounts);
   }, []);
   
   const getAccounts = async () => {
@@ -42,7 +44,6 @@ const Account = () => {
       })
       .then(data => {
         setAccounts(data);
-        console.log(data);
       });
     } catch (error) {
       notifications("error", "Une erreur réseau est survenue");
@@ -74,7 +75,7 @@ const Account = () => {
               ))
             ) : (
               <tr>
-                <td>Aucun comptes bancaires</td>
+                <td>Aucun compte bancaire</td>
               </tr>
             )}
           </tbody>
