@@ -20,13 +20,13 @@ public class AccountController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(Get))]
-    public async Task<ActionResult<AccountDto>> Get(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<AccountDto>>> Get(CancellationToken cancellationToken)
     {
         try
         {
             var account = await _accountService.Get(cancellationToken);
 
-            return Ok(account.Adapt<AccountDto>());
+            return Ok(account.Adapt<IEnumerable<AccountDto>>());
         }
         catch (NullAccountException ex)
         {

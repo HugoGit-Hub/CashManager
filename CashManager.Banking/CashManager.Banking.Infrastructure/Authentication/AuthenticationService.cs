@@ -3,6 +3,7 @@ using CashManager.Banking.Domain.Encryption;
 using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Token;
 using System.Security.Authentication;
+using System.Text.Json;
 
 namespace CashManager.Banking.Infrastructure.Authentication;
 
@@ -36,7 +37,9 @@ internal class AuthenticationService : IAuthenticationService
         }
 
         var user = await _usersRepository.Get(email, cancellationToken);
-        return _tokenService.GenerateToken(user);
+        var token = _tokenService.GenerateToken(user);
+        
+        return JsonSerializer.Serialize(token);
     }
 
     public async Task<Users> Register(Users user, CancellationToken cancellationToken)

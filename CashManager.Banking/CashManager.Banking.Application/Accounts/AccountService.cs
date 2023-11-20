@@ -1,20 +1,24 @@
 ﻿using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.CurrentUser;
 using System.Security.Claims;
+using CashManager.Banking.Domain.User;
 
 namespace CashManager.Banking.Application.Accounts;
 
 internal class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
+    private readonly IUsersRepository _usersRepository;
     private readonly ICurrentUserService _currentUserService;
 
     public AccountService(
         IAccountRepository accountRepository,
+        IUsersRepository usersRepository,
         ICurrentUserService currentUserService)
     {
         _accountRepository = accountRepository;
         _currentUserService = currentUserService;
+        _usersRepository = usersRepository;
     }
 
     public async Task Transaction(string creditor, string debtor, double amount, CancellationToken cancellationToken)
@@ -40,11 +44,11 @@ internal class AccountService : IAccountService
         return !(result.Value < amount);
     }
 
-    public async Task<Account> Get(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Account>> Get(CancellationToken cancellationToken)
     {
-        var userId = _currentUserService.GetClaim(ClaimTypes.NameIdentifier);
-        var result = await _accountRepository.Get(Convert.ToInt32(userId), cancellationToken) ?? throw new NullAccountException();
+        var email = _currentUserService.GetClaim(ClaimTypes.Email);
+        var result = await _usersRepository.Get(email, cancellationToken);
 
-        return result;
+        return result.Accounts;
     }
 }
