@@ -5,6 +5,7 @@ namespace CashManager.Consumer.Domain.Transactions;
 
 public class Transaction
 {
+    [Key]
     public int Id { get; set; }
 
     [Required]
@@ -30,5 +31,4 @@ public class Transaction
 
     [Required]
     public Guid Guid { get; set; }
-
 }
