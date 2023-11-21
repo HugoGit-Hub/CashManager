@@ -17,10 +17,9 @@ const Account = () => {
   
   useEffect(() => {
     getAccounts();
-    console.log(accounts);
   }, []);
   
-  const getAccounts = async () => {
+  const getAccounts = () => {
     try {
       var request = {
         method: "GET",
@@ -30,20 +29,18 @@ const Account = () => {
         }),
       }
 
-      await fetchBanking(`/Account/Get`, request)
-      .then(response => {
+      fetchBanking(`/Account/Get`, request)
+      .then(async response => {
         if (response.ok) {
           notifications("success", "Compte(s) récupéré(s)");
-          return response.json();
+          const data = response.json();
+          setAccounts(await data);
         }            
     
         if (response.status === 401) {
           notifications("info", "Sesssion expirée");
           router.push("/");
         }
-      })
-      .then(data => {
-        setAccounts(data);
       });
     } catch (error) {
       notifications("error", "Une erreur réseau est survenue");
@@ -66,11 +63,11 @@ const Account = () => {
           <tbody>
             {accounts.length > 0 ? (
               accounts.map(account => (
-                <tr key={account.Id} className="hover" onClick={handleRowClick}>
-                  <th>{account.Id}</th>
-                  <td>{account.Nummber}</td>
-                  <td>{account.Owner}</td>
-                  <td>{account.Value} €</td>
+                <tr key={account.id} className="hover" onClick={handleRowClick}>
+                  <th>{account.id}</th>
+                  <td>{account.number}</td>
+                  <td>{account.owner}</td>
+                  <td>{account.value} €</td>
                 </tr>
               ))
             ) : (
