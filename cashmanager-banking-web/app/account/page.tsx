@@ -11,8 +11,8 @@ const Account = () => {
   const router = useRouter();
   const [accounts, setAccounts] = useState<Account[]>([]);
 
-  const handleRowClick = () => {
-    router.push('/transaction');
+  const handleRowClick = (accountNumber: string) => {
+    router.push(`/transaction?accountNumber=${accountNumber}`);
   };
   
   useEffect(() => {
@@ -63,7 +63,7 @@ const Account = () => {
           <tbody>
             {accounts.length > 0 ? (
               accounts.map(account => (
-                <tr key={account.id} className="hover" onClick={handleRowClick}>
+                <tr key={account.id} className="hover" onClick={() => handleRowClick(account.number)}>
                   <th>{account.id}</th>
                   <td>{account.number}</td>
                   <td>{account.owner}</td>
