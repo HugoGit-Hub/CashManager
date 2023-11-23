@@ -51,12 +51,12 @@ public class TransactionController : Controller
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [HttpGet(nameof(GetByUser))]
-    public async Task<ActionResult<TransactionDto>> GetByUser(CancellationToken cancellationToken)
+    [HttpGet(nameof(GetByUserAccounts))]
+    public async Task<ActionResult<TransactionDto>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _transactionService.GetByUser(cancellationToken);
+            var result = await _transactionService.GetByUserAccounts(accountNumber, cancellationToken);
         
             return Ok(result.Adapt<IEnumerable<TransactionDto>>());
         }

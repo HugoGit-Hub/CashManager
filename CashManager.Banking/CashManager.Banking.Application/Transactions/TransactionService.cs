@@ -52,12 +52,12 @@ internal class TransactionService : ITransactionService
         return await _transactionRepository.Post(transaction, cancellationToken);
     }
 
-    public async Task<IEnumerable<Transaction>> GetByUser(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Transaction>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
     {
         var email = _currentUserService.GetClaim(ClaimTypes.Email);
         var user = await _usersRepository.Get(email, cancellationToken);
 
-        return user.Transactions;
+        return user.Transactions.Where(t => t.Creditor == accountNumber);
     }
 
     public async Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken)
