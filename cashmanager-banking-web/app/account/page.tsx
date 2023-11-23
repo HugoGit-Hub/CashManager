@@ -7,19 +7,15 @@ import { notifications } from '../utils/Notifications';
 import { fetchBanking } from '../utils/FetchBanking';
 import { Account } from '../interfaces/Account';
 
-const Account = () => {
+function AccountPage() {
   const router = useRouter();
   const [accounts, setAccounts] = useState<Account[]>([]);
 
   const handleRowClick = (accountNumber: string) => {
     router.push(`/transaction?accountNumber=${accountNumber}`);
   };
-  
-  useEffect(() => {
-    getAccounts();
-  }, []);
-  
-  const getAccounts = () => {
+
+  const getAccounts = React.useCallback(() => {
     try {
       var request = {
         method: "GET",
@@ -27,25 +23,30 @@ const Account = () => {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         }),
-      }
-
+      };
+      
       fetchBanking(`/Account/Get`, request)
-      .then(async response => {
+      .then(async (response) => {
         if (response.ok) {
           notifications("success", "Compte(s) récupéré(s)");
-          const data = response.json();
-          setAccounts(await data);
-        }            
+            const data = response.json();
+            setAccounts(await data);
+          }
+          
+          if (response.status === 401) {
+            notifications("info", "Sesssion expirée");
+            router.push("/");
+          }
+        });
+      } catch (error) {
+        notifications("error", "Une erreur réseau est survenue");
+      }
+    }, [setAccounts, router]
+  );
     
-        if (response.status === 401) {
-          notifications("info", "Sesssion expirée");
-          router.push("/");
-        }
-      });
-    } catch (error) {
-      notifications("error", "Une erreur réseau est survenue");
-    }
-  };
+  useEffect(() => {
+    getAccounts();
+  }, [getAccounts]);
 
   return (
     <div>
@@ -53,7 +54,7 @@ const Account = () => {
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
-            <tr >
+            <tr>
               <th>Id</th>
               <th>Numéro de compte</th>
               <th>Nom</th>
@@ -79,7 +80,7 @@ const Account = () => {
         </table>
       </div>
     </div>
-  )
+  );
 }
 
-export default Account
+export default AccountPage
