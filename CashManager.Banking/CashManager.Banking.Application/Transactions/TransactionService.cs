@@ -57,7 +57,8 @@ internal class TransactionService : ITransactionService
         var email = _currentUserService.GetClaim(ClaimTypes.Email);
         var user = await _usersRepository.Get(email, cancellationToken);
 
-        return user.Transactions.Where(t => t.Creditor == accountNumber);
+        return user.Transactions
+            .Where(t => t.Creditor == accountNumber || t.Debtor == accountNumber);
     }
 
     public async Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken)
@@ -85,9 +86,18 @@ internal class TransactionService : ITransactionService
             Date = transaction.Date,
             Guid = transaction.Guid,
             Signature = transactionSignature,
+            Url = transaction.Url,
             UserId = transaction.UserId
         };
 
         return await _transactionRepository.Update(updatedTransaction, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Transaction>> GetPendingTransactionsForUser(CancellationToken cancellationToken)
+    {
+        var email = _currentUserService.GetClaim(ClaimTypes.Email);
+        var user = await _usersRepository.Get(email, cancellationToken);
+
+        return await _transactionRepository.GetPendingTransactionsForUser(user.Id, cancellationToken);
     }
 }

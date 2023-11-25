@@ -35,6 +35,9 @@ public class Transaction
 
     public string? Signature { get; set; }
 
+    [Required] 
+    public string Url { get; set; } = null!;
+
     [ForeignKey(nameof(UserId))]
     public int UserId { get; set; }
 
