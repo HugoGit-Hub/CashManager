@@ -7,4 +7,5 @@ export interface Transaction {
     state: number;
     date: string;
     guid: string;
+    url: string;
 }
