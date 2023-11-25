@@ -52,7 +52,7 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetByUserAccounts))]
-    public async Task<ActionResult<TransactionDto>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
     {
         try
         {
@@ -72,13 +72,13 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(ValidateTransaction))]
-    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto, string url, CancellationToken cancellationToken)
+    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto, CancellationToken cancellationToken)
     {
         try
         {
             var validate = await _transactionService.Validate(transactionDto.Adapt<Transaction>(), cancellationToken);
             await _accountService.Transaction(validate.Creditor, validate.Debtor, validate.Amount, cancellationToken);
-            await _httpClientService.Post(url, transactionDto, cancellationToken);
+            await _httpClientService.Post(transactionDto.Adapt<Transaction>(), cancellationToken);
 
             return Ok(validate.Adapt<TransactionDto>());
         }
@@ -91,6 +91,26 @@ public class TransactionController : Controller
                 or UriFormatException)
         {
             return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [HttpGet(nameof(GetPendingTransactionsForUser))]
+    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetPendingTransactionsForUser(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _transactionService.GetPendingTransactionsForUser(cancellationToken);
+
+            return Ok(result.Adapt<IEnumerable<TransactionDto>>());
+        }
+        catch (ClaimTypeNullException ex)
+        {
+            return Forbid(ex.Message);
         }
         catch (Exception ex)
         {

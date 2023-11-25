@@ -1,6 +1,8 @@
-﻿namespace CashManager.Banking.Domain.HttpClients;
+﻿using CashManager.Banking.Domain.Transactions;
+
+namespace CashManager.Banking.Domain.HttpClients;
 
 public interface IHttpClientService
 {
-    public Task Post<TDto>(string url, TDto dto, CancellationToken cancellationToken);
+    public Task Post(Transaction transaction, CancellationToken cancellationToken);
 }

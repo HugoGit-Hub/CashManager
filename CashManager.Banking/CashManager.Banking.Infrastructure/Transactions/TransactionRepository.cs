@@ -35,4 +35,12 @@ internal class TransactionRepository : ITransactionRepository
 
         return result.Entity;
     }
+
+    public async Task<IEnumerable<Transaction>> GetPendingTransactionsForUser(int id, CancellationToken cancellationToken)
+    {
+        return await _context.Transactions
+            .Where(t => t.User.Id == id && t.State == TransactionStateEnum.Pending && 
+                        _context.Accounts.Any(a => a.Number == t.Creditor && a.UserId == id))
+            .ToListAsync(cancellationToken);
+    }
 }

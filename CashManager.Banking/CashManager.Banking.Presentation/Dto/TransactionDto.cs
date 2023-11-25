@@ -29,4 +29,7 @@ public record TransactionDto
 
     [Required]
     public Guid Guid { get; set; }
+
+    [Required]
+    public string Url { get; set; } = null!;
 }

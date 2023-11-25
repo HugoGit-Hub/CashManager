@@ -48,6 +48,11 @@ function AccountPage() {
     getAccounts();
   }, [getAccounts]);
 
+  // function searchAccountByNumber(query: string): Account | null {
+  //   const lowercaseQuery = query.toLowerCase();
+  //   return accounts.find(account => account.number.toLowerCase().includes(lowercaseQuery)) || null;
+  // }
+
   return (
     <div>
       <NavigationBar />
