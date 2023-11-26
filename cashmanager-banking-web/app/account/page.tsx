@@ -73,7 +73,7 @@ function AccountPage() {
                   <th>{account.id}</th>
                   <td>{account.number}</td>
                   <td>{account.owner}</td>
-                  <td>{account.value} €</td>
+                  <td>{account.value.toFixed(2)} €</td>
                 </tr>
               ))
             ) : (
