@@ -9,4 +9,6 @@ public interface ITransactionService
     public Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken);
 
     public Task<IEnumerable<Transaction>> GetPendingTransactionsForUser(CancellationToken cancellationToken);
+
+    public Task<Transaction> Abort(Transaction transaction, CancellationToken cancellationToken);
 }

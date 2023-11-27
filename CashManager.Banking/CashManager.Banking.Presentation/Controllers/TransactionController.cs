@@ -32,7 +32,8 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "ApiKeyScheme")]
     [HttpPost(nameof(Post))]
-    public async Task<ActionResult<TransactionDto>> Post(TransactionDto transactionDto, CancellationToken cancellationToken)
+    public async Task<ActionResult<TransactionDto>> Post(TransactionDto transactionDto,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -52,12 +53,13 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetByUserAccounts))]
-    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetByUserAccounts(string accountNumber,
+        CancellationToken cancellationToken)
     {
         try
         {
             var result = await _transactionService.GetByUserAccounts(accountNumber, cancellationToken);
-        
+
             return Ok(result.Adapt<IEnumerable<TransactionDto>>());
         }
         catch (ClaimTypeNullException ex)
@@ -72,7 +74,8 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(ValidateTransaction))]
-    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto, CancellationToken cancellationToken)
+    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -83,9 +86,9 @@ public class TransactionController : Controller
             return Ok(validate.Adapt<TransactionDto>());
         }
         catch (Exception ex) when (
-            ex is NullTransactionException 
+            ex is NullTransactionException
                 or NullAccountException
-                or WrongSignatureException 
+                or WrongSignatureException
                 or NonDebatableAccountException
                 or HttpCallbackRequestException
                 or UriFormatException)
@@ -100,7 +103,8 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetPendingTransactionsForUser))]
-    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetPendingTransactionsForUser(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetPendingTransactionsForUser(
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -111,6 +115,30 @@ public class TransactionController : Controller
         catch (ClaimTypeNullException ex)
         {
             return Forbid(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [HttpPut(nameof(AbortTransaction))]
+    public async Task<ActionResult<TransactionDto>> AbortTransaction(TransactionDto transactionDto,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var validate = await _transactionService.Abort(transactionDto.Adapt<Transaction>(), cancellationToken);
+
+            return Ok(validate.Adapt<TransactionDto>());
+        }
+        catch (Exception ex) when (
+            ex is NullTransactionException
+                or NullAccountException
+                or WrongSignatureException)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

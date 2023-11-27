@@ -100,4 +100,36 @@ internal class TransactionService : ITransactionService
 
         return await _transactionRepository.GetPendingTransactionsForUser(user.Id, cancellationToken);
     }
+
+    public async Task<Transaction> Abort(Transaction transaction, CancellationToken cancellationToken)
+    {
+        var userId = _currentUserService.GetClaim(ClaimTypes.NameIdentifier);
+        transaction.UserId = Convert.ToInt32(userId);
+
+        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullTransactionException();
+        transaction.Id = 0;
+
+        var transactionSignature = _encryptionService.HashWithSalt(transaction);
+        if (transactionSignature != storedTransaction.Signature)
+        {
+            throw new WrongSignatureException();
+        }
+
+        var updatedTransaction = new Transaction
+        {
+            Id = storedTransaction.Id,
+            Creditor = transaction.Creditor,
+            Debtor = transaction.Debtor,
+            Type = transaction.Type,
+            Amount = transaction.Amount,
+            State = TransactionStateEnum.Aborted,
+            Date = transaction.Date,
+            Guid = transaction.Guid,
+            Signature = transactionSignature,
+            Url = transaction.Url,
+            UserId = transaction.UserId
+        };
+
+        return await _transactionRepository.Update(updatedTransaction, cancellationToken);
+    }
 }
