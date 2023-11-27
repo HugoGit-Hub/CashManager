@@ -95,6 +95,39 @@ function TransactionPage(): React.JSX.Element {
     }
   }
 
+  const abort = async (transaction: Transaction) => {
+    try {
+      var request = {
+        method: "PUT",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        }),
+        body: JSON.stringify(transaction),
+      };
+
+      await fetchBanking(`/Transaction/AbortTransaction`, request)
+      .then(async (response) => {
+        if (response.ok) {
+          notifications("success", "Transaction avortée");
+          getTransactions(searchParams.get('accountNumber'));
+        }
+
+        if (response.status === 400) {
+          notifications("error", "La transaction n'as pas pu être avortée");
+          getTransactions(searchParams.get('accountNumber'));
+        }
+        
+        if (response.status === 401) {
+          notifications("info", "Sesssion expirée");
+          router.push("/");
+        }
+      });
+    } catch (error) {
+      notifications("error", "Une erreur réseau est survenue");
+    }
+  }
+
   return (
     <div>
       <NavigationBar />
@@ -118,7 +151,7 @@ function TransactionPage(): React.JSX.Element {
               </div>
               <div>
                 <button onClick={() => validate(transaction)} className='btn btn-success'>Valider</button>
-                <button className='btn btn-error mx-3'>Annuler</button>
+                <button onClick={() => abort(transaction)} className='btn btn-error mx-3'>Annuler</button>
               </div>
             </div>
             <div className="timeline-middle">
