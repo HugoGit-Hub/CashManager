@@ -50,7 +50,7 @@ packages:
     source: hosted
     version: "1.0.6"
   english_words:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: english_words
       sha256: "6a7ef6473a97bd8571b6b641d006a6e58a7c67e65fb6f3d6d1151cb46b0e983c"
@@ -132,7 +132,7 @@ packages:
     source: hosted
     version: "1.8.3"
   provider:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: provider
       sha256: "9a96a0a19b594dbc5bf0f1f27d2bc67d5f95957359b461cd9feb44ed6ae75096"
