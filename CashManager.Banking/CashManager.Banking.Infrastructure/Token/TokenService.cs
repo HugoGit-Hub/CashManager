@@ -14,7 +14,7 @@ internal class TokenService : ITokenService
     public string GenerateToken(Users user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes("M+ND73ZDpkzjè_GzdP%354DZok98e4z5d7f75f_çuzd"); //TODO: Replace this hard coded token key
+        var key = Encoding.UTF8.GetBytes("fnkrjsfnrsjkfsrkfsrpdejfrsfkeopdqebrfsrdfoedifrsbdf"); //TODO: Replace this hard coded token key
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
