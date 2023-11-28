@@ -1,4 +1,4 @@
-﻿namespace CashManager.Banking.Domain.Accounts;
+﻿namespace CashManager.Banking.Domain.User;
 
 public enum BankAccountEnum
 {
