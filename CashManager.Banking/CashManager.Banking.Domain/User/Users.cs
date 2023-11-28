@@ -1,6 +1,7 @@
 ﻿using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.Transactions;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace CashManager.Banking.Domain.User;
 
@@ -26,10 +27,15 @@ public class Users
     public string Password { get; set; } = null!;
 
     [Required]
+    public BankAccountEnum Bank { get; set; }
+
+    [Required]
     [DataType(DataType.Date)]
     public DateTime CreatedAt { get; set; }
 
+    [JsonIgnore]
     public ICollection<Account> Accounts { get; } = new List<Account>();
 
+    [JsonIgnore]
     public ICollection<Transaction> Transactions { get; } = new List<Transaction>();
 }
