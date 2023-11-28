@@ -18,9 +18,6 @@ public record AccountDto
     public double Value { get; set; }
 
     [Required]
-    public int Bank { get; set; }
-
-    [Required]
     [DataType(DataType.Date)]
     public DateTime OpenDateTime { get; set; }
 
