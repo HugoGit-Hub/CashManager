@@ -1,8 +1,8 @@
 'use client';
-
-import { fetchBanking } from '../utils/FetchBanking';
-import { notifications } from '../utils/Notifications';
 import { useRouter } from 'next/navigation';
+
+import { notifications } from '../utils/Notifications';
+import { fetchBanking } from '../utils/FetchBanking';
 
 function LoginForm() {
     const router = useRouter();
@@ -29,7 +29,7 @@ function LoginForm() {
                 }            
             
                 if (response.status === 401) {
-                    notifications("info", "Email ou mot de passe incorrects");
+                    notifications("info", "Email / mot de passe incorrect");
                 }
             })
             .then(data => {
