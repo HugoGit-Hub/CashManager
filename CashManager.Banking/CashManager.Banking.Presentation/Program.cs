@@ -55,7 +55,7 @@ builder.Services
             ValidateLifetime = true,
             RequireExpirationTime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("M+ND73ZDpkzjè_GzdP%354DZok98e4z5d7f75f_çuzd")), //TODO: Replace this hard coded token key
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("fnkrjsfnrsjkfsrkfsrpdejfrsfkeopdqebrfsrdfoedifrsbdf")), //TODO: Replace this hard coded token key
             ValidIssuer = "CashManager.Banking", //TODO: Set this in config file
             ValidAudience = "CashManager" //TODO: Set this in config file
         };
