@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CashManager.Consumer.Domain\CashManager.Consumer.Domain.csproj" />
+    <ProjectReference Include="..\CashManager.Consumer.Infrastructure\CashManager.Consumer.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
