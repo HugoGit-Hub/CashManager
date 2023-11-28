@@ -4,10 +4,41 @@ import { notifications } from "../utils/Notifications";
 import { fetchBanking } from "../utils/FetchBanking";
 import { Transaction } from "../interfaces/Transaction";
 import { useRouter } from "next/navigation";
+import { User } from "../interfaces/User";
+import { provideBank, provideBankImage } from "../utils/UserService";
 
 function NavigationBar() {
     const router = useRouter();
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [currentUser, setCurrentUser] = useState<User>();
+    const [bank, setBank] = useState<string>();
+
+    const getCurrentUser = React.useCallback(() => {
+        try {
+            var request = {
+                method: "GET",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                }),
+            };
+
+            fetchBanking(`/User/GetCurrentUser`, request)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = response.json();
+                    setCurrentUser(await data);
+                }
+                    
+                if (response.status === 401) {
+                    notifications("info", "Sesssion expirée");
+                    router.push("/");
+                }
+            });
+        } catch (error) {
+            notifications("error", "Une erreur réseau est survenue");
+        }
+    }, [setCurrentUser, router]);
 
     const getPendingTransactionsForUser = React.useCallback(() => {
         try {
@@ -27,25 +58,26 @@ function NavigationBar() {
                 }
                     
                 if (response.status === 401) {
-                    notifications("info", "Sesssion expirée");
+                    router.push("/");
                 }
             });
         } catch (error) {
             notifications("error", "Une erreur réseau est survenue");
-            router.push("/");
         }
     }, [setTransactions, router]);
 
     useEffect(() => {
         getPendingTransactionsForUser();
-    }, [getPendingTransactionsForUser]);
+        getCurrentUser();
+        setBank(provideBank(currentUser?.bank));
+    }, [getPendingTransactionsForUser, getCurrentUser, currentUser?.bank, setBank]);
 
     const isTransactionArrayEmpty = () => {
         return transactions.length === 0 ? '' : 'badge badge-xs badge-primary';
     }
 
     return (
-        <div className="navbar bg-base-100">
+        <div className={`navbar bg-base-100`}>
             <div className="navbar-start">
                 <div className="dropdown dropdown-bottom">
                     <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -60,7 +92,9 @@ function NavigationBar() {
                 </div>
             </div>
             <div className="navbar-center">
-                <Link className="btn btn-ghost text-3xl" href={"/account"}>Bancash</Link>
+                <Link href={"/account"}>
+                    <img className="w-10 h-10" src={provideBankImage(bank)} alt="" />
+                </Link>
             </div>
             <div className="navbar-end">
                 <button className="btn btn-ghost btn-circle">
