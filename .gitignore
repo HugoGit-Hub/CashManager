@@ -367,3 +367,5 @@ FodyWeavers.xsd
 .idea/
 /CashManager.Banking/data/Entropy.bin
 /CashManager.Banking/secrets/machine-key
+
+/CashManager.Banking/CashManager.Banking.Presentation/appsettings.Development.json
