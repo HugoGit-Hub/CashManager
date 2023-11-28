@@ -32,7 +32,6 @@ function TransactionPage(): React.JSX.Element {
         }
         
         if (response.status === 401) {
-          notifications("info", "Sesssion expirée");
           router.push("/");
         }
       });
