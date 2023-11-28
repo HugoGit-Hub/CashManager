@@ -1,5 +1,4 @@
-﻿using CashManager.Banking.Domain.Accounts;
-using CashManager.Banking.Domain.User;
+﻿using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

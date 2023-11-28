@@ -36,12 +36,7 @@ internal class TransactionService : ITransactionService
             throw new BadTransactionStateException($"Bad transaction state : {transaction.State}");
         }
         
-        var account = await _accountRepository.Get(transaction.Creditor, cancellationToken);
-        if (account is null)
-        {
-            throw new UserAccountNotFoundException("No account found for this user");
-        }
-        
+        _ = await _accountRepository.Get(transaction.Creditor, cancellationToken) ?? throw new UserAccountNotFoundException("No account found for this user");
         var user = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
         transaction.UserId = user.Id;
         transaction.Guid = Guid.NewGuid();

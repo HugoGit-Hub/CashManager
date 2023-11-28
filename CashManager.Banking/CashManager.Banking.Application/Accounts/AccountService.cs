@@ -37,18 +37,18 @@ internal class AccountService : IAccountService
         await _accountRepository.Update(debtorAccount, cancellationToken);
     }
 
-    private async Task<bool> CanAccountBeDebited(string number, double amount, CancellationToken cancellationToken)
-    {
-        var result = await _accountRepository.Get(number, cancellationToken) ?? throw new NullAccountException();
-        
-        return !(result.Value < amount);
-    }
-
     public async Task<IEnumerable<Account>> Get(CancellationToken cancellationToken)
     {
         var email = _currentUserService.GetClaim(ClaimTypes.Email);
         var result = await _usersRepository.Get(email, cancellationToken);
 
         return result.Accounts;
+    }
+
+    private async Task<bool> CanAccountBeDebited(string number, double amount, CancellationToken cancellationToken)
+    {
+        var result = await _accountRepository.Get(number, cancellationToken) ?? throw new NullAccountException();
+        
+        return !(result.Value < amount);
     }
 }

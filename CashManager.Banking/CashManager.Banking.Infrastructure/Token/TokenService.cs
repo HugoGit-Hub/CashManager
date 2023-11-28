@@ -1,8 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using CashManager.Banking.Domain.User;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using CashManager.Banking.Domain.User;
 
 namespace CashManager.Banking.Infrastructure.Token;
 
@@ -20,7 +20,8 @@ internal class TokenService : ITokenService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("Bank", user.Bank.ToString())
             }),
             Issuer = Issuer,
             Audience = Audience,

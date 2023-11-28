@@ -21,9 +21,6 @@ public class Account
     public double Value { get; set; }
 
     [Required]
-    public BankAccountEnum Bank { get; set; }
-
-    [Required]
     [DataType(DataType.Date)]
     public DateTime OpenDateTime { get; set; }
 
