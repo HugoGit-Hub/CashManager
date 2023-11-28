@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashManager.Consumer.Domain.Articles;
 
@@ -22,5 +21,4 @@ public class Article
     [MaxLength(512)]
     [DataType(DataType.ImageUrl)]
     public string? ImageUrl { get; set; }
-
 }

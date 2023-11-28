@@ -1,10 +1,8 @@
 ﻿using CashManager.Consumer.Domain.Articles;
-using CashManager.Consumer.Infrastructure.Articles;
-
 
 namespace CashManager.Consumer.Application.Articles;
 
-public class ArticleService : IArticleService
+internal class ArticleService : IArticleService
 {
 
     private readonly IArticleRepository _articleRepository;

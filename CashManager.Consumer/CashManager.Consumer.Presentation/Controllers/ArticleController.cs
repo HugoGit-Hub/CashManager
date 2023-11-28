@@ -5,11 +5,11 @@ namespace CashManager.Consumer.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ArticleController : ControllerBase
+public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
 
-    public ArticleController(IArticleService articleService,IArticleRepository articleRepository)
+    public ArticleController(IArticleService articleService)
     {
         _articleService = articleService;
     }
@@ -22,6 +22,7 @@ public class ArticleController : ControllerBase
         {
             return NotFound();
         }
+
         return Ok(article);
     }
 
@@ -29,6 +30,7 @@ public class ArticleController : ControllerBase
     public async Task<ActionResult<IEnumerable<Article>>> GetAll(CancellationToken cancellationToken)
     {
         var articles = await _articleService.GetAll(cancellationToken);
+        
         return Ok(articles);
     }
 }
