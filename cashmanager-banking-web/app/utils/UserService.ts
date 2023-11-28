@@ -53,5 +53,7 @@ export function provideBankImage(bankName: string | undefined) {
             return '/banquePopulaire.png';
         case 'CreditCooperatif':
             return '/creditCooperatif.jpg';
+        default:
+            return '/other.png';
     }
 }

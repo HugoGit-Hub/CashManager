@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import NavigationBar from '../components/NavigationBar'
 import { useRouter } from 'next/navigation';
+
 import { notifications } from '../utils/Notifications';
 import { fetchBanking } from '../utils/FetchBanking';
 import { Account } from '../interfaces/Account';
+import NavigationBar from '../components/NavigationBar'
 
 function AccountPage() {
   const router = useRouter();

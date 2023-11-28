@@ -85,7 +85,7 @@ function TransactionPage(): React.JSX.Element {
         }
         
         if (response.status === 401) {
-          notifications("info", "Sesssion expirée");
+          notifications("info", "Session expirée");
           router.push("/");
         }
       });
@@ -118,7 +118,7 @@ function TransactionPage(): React.JSX.Element {
         }
         
         if (response.status === 401) {
-          notifications("info", "Sesssion expirée");
+          notifications("info", "Session expirée");
           router.push("/");
         }
       });

@@ -1,4 +1,3 @@
-// @ts-ignore
 import {NotificationManager} from 'react-notifications';
 
 export function notifications(type: string, message: string) {
@@ -10,7 +9,7 @@ export function notifications(type: string, message: string) {
             NotificationManager.success(message, 'Success', 1500);
             break;
         case 'warning':
-                NotificationManager.warning(message, 'Warnning', 1500);
+                NotificationManager.warning(message, 'Warning', 1500);
                 break;
         case 'error':
             NotificationManager.error(message, 'Error', 1500);

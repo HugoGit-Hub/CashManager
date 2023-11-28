@@ -1,9 +1,11 @@
-import Link from "next/link"
 import React, { useEffect, useState } from 'react'
+import { useRouter } from "next/navigation";
+import Link from "next/link"
+import Image from "next/image";
+
 import { notifications } from "../utils/Notifications";
 import { fetchBanking } from "../utils/FetchBanking";
 import { Transaction } from "../interfaces/Transaction";
-import { useRouter } from "next/navigation";
 import { User } from "../interfaces/User";
 import { provideBank, provideBankImage } from "../utils/UserService";
 
@@ -31,7 +33,7 @@ function NavigationBar() {
                 }
                     
                 if (response.status === 401) {
-                    notifications("info", "Sesssion expirée");
+                    notifications("info", "Session expirée");
                     router.push("/");
                 }
             });
@@ -93,7 +95,7 @@ function NavigationBar() {
             </div>
             <div className="navbar-center">
                 <Link href={"/account"}>
-                    <img className="w-10 h-10" src={provideBankImage(bank)} alt="" />
+                    <Image className="w-10 h-10" src={provideBankImage(bank)} alt="" />
                 </Link>
             </div>
             <div className="navbar-end">

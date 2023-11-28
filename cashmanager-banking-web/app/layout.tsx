@@ -4,7 +4,6 @@ import './globals.css'
 import 'react-notifications/lib/notifications.css';
 
 import React from "react";
-// @ts-ignore
 import {NotificationContainer} from 'react-notifications';
 
 export default function RootLayout({
