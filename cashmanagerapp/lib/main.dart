@@ -1,207 +1,213 @@
-import 'package:english_words/english_words.dart';
+import 'package:cashmanagerapp/pages/cartPages/cart.dart';
+import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
+import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
+import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'pages/scanPages/scan_home.dart';
+import 'pages/categoryPages/category.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+  final ScanHome scanHome = ScanHome();
+  final Category category = Category();
+  final CategoryDairy categoryDairy = CategoryDairy();
+  final CategoryVegetable categoryVegetable = CategoryVegetable();
+  final CategoryFruit categoryFruit = CategoryFruit();
+  final Cart cart = Cart();
+
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
+    return MaterialApp(
+      title: 'CashManager',
+      theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         ),
-        home: MyHomePage(),
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/scanHome': (context) => scanHome,
+        '/category': (context) => category,
+        '/category/fruit' : (context) => categoryFruit,
+        '/category/vegetable' : (context) => categoryVegetable,
+        '/category/dairy' : (context) => categoryDairy,
+        '/cart' : (context) => cart,
+      },
     );
   }
 }
 
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  var favorites = <WordPair>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var selectedIndex = 0;
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget page;
-    switch (selectedIndex) {
-      case 0:
-        page = GeneratorPage();
-        break;
-      case 1:
-        page = FavoritesPage();
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
-
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: Row(
-          children: [
-            SafeArea(
-              child: NavigationRail(
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text('Favorites'),
-                  ),
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: page,
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-  }
-}
-
-class GeneratorPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
-
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 40,
+        title: Text('Home',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          BigCard(pair: pair),
-          SizedBox(height: 10),
+          // Row 1
           Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
-                },
-                icon: Icon(icon),
-                label: Text('Like'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Welcome',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
               ),
-              SizedBox(width: 10),
-              ElevatedButton(
+              IconButton(
+                icon: Icon(Icons.notifications),
                 onPressed: () {
-                  appState.getNext();
+                  // Handle notification button press
                 },
-                child: Text('Next'),
               ),
             ],
           ),
+          SizedBox(height: 10), // Add spacing
+          // Row 2
+          Container(
+            height: 75, // Adjust the height as needed
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: ElevatedButton(
+              onPressed: () {
+                navigateToPage(context, '/scanHome');
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)
+                )
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.qr_code,size: 50,color: Colors.black), // Add barcode icon
+                      SizedBox(width: 8), // Add spacing between icon and text
+                      Text('Scan Mode',style: TextStyle(fontSize: 24,color: Colors.black)),
+                    ],
+                  ),
+                  // Add any additional widgets you might need on the right side
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 10), // Add spacing
+          // Row 3
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Category',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+              ),
+              TextButton(
+                onPressed: () {
+                  navigateToPage(context, '/category');
+                },
+                child: Text('More'),
+              ),
+            ],
+          ),
+          SizedBox(height: 10), // Add spacing
+          // Row 4
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  navigateToPage(context, '/category/fruit');
+                },
+                child: Text('Fruit'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  navigateToPage(context, '/category/vegetable');
+                },
+                child: Text('Vegetable'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  navigateToPage(context, '/category/dairy');
+                },
+                child: Text('Dairy'),
+              ),
+            ],
+          ),
+          SizedBox(height: 10), // Add spacing
+          // Row 5
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Cart',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+              ),
+              TextButton(
+                onPressed: () {
+                  navigateToPage(context, '/cart');
+                },
+                child: Text('More'),
+              ),
+            ],
+          ),
+          SizedBox(height: 10), // Add spacing
+          // Row 6 (Placeholder for the list of items)
+          SizedBox(
+            height: 200, // Adjust the height as needed
+            child: ListView.builder(
+              itemCount: 8,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('Item ${index + 1}'),
+                  subtitle: Text('\$10.00'), // Replace with actual prices
+                );
+              },
+            ),
+          ),
         ],
       ),
-    );
-  }
-}
-
-class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
-
-  final WordPair pair;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
-
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
+            bottomNavigationBar: BottomAppBar(
+        elevation: 0, // Remove the shadow
+        child: SizedBox(
+          height: 40, // Adjust the height as needed
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  navigateToPage(context, '/');
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  navigateToPage(context, '/cart');
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.add_box),
+                onPressed: () {
+                  navigateToPage(context, '/category');
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class FavoritesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
 
-    if (appState.favorites.isEmpty) {
-      return Center(
-        child: Text('No favorites yet.'),
-      );
-    }
 
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),
-        ),
-        for (var pair in appState.favorites)
-          ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(pair.asLowerCase),
-          ),
-      ],
-    );
-  }
+void navigateToPage(BuildContext context, String route) {
+  Navigator.pushNamed(context, route);
 }
