@@ -159,14 +159,34 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 10), // Add spacing
           // Row 6 (Placeholder for the list of items)
-          SizedBox(
-            height: 200, // Adjust the height as needed
+          Expanded(
             child: ListView.builder(
-              itemCount: 8,
+              itemCount: 5,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('Item ${index + 1}'),
-                  subtitle: Text('\$10.00'), // Replace with actual prices
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5), // Add space between items
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), // Adjust the border radius as needed
+                    color: Colors.black.withOpacity(0.5), // Apply dark overlay directly to the background
+                    image: DecorationImage(
+                      image: AssetImage('lib/images/top-view-raw-potatoes-table.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Potatoes',
+                        style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '\€10.00', // Replace with the actual price
+                        style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
