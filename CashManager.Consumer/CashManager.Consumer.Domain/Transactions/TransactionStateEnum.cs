@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CashManager.Consumer.Domain.Transaction;
+﻿namespace CashManager.Consumer.Domain.Transactions;
 
 public enum TransactionStateEnum
 {

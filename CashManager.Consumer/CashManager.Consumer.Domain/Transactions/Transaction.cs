@@ -1,12 +1,17 @@
-﻿using CashManager.Consumer.Domain.Transaction;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CashManager.Consumer.Domain.Transactions;
 
 public class Transaction
 {
-    [Key]
-    public int Id { get; set; }
+    public Transaction()
+    {
+        Debtor = "1234567890123456789012345678901234";
+        State = TransactionStateEnum.Pending;
+        Url = "https://localhost:7270/api/Transaction/Validate";
+    }
+
+    [Key] public int Id { get; set; }
 
     [Required]
     [MaxLength(34)]
@@ -14,7 +19,7 @@ public class Transaction
 
     [Required]
     [MaxLength(34)]
-    public string Debtor { get; set; } = null!;
+    public string Debtor { get; private set; }
 
     [Required]
     public TransactionTypeEnum Type { get; set; }
@@ -31,4 +36,7 @@ public class Transaction
 
     [Required]
     public Guid Guid { get; set; }
+
+    [Required] 
+    public string Url { get; private set; }
 }

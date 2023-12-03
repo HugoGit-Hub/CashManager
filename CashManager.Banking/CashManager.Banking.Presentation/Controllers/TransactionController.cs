@@ -81,7 +81,7 @@ public class TransactionController : Controller
         {
             var validate = await _transactionService.Validate(transactionDto.Adapt<Transaction>(), cancellationToken);
             await _accountService.Transaction(validate.Creditor, validate.Debtor, validate.Amount, cancellationToken);
-            await _httpClientService.Post(transactionDto.Adapt<Transaction>(), cancellationToken);
+            await _httpClientService.Validate(transactionDto.Adapt<Transaction>(), cancellationToken);
 
             return Ok(validate.Adapt<TransactionDto>());
         }

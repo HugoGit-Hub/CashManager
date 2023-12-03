@@ -4,5 +4,5 @@ namespace CashManager.Banking.Domain.HttpClients;
 
 public interface IHttpClientService
 {
-    public Task Post(Transaction transaction, CancellationToken cancellationToken);
+    public Task Validate(Transaction transaction, CancellationToken cancellationToken);
 }
