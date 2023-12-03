@@ -36,15 +36,25 @@ internal class TransactionService : ITransactionService
             throw new BadTransactionStateException($"Bad transaction state : {transaction.State}");
         }
         
-        _ = await _accountRepository.Get(transaction.Creditor, cancellationToken) ?? throw new UserAccountNotFoundException("No account found for this user");
+        _ = await _accountRepository.Get(transaction.Creditor, cancellationToken) ?? throw new UserAccountNotFoundException();
         var user = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
-        transaction.UserId = user.Id;
-        transaction.Guid = Guid.NewGuid();
+        var update = new Transaction
+        {
+            Id = 0,
+            Creditor = transaction.Creditor,
+            Debtor = transaction.Debtor,
+            Type = transaction.Type,
+            Amount = transaction.Amount,
+            State = transaction.State,
+            Date = transaction.Date,
+            Guid = transaction.Guid,
+            Url = transaction.Url,
+            UserId = user.Id,
+            User = user,
+        };
+        update.Signature = _encryptionService.HashWithSalt(update);
 
-        var transactionSignature = _encryptionService.HashWithSalt(transaction);
-        transaction.Signature = transactionSignature;
-
-        return await _transactionRepository.Post(transaction, cancellationToken);
+        return await _transactionRepository.Post(update, cancellationToken);
     }
 
     public async Task<IEnumerable<Transaction>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
@@ -59,10 +69,10 @@ internal class TransactionService : ITransactionService
     public async Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.GetClaim(ClaimTypes.NameIdentifier);
-        transaction.UserId = Convert.ToInt32(userId);
-
         var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullTransactionException();
         transaction.Id = 0;
+        transaction.UserId = Convert.ToInt32(userId);
+        transaction.User = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
 
         var transactionSignature = _encryptionService.HashWithSalt(transaction);
         if (transactionSignature != storedTransaction.Signature)
