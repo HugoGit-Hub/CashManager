@@ -12,7 +12,8 @@
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-notifications": "^1.7.4"
+    "react-notifications": "^1.7.4",
+    "sharp": "^0.33.0"
   },
   "devDependencies": {
     "@types/node": "^20",
