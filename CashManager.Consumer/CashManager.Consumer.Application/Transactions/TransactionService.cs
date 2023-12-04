@@ -1,4 +1,5 @@
-﻿using CashManager.Consumer.Domain.HttpClients;
+﻿using CashManager.Consumer.Domain.ErrorHandling;
+using CashManager.Consumer.Domain.HttpClients;
 using CashManager.Consumer.Domain.Transactions;
 
 namespace CashManager.Consumer.Application.Transactions;
@@ -16,26 +17,37 @@ public class TransactionService : ITransactionService
         _httpClientService = httpClientService;
     }
 
-    public async Task<Transaction> Post(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<Result<Transaction>> Post(Transaction transaction, CancellationToken cancellationToken)
     {
-        var result =  await _transactionRepository.Post(transaction, cancellationToken);
-        await _httpClientService.Post(transaction, cancellationToken);
-
-        return result;
+        var post =  await _transactionRepository.Post(transaction, cancellationToken);
+        var result = await _httpClientService.Post(transaction, cancellationToken);
+        
+        return result.IsFailure 
+            ? Result<Transaction>.Failure(result.Error)
+            : Result<Transaction>.Success(post);
     }
 
-    public async Task<Transaction> Put(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<Result<Transaction>> Put(Transaction transaction, CancellationToken cancellationToken)
     {
         var result = await Get(transaction.Guid, cancellationToken);
-        result.State = TransactionStateEnum.Success;
+        if (result.IsFailure)
+        {
+            return Result<Transaction>.Failure(result.Error);
+        }
+        
+        result.Value.State = TransactionStateEnum.Success;
 
-        return await _transactionRepository.Put(result, cancellationToken);
+        var put = await _transactionRepository.Put(result.Value, cancellationToken);
+        
+        return Result<Transaction>.Success(put);
     }
 
-    public async Task<Transaction> Get(Guid guid, CancellationToken cancellationToken)
+    public async Task<Result<Transaction>> Get(Guid guid, CancellationToken cancellationToken)
     {
-        var result = await _transactionRepository.Get(guid, cancellationToken) ?? throw new NullTransactionException();
+        var result = await _transactionRepository.Get(guid, cancellationToken);
 
-        return result;
+        return result == null
+            ? Result<Transaction>.Failure(TransactionErrors.TransactionNotFound)
+            : Result<Transaction>.Success(result);
     }
 }

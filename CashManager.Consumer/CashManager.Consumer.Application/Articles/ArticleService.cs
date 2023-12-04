@@ -1,4 +1,5 @@
 ﻿using CashManager.Consumer.Domain.Articles;
+using CashManager.Consumer.Domain.ErrorHandling;
 
 namespace CashManager.Consumer.Application.Articles;
 
@@ -12,9 +13,13 @@ internal class ArticleService : IArticleService
         _articleRepository = articleRepository;
     }
 
-    public Task<Article?> Get(int id, CancellationToken cancellationToken)
+    public async Task<Result<Article>> Get(int id, CancellationToken cancellationToken)
     {
-        return _articleRepository.Get(id, cancellationToken);
+        var result = await _articleRepository.Get(id, cancellationToken);
+        
+        return result is null 
+            ? Result<Article>.Failure(ArticleErrors.ArticleNotFound)
+            : Result<Article>.Success(result);
     }
 
     public Task<IEnumerable<Article>> GetAll(CancellationToken cancellationToken)
