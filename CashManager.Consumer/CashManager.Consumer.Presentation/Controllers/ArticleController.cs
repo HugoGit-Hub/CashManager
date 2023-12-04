@@ -17,20 +17,20 @@ public class ArticleController : Controller
     [HttpGet(nameof(Get))]
     public async Task<ActionResult<Article>> Get(int id, CancellationToken cancellationToken)
     {
-        var article = await _articleService.Get(id, cancellationToken);
-        if (article == null)
+        var result = await _articleService.Get(id, cancellationToken);
+        if (result.IsFailure)
         {
-            return NotFound();
+            return BadRequest(result.Error);
         }
 
-        return Ok(article);
+        return Ok(result.Value);
     }
 
     [HttpGet(nameof(GetAll))]
     public async Task<ActionResult<IEnumerable<Article>>> GetAll(CancellationToken cancellationToken)
     {
-        var articles = await _articleService.GetAll(cancellationToken);
+        var result = await _articleService.GetAll(cancellationToken);
         
-        return Ok(articles);
+        return Ok(result);
     }
 }

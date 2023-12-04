@@ -20,22 +20,23 @@ public class TransactionController : Controller
     public async Task<ActionResult<TransactionDto>> Post(TransactionDto transaction, CancellationToken cancellationToken)
     {
         var result = await _transactionService.Post(transaction.Adapt<Transaction>(), cancellationToken);
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
 
-        return Ok(result.Adapt<TransactionDto>());
+        return Ok(result.Value.Adapt<TransactionDto>());
     }
 
     [HttpPut(nameof(Validate))]
     public async Task<ActionResult> Validate(TransactionDto transaction, CancellationToken cancellationToken)
     {
-        try
+        var result = await _transactionService.Put(transaction.Adapt<Transaction>(), cancellationToken);
+        if (result.IsFailure)
         {
-            await _transactionService.Put(transaction.Adapt<Transaction>(), cancellationToken);
-            
-            return Ok();
+            return BadRequest(result.Error);
         }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        
+        return Ok();
     }
 }
