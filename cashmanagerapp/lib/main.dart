@@ -19,14 +19,13 @@ class MyApp extends StatelessWidget {
   final CategoryFruit categoryFruit = CategoryFruit();
   final Cart cart = Cart();
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CashManager',
       theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 231, 19)),
         ),
       initialRoute: '/',
       routes: {
@@ -42,13 +41,69 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _MyHomePageState();
+}
+ 
+class _MyHomePageState extends State<HomePage> {
+  var pos = 0;
+ @override
+  Widget build(BuildContext context) {
+    Widget page = Accueil();
+
+    switch (pos) {
+      case 0:
+        page = Accueil();
+        break;
+      case 1:
+        page = Cart();
+        break;
+      case 2:
+        page = Category();
+        break;
+      // case 3:
+      //   page = UserPage();
+      //   break;
+      }
+    return LayoutBuilder(builder: (context, constraints) {
+    return Scaffold(
+      body: page,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: pos,
+        onTap: (value) {
+          setState(() {
+            pos = value;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Panier',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            label: 'Catégories',
+          ),
+        ],
+      ),
+    );
+  }
+  );} 
+}
+
+
+class Accueil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 40,
-        title: Text('Home',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+        title: Text('Accueil',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +114,7 @@ class HomePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Welcome',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                child: Text('Bienvenue',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
               ),
               IconButton(
                 icon: Icon(Icons.notifications),
@@ -88,9 +143,9 @@ class HomePage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.qr_code,size: 50,color: Colors.black), // Add barcode icon
+                      Icon(Icons.qr_code_2_sharp,size: 50,color: Colors.black), // Add barcode icon
                       SizedBox(width: 8), // Add spacing between icon and text
-                      Text('Scan Mode',style: TextStyle(fontSize: 24,color: Colors.black)),
+                      Text('Mode scanner',style: TextStyle(fontSize: 24,color: Colors.black)),
                     ],
                   ),
                   // Add any additional widgets you might need on the right side
@@ -105,13 +160,13 @@ class HomePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Category',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                child: Text('Categories',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
               ),
               TextButton(
                 onPressed: () {
                   navigateToPage(context, '/category');
                 },
-                child: Text('More'),
+                child: Text('Plus'),
               ),
             ],
           ),
@@ -124,19 +179,19 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   navigateToPage(context, '/category/fruit');
                 },
-                child: Text('Fruit'),
+                child: Text('Fruits'),
               ),
               ElevatedButton(
                 onPressed: () {
                   navigateToPage(context, '/category/vegetable');
                 },
-                child: Text('Vegetable'),
+                child: Text('Légumes'),
               ),
               ElevatedButton(
                 onPressed: () {
                   navigateToPage(context, '/category/dairy');
                 },
-                child: Text('Dairy'),
+                child: Text('Laitiers'),
               ),
             ],
           ),
@@ -147,13 +202,13 @@ class HomePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Cart',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                child: Text('Pannier',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
               ),
               TextButton(
                 onPressed: () {
                   navigateToPage(context, '/cart');
                 },
-                child: Text('More'),
+                child: Text('Plus'),
               ),
             ],
           ),
@@ -178,11 +233,11 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Potatoes',
+                        'Patates',
                         style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '\€10.00', // Replace with the actual price
+                        '10.00€', // Replace with the actual price
                         style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -190,44 +245,12 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
-          ),
+          )
         ],
-      ),
-            bottomNavigationBar: BottomAppBar(
-        elevation: 0, // Remove the shadow
-        child: SizedBox(
-          height: 40, // Adjust the height as needed
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  navigateToPage(context, '/');
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: () {
-                  navigateToPage(context, '/cart');
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.add_box),
-                onPressed: () {
-                  navigateToPage(context, '/category');
-                },
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
-}
-
-
-
-void navigateToPage(BuildContext context, String route) {
+  void navigateToPage(BuildContext context, String route) {
   Navigator.pushNamed(context, route);
+  }
 }

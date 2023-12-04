@@ -115,6 +115,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  navbar_router:
+    dependency: "direct main"
+    description:
+      name: navbar_router
+      sha256: "396d2ce86c9b1d0d109bfd8a555c8c0f01574ab3d1204a41f25cd080c7c595b9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.3"
   nested:
     dependency: transitive
     description:
@@ -210,4 +218,4 @@ packages:
     version: "0.3.0"
 sdks:
   dart: ">=3.2.0 <4.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=1.17.0"
