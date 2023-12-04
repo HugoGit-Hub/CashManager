@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CashManager.Consumer.Domain\CashManager.Consumer.Domain.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\CashManager.Consumer.Application\CashManager.Consumer.Application.csproj" />
   </ItemGroup>
 
 </Project>
