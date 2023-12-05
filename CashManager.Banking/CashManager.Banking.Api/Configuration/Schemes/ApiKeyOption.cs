@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace CashManager.Banking.Presentation.Configuration.Schemes;
+namespace CashManager.Banking.Api.Configuration.Schemes;
 
 public class ApiKeyOption : AuthenticationSchemeOptions
 {

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
 
-namespace CashManager.Banking.Presentation.Configuration.Schemes;
+namespace CashManager.Banking.Api.Configuration.Schemes;
 
 public class ApiKeyHandler : AuthenticationHandler<ApiKeyOption>
 {

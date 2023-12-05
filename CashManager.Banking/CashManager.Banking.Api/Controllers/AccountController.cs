@@ -5,7 +5,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CashManager.Banking.Presentation.Controllers;
+namespace CashManager.Banking.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

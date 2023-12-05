@@ -10,7 +10,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CashManager.Banking.Presentation.Controllers;
+namespace CashManager.Banking.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -73,6 +73,27 @@ public class TransactionController : Controller
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
+    [HttpGet(nameof(GetPendingTransactionsForUser))]
+    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetPendingTransactionsForUser(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _transactionService.GetPendingTransactionsForUser(cancellationToken);
+
+            return Ok(result.Adapt<IEnumerable<TransactionDto>>());
+        }
+        catch (ClaimTypeNullException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(ValidateTransaction))]
     public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto,
         CancellationToken cancellationToken)
@@ -94,27 +115,6 @@ public class TransactionController : Controller
                 or UriFormatException)
         {
             return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
-
-    [Authorize(AuthenticationSchemes = "Bearer")]
-    [HttpGet(nameof(GetPendingTransactionsForUser))]
-    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetPendingTransactionsForUser(
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            var result = await _transactionService.GetPendingTransactionsForUser(cancellationToken);
-
-            return Ok(result.Adapt<IEnumerable<TransactionDto>>());
-        }
-        catch (ClaimTypeNullException ex)
-        {
-            return Forbid(ex.Message);
         }
         catch (Exception ex)
         {

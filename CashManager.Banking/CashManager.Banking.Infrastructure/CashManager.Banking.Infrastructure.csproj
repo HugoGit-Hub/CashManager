@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CashManager.Banking.Domain\CashManager.Banking.Domain.csproj" />
+    <ProjectReference Include="..\CashManager.Banking.Application\CashManager.Banking.Application.csproj" />
   </ItemGroup>
 
 </Project>

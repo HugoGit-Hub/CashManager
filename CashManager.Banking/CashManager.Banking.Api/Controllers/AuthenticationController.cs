@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 
-namespace CashManager.Banking.Presentation.Controllers;
+namespace CashManager.Banking.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

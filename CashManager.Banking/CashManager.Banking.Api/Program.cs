@@ -1,7 +1,8 @@
+using CashManager.Banking.Api.Configuration.Schemes;
 using CashManager.Banking.Application;
 using CashManager.Banking.Infrastructure;
 using CashManager.Banking.Infrastructure.Context;
-using CashManager.Banking.Presentation.Configuration.Schemes;
+using CashManager.Banking.Presentation;
 using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,7 +73,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure();
+    .AddInfrastructure()
+    .AddPresentation();
 
 builder.Services.AddMapster();
 
