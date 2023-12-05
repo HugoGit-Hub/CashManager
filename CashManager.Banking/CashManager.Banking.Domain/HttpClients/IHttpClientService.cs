@@ -1,8 +1,9 @@
-﻿using CashManager.Banking.Domain.Transactions;
+﻿using CashManager.Banking.Domain.ErrorHandling;
+using CashManager.Banking.Domain.Transactions;
 
 namespace CashManager.Banking.Domain.HttpClients;
 
 public interface IHttpClientService
 {
-    public Task Validate(Transaction transaction, CancellationToken cancellationToken);
+    public Task<Result> PutTransaction(Transaction transaction, CancellationToken cancellationToken);
 }

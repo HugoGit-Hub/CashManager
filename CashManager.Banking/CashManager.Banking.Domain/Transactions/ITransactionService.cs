@@ -1,14 +1,14 @@
-﻿namespace CashManager.Banking.Domain.Transactions;
+﻿using CashManager.Banking.Domain.ErrorHandling;
+
+namespace CashManager.Banking.Domain.Transactions;
 
 public interface ITransactionService
 {
-    public Task<Transaction> SignAndPost(Transaction transaction, CancellationToken cancellationToken);
+    public Task<Result<Transaction>> SignAndPost(Transaction transaction, CancellationToken cancellationToken);
 
-    public Task<IEnumerable<Transaction>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken);
+    public Task<Result<IEnumerable<Transaction>>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken);
 
-    public Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken);
+    public Task<Result<IEnumerable<Transaction>>> GetPendingTransactionsForUser(CancellationToken cancellationToken);
 
-    public Task<IEnumerable<Transaction>> GetPendingTransactionsForUser(CancellationToken cancellationToken);
-
-    public Task<Transaction> Abort(Transaction transaction, CancellationToken cancellationToken);
+    public Task<Result<Transaction>> ValidateOrAbort(Transaction transaction, TransactionStateEnum state, CancellationToken cancellationToken);
 }
