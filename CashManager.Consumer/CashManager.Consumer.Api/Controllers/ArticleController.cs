@@ -1,7 +1,7 @@
 ﻿using CashManager.Consumer.Domain.Articles;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CashManager.Consumer.Presentation.Controllers;
+namespace CashManager.Consumer.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

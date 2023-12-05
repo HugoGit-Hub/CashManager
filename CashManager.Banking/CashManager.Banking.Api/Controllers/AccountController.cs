@@ -1,5 +1,4 @@
-﻿using CashManager.Banking.Application.Accounts;
-using CashManager.Banking.Domain.Accounts;
+﻿using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -22,19 +21,12 @@ public class AccountController : Controller
     [HttpGet(nameof(Get))]
     public async Task<ActionResult<IEnumerable<AccountDto>>> Get(CancellationToken cancellationToken)
     {
-        try
+        var result = await _accountService.Get(cancellationToken);
+        if (result.IsFailure)
         {
-            var account = await _accountService.Get(cancellationToken);
+            return BadRequest(result.Error);
+        }
 
-            return Ok(account.Adapt<IEnumerable<AccountDto>>());
-        }
-        catch (NullAccountException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return Ok(result.Value.Adapt<IEnumerable<AccountDto>>());
     }
 }

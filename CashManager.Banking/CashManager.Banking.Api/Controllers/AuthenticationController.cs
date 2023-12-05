@@ -1,12 +1,10 @@
 ﻿using CashManager.Banking.Domain.Authentication;
 using CashManager.Banking.Domain.User;
-using CashManager.Banking.Infrastructure.Authentication;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Authentication;
 
 namespace CashManager.Banking.Api.Controllers;
 
@@ -28,38 +26,30 @@ public class AuthenticationController : Controller
         [DataType(DataType.Password)] string password, 
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var result = await _authenticationService.Login(email, password, cancellationToken);
-
-            return Ok(result);
-        }
-        catch (InvalidCredentialException)
+        var result = await _authenticationService.Login(email, password, cancellationToken);
+        if (result.Error == AuthenticationErrors.InvalidCredentialsError)
         {
             return Unauthorized();
         }
-        catch (Exception ex)
+
+        if (result.IsFailure)
         {
-            return StatusCode(500, ex.Message);
+            return BadRequest(result.Error);
         }
+
+        return Ok(result.Value);
     }
 
     [AllowAnonymous]
     [HttpPost(nameof(Register))]
     public async Task<ActionResult<UserDto>> Register(UserDto userDto, CancellationToken cancellationToken)
     {
-        try
+        var result = await _authenticationService.Register(userDto.Adapt<Users>(), cancellationToken);
+        if (result.IsFailure)
         {
-            var result = await _authenticationService.Register(userDto.Adapt<Users>(), cancellationToken);
-            return Ok(result.Adapt<UserDto>());
+            return BadRequest(result.Error);
         }
-        catch (ExistingEmailException)
-        {
-            return Unauthorized();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        
+        return Ok(result.Value.Adapt<UserDto>());
     }
 }

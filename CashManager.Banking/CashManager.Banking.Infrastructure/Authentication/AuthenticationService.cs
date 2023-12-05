@@ -1,8 +1,8 @@
 ﻿using CashManager.Banking.Domain.Authentication;
 using CashManager.Banking.Domain.Encryption;
+using CashManager.Banking.Domain.ErrorHandling;
 using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Token;
-using System.Security.Authentication;
 using System.Text.Json;
 
 namespace CashManager.Banking.Infrastructure.Authentication;
@@ -26,41 +26,46 @@ internal class AuthenticationService : IAuthenticationService
         _encryptionService = encryptionService;
     }
 
-    public async Task<string> Login(string email, string password, CancellationToken cancellationToken)
+    public async Task<Result<string>> Login(string email, string password, CancellationToken cancellationToken)
     {
         var encryptedPassword = _encryptionService.Encrypt(password);
         var hashedPassword = _encryptionService.HashWithSalt(encryptedPassword);
         var result = await _authenticationRepository.IsCredentialsCorrects(email, hashedPassword, cancellationToken);
         if (!result)
         {
-            throw new InvalidCredentialException();
+            return Result<string>.Failure(AuthenticationErrors.InvalidCredentialsError);
         }
 
         var user = await _usersRepository.Get(email, cancellationToken);
         var token = _tokenService.GenerateToken(user);
-        
-        return JsonSerializer.Serialize(token);
+        var jsonToken = JsonSerializer.Serialize(token);
+
+        return Result<string>.Success(jsonToken);
     }
 
-    public async Task<Users> Register(Users user, CancellationToken cancellationToken)
+    public async Task<Result<Users>> Register(Users user, CancellationToken cancellationToken)
     {
         var isUserUnique = await IsUsersEmailUnique(user.Email, cancellationToken);
-        if (!isUserUnique)
+        if (isUserUnique.IsFailure)
         {
-            throw new ExistingEmailException();
+            return Result<Users>.Failure(isUserUnique.Error);
         }
 
         var encryptedPassword = _encryptionService.Encrypt(user.Password);
         var hashedPassword = _encryptionService.HashWithSalt(encryptedPassword);
         user.Password = hashedPassword;
 
-        return await _usersRepository.Post(user, cancellationToken);
+        var postUser = await _usersRepository.Post(user, cancellationToken);
+
+        return Result<Users>.Success(postUser);
     }
 
-    private async Task<bool> IsUsersEmailUnique(string email, CancellationToken cancellationToken)
+    private async Task<Result> IsUsersEmailUnique(string email, CancellationToken cancellationToken)
     {
         var result = await _authenticationRepository.IsUsersEmailUnique(email, cancellationToken);
 
-        return result is null;
+        return result is not null
+            ? Result.Failure(AuthenticationErrors.ExistingEmailError) 
+            : Result.Success();
     }
 }

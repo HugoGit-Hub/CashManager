@@ -1,6 +1,7 @@
 ﻿using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.CurrentUser;
 using CashManager.Banking.Domain.Encryption;
+using CashManager.Banking.Domain.ErrorHandling;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Domain.User;
 using System.Security.Claims;
@@ -29,14 +30,19 @@ internal class TransactionService : ITransactionService
         _currentUserService = currentUserService;
     }
 
-    public async Task<Transaction> SignAndPost(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<Result<Transaction>> SignAndPost(Transaction transaction, CancellationToken cancellationToken)
     {
         if (transaction.State != TransactionStateEnum.Pending)
         {
-            throw new BadTransactionStateException($"Bad transaction state : {transaction.State}");
+            return Result<Transaction>.Failure(TransactionErrors.WrongTransactionState(transaction.State));
         }
         
-        _ = await _accountRepository.Get(transaction.Creditor, cancellationToken) ?? throw new UserAccountNotFoundException();
+        var accountResult = await _accountRepository.Get(transaction.Creditor, cancellationToken);
+        if (accountResult is null)
+        {
+            return Result<Transaction>.Failure(AccountError.AccountNotFoundError);
+        }
+
         var user = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
         var update = new Transaction
         {
@@ -54,30 +60,60 @@ internal class TransactionService : ITransactionService
         };
         update.Signature = _encryptionService.HashWithSalt(update);
 
-        return await _transactionRepository.Post(update, cancellationToken);
+        var post = await _transactionRepository.Post(update, cancellationToken);
+
+        return Result<Transaction>.Success(post);
     }
 
-    public async Task<IEnumerable<Transaction>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<Transaction>>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
     {
-        var email = _currentUserService.GetClaim(ClaimTypes.Email);
-        var user = await _usersRepository.Get(email, cancellationToken);
+        var emailResult = _currentUserService.GetClaim(ClaimTypes.Email);
+        if (emailResult.IsFailure)
+        {
+            return Result<IEnumerable<Transaction>>.Failure(emailResult.Error);
+        }
 
-        return user.Transactions
+        var user = await _usersRepository.Get(emailResult.Value, cancellationToken);
+        var transactions = user.Transactions
             .Where(t => t.Creditor == accountNumber || t.Debtor == accountNumber);
+
+        return Result<IEnumerable<Transaction>>.Success(transactions);
     }
 
-    public async Task<Transaction> Validate(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<Transaction>>> GetPendingTransactionsForUser(CancellationToken cancellationToken)
+    {
+        var emailResult = _currentUserService.GetClaim(ClaimTypes.Email);
+        if (emailResult.IsFailure)
+        {
+            return Result<IEnumerable<Transaction>>.Failure(emailResult.Error);
+        }
+
+        var user = await _usersRepository.Get(emailResult.Value, cancellationToken);
+        var transactions = await _transactionRepository.GetPendingTransactionsForUser(user.Id, cancellationToken);
+
+        return Result<IEnumerable<Transaction>>.Success(transactions);
+    }
+
+    public async Task<Result<Transaction>> ValidateOrAbort(
+        Transaction transaction,
+        TransactionStateEnum state,
+        CancellationToken cancellationToken)
     {
         var userId = _currentUserService.GetClaim(ClaimTypes.NameIdentifier);
-        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullTransactionException();
+        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken);
+        if (storedTransaction is null)
+        {
+            return Result<Transaction>.Failure(TransactionErrors.NotFoundTransactionError);
+        }
+
         transaction.Id = 0;
-        transaction.UserId = Convert.ToInt32(userId);
+        transaction.UserId = Convert.ToInt32(userId.Value);
         transaction.User = await _usersRepository.GetByAccountNumber(transaction.Creditor, cancellationToken);
 
         var transactionSignature = _encryptionService.HashWithSalt(transaction);
         if (transactionSignature != storedTransaction.Signature)
         {
-            throw new WrongSignatureException();
+            return Result<Transaction>.Failure(TransactionErrors.WrongSignatureError);
         }
 
         var updatedTransaction = new Transaction
@@ -87,7 +123,7 @@ internal class TransactionService : ITransactionService
             Debtor = transaction.Debtor,
             Type = transaction.Type,
             Amount = transaction.Amount,
-            State = TransactionStateEnum.Success,
+            State = state,
             Date = transaction.Date,
             Guid = transaction.Guid,
             Signature = transactionSignature,
@@ -95,46 +131,8 @@ internal class TransactionService : ITransactionService
             UserId = transaction.UserId
         };
 
-        return await _transactionRepository.Update(updatedTransaction, cancellationToken);
-    }
+        var update = await _transactionRepository.Update(updatedTransaction, cancellationToken);
 
-    public async Task<IEnumerable<Transaction>> GetPendingTransactionsForUser(CancellationToken cancellationToken)
-    {
-        var email = _currentUserService.GetClaim(ClaimTypes.Email);
-        var user = await _usersRepository.Get(email, cancellationToken);
-
-        return await _transactionRepository.GetPendingTransactionsForUser(user.Id, cancellationToken);
-    }
-
-    public async Task<Transaction> Abort(Transaction transaction, CancellationToken cancellationToken)
-    {
-        var userId = _currentUserService.GetClaim(ClaimTypes.NameIdentifier);
-        transaction.UserId = Convert.ToInt32(userId);
-
-        var storedTransaction = await _transactionRepository.Get(transaction.Id, cancellationToken) ?? throw new NullTransactionException();
-        transaction.Id = 0;
-
-        var transactionSignature = _encryptionService.HashWithSalt(transaction);
-        if (transactionSignature != storedTransaction.Signature)
-        {
-            throw new WrongSignatureException();
-        }
-
-        var updatedTransaction = new Transaction
-        {
-            Id = storedTransaction.Id,
-            Creditor = transaction.Creditor,
-            Debtor = transaction.Debtor,
-            Type = transaction.Type,
-            Amount = transaction.Amount,
-            State = TransactionStateEnum.Aborted,
-            Date = transaction.Date,
-            Guid = transaction.Guid,
-            Signature = transactionSignature,
-            Url = transaction.Url,
-            UserId = transaction.UserId
-        };
-
-        return await _transactionRepository.Update(updatedTransaction, cancellationToken);
+        return Result<Transaction>.Success(update);
     }
 }
