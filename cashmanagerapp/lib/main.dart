@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
+import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:flutter/material.dart';
 import 'pages/scanPages/scan_home.dart';
 import 'pages/categoryPages/category.dart';
@@ -18,6 +21,7 @@ class MyApp extends StatelessWidget {
   final CategoryVegetable categoryVegetable = CategoryVegetable();
   final CategoryFruit categoryFruit = CategoryFruit();
   final Cart cart = Cart();
+  final Introduction introduction = Introduction();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/category/vegetable' : (context) => categoryVegetable,
         '/category/dairy' : (context) => categoryDairy,
         '/cart' : (context) => cart,
+        '/welcome' : (context) => introduction,
       },
     );
   }
