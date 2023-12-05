@@ -1,10 +1,6 @@
-﻿using CashManager.Banking.Application.Accounts;
-using CashManager.Banking.Application.Transactions;
-using CashManager.Banking.Domain.Accounts;
+﻿using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.HttpClients;
 using CashManager.Banking.Domain.Transactions;
-using CashManager.Banking.Infrastructure.CurrentUser;
-using CashManager.Banking.Infrastructure.HttpClients;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -32,117 +28,79 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "ApiKeyScheme")]
     [HttpPost(nameof(Post))]
-    public async Task<ActionResult<TransactionDto>> Post(TransactionDto transactionDto,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<TransactionDto>> Post(TransactionDto transactionDto, CancellationToken cancellationToken)
     {
-        try
+        var result = await _transactionService.SignAndPost(transactionDto.Adapt<Transaction>(), cancellationToken);
+        if (result.IsFailure)
         {
-            var result = await _transactionService.SignAndPost(transactionDto.Adapt<Transaction>(), cancellationToken);
+            return BadRequest(result.Error);
+        }
 
-            return Ok(result.Adapt<TransactionDto>());
-        }
-        catch (Exception ex) when (ex is BadTransactionStateException or UserAccountNotFoundException)
-        {
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return Ok(result.Value.Adapt<TransactionDto>());
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetByUserAccounts))]
-    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetByUserAccounts(string accountNumber,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetByUserAccounts(string accountNumber, CancellationToken cancellationToken)
     {
-        try
+        var result = await _transactionService.GetByUserAccounts(accountNumber, cancellationToken);
+        if (result.IsFailure)
         {
-            var result = await _transactionService.GetByUserAccounts(accountNumber, cancellationToken);
+            return BadRequest(result.Error);
+        }
 
-            return Ok(result.Adapt<IEnumerable<TransactionDto>>());
-        }
-        catch (ClaimTypeNullException ex)
-        {
-            return Forbid(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return Ok(result.Value.Adapt<IEnumerable<TransactionDto>>());
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetPendingTransactionsForUser))]
-    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetPendingTransactionsForUser(
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<TransactionDto>>> GetPendingTransactionsForUser(CancellationToken cancellationToken)
     {
-        try
+        var result = await _transactionService.GetPendingTransactionsForUser(cancellationToken);
+        if (result.IsFailure)
         {
-            var result = await _transactionService.GetPendingTransactionsForUser(cancellationToken);
+            return BadRequest(result.Error);
+        }
 
-            return Ok(result.Adapt<IEnumerable<TransactionDto>>());
-        }
-        catch (ClaimTypeNullException ex)
-        {
-            return Forbid(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return Ok(result.Value.Adapt<IEnumerable<TransactionDto>>());
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(ValidateTransaction))]
-    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto, CancellationToken cancellationToken)
     {
-        try
+        var validate = await _transactionService.ValidateOrAbort(transactionDto.Adapt<Transaction>(), TransactionStateEnum.Success, cancellationToken);
+        if (validate.IsFailure)
         {
-            var validate = await _transactionService.Validate(transactionDto.Adapt<Transaction>(), cancellationToken);
-            await _accountService.Transaction(validate.Creditor, validate.Debtor, validate.Amount, cancellationToken);
-            await _httpClientService.Validate(transactionDto.Adapt<Transaction>(), cancellationToken);
+            return BadRequest(validate.Error);
+        }
 
-            return Ok(validate.Adapt<TransactionDto>());
-        }
-        catch (Exception ex) when (
-            ex is NullTransactionException
-                or NullAccountException
-                or WrongSignatureException
-                or NonDebatableAccountException
-                or HttpCallbackRequestException
-                or UriFormatException)
+        var transaction = await _accountService.Transaction(validate.Value.Creditor, validate.Value.Debtor, validate.Value.Amount, cancellationToken);
+        if (transaction.IsFailure)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(transaction.Error);
         }
-        catch (Exception ex)
+
+        var putTransaction = await _httpClientService.PutTransaction(transactionDto.Adapt<Transaction>(), cancellationToken);
+        if (putTransaction.IsFailure)
         {
-            return StatusCode(500, ex.Message);
+            return BadRequest(putTransaction.Error);
         }
+
+        return Ok(validate.Value.Adapt<TransactionDto>());
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(AbortTransaction))]
-    public async Task<ActionResult<TransactionDto>> AbortTransaction(TransactionDto transactionDto,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<TransactionDto>> AbortTransaction(TransactionDto transactionDto, CancellationToken cancellationToken)
     {
-        try
+        var result = await _transactionService.ValidateOrAbort(transactionDto.Adapt<Transaction>(), TransactionStateEnum.Aborted, cancellationToken);
+        if (result.IsFailure)
         {
-            var validate = await _transactionService.Abort(transactionDto.Adapt<Transaction>(), cancellationToken);
+            return BadRequest(result.Error);
+        }
 
-            return Ok(validate.Adapt<TransactionDto>());
-        }
-        catch (Exception ex) when (
-            ex is NullTransactionException
-                or NullAccountException
-                or WrongSignatureException)
-        {
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return Ok(result.Value.Adapt<TransactionDto>());
+
     }
 }
