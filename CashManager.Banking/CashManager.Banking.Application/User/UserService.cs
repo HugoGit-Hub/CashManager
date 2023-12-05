@@ -1,4 +1,5 @@
 ﻿using CashManager.Banking.Domain.CurrentUser;
+using CashManager.Banking.Domain.ErrorHandling;
 using CashManager.Banking.Domain.User;
 using System.Security.Claims;
 
@@ -17,10 +18,16 @@ internal class UserService : IUserService
         _currentUserService = currentUserService;
     }
 
-    public async Task<Users> Get(CancellationToken cancellationToken)
+    public async Task<Result<Users>> Get(CancellationToken cancellationToken)
     {
-        var email = _currentUserService.GetClaim(ClaimTypes.Email); 
+        var email = _currentUserService.GetClaim(ClaimTypes.Email);
+        if (email.IsFailure)
+        {
+            return Result<Users>.Failure(CurrentUserErrors.ClaimTypeNullError);
+        }
 
-        return await _usersRepository.Get(email, cancellationToken);
+        var user = await _usersRepository.Get(email.Value, cancellationToken);
+
+        return Result<Users>.Success(user);
     }
 }
