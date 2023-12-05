@@ -202,7 +202,7 @@ class Accueil extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Pannier',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                child: Text('Panier',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
               ),
               TextButton(
                 onPressed: () {
