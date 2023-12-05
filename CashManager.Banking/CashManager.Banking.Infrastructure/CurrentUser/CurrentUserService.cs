@@ -1,4 +1,5 @@
 ﻿using CashManager.Banking.Domain.CurrentUser;
+using CashManager.Banking.Domain.ErrorHandling;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
@@ -15,8 +16,12 @@ internal class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string GetClaim(string claimType)
+    public Result<string> GetClaim(string claimType)
     {
-        return CurrentUser.Claims.FirstOrDefault(c => c.Type == claimType)?.Value ?? throw new ClaimTypeNullException($"Claim type provided is null : {claimType}");
+        var result = CurrentUser.Claims.FirstOrDefault(c => c.Type == claimType)?.Value;
+
+        return result is null 
+            ? Result<string>.Failure(CurrentUserErrors.ClaimTypeNullError) 
+            : Result<string>.Success(result);
     }
 }
