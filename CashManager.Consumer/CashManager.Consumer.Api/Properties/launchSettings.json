@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "CashManager.Presentation": {
+    "CashManager.Api": {
       "commandName": "Project",
       "launchUrl": "swagger",
       "environmentVariables": {

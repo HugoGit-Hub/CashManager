@@ -3,7 +3,7 @@ using CashManager.Consumer.Presentation.Dto;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CashManager.Consumer.Presentation.Controllers;
+namespace CashManager.Consumer.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
