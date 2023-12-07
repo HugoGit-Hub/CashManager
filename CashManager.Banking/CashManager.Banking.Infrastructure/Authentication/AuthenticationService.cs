@@ -28,7 +28,7 @@ internal class AuthenticationService : IAuthenticationService
 
     public async Task<Result<string>> Login(string email, string password, CancellationToken cancellationToken)
     {
-        var encryptedPassword = _encryptionService.Encrypt(password);
+        var encryptedPassword = _encryptionService.Encrypt(password, email);
         var hashedPassword = _encryptionService.HashWithSalt(encryptedPassword);
         var result = await _authenticationRepository.IsCredentialsCorrects(email, hashedPassword, cancellationToken);
         if (!result)
@@ -51,7 +51,7 @@ internal class AuthenticationService : IAuthenticationService
             return Result<Users>.Failure(isUserUnique.Error);
         }
 
-        var encryptedPassword = _encryptionService.Encrypt(user.Password);
+        var encryptedPassword = _encryptionService.Encrypt(user.Password, user.Email);
         var hashedPassword = _encryptionService.HashWithSalt(encryptedPassword);
         user.Password = hashedPassword;
 
