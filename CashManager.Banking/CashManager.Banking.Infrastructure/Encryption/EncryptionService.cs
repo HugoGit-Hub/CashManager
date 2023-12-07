@@ -10,13 +10,13 @@ internal class EncryptionService : IEncryptionService
     private const string EncodingKey = "b14ca5898a4e4133bbce2ea2315a1916"; //TODO: Replace this hard coded encoding key
     private const string Salt = "0x055E1093465E94F89D15BECD09BD2508A011D67CF067259CD78CD9CC949C8585"; //TODO: Replace this hard coded salt
 
-    public string Encrypt(string data)
+    public string Encrypt(string data, string userKey)
     {
         var aes = Aes.Create();
         aes.Key = Encoding.UTF8.GetBytes(EncodingKey);
-        aes.IV = new byte[16];
 
-        var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+        var iv = Encoding.UTF8.GetBytes(userKey.Take(16).ToArray());
+        var encryptor = aes.CreateEncryptor(aes.Key, iv);
         var memoryStream = new MemoryStream();
         var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
         using (var streamWriter = new StreamWriter(cryptoStream))
