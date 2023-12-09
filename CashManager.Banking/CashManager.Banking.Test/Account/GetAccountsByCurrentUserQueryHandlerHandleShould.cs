@@ -5,6 +5,7 @@ using CashManager.Banking.Domain.User;
 using FluentAssertions;
 using Moq;
 using System.Security.Claims;
+using CashManager.Banking.Application.Accounts;
 
 namespace CashManager.Banking.Test.Account;
 
@@ -35,7 +36,7 @@ public class GetAccountsByCurrentUserQueryHandlerHandleShould
         // Assert
         result
             .Should()
-            .BeOfType<Result<GetAccountsByCurrentUserResponse>>();
+            .BeOfType<Result<IEnumerable<AccountResponse>>>();
 
         result
             .IsSuccess
@@ -53,7 +54,6 @@ public class GetAccountsByCurrentUserQueryHandlerHandleShould
 
         result
             .Value
-            .Accounts
             .Should()
             .BeEquivalentTo(expectedUser.Accounts);
     }
@@ -75,7 +75,7 @@ public class GetAccountsByCurrentUserQueryHandlerHandleShould
         // Assert
         result
             .Should()
-            .BeOfType<Result<GetAccountsByCurrentUserResponse>>();
+            .BeOfType<Result<IEnumerable<AccountResponse>>>();
 
         result
             .IsFailure
