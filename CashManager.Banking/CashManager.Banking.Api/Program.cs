@@ -1,3 +1,4 @@
+using CashManager.Banking.Api.Configuration;
 using CashManager.Banking.Api.Configuration.Schemes;
 using CashManager.Banking.Application;
 using CashManager.Banking.Infrastructure;
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(AssemblyMarker.Assembly));
 
 builder.Services.AddDbContext<CashManagerBankingContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
