@@ -1,4 +1,4 @@
-using CashManager.Banking.Application.Accounts;
+using CashManager.Banking.Application.Accounts.GetAccountByCurrentUser;
 using CashManager.Banking.Domain.CurrentUser;
 using CashManager.Banking.Domain.ErrorHandling;
 using CashManager.Banking.Domain.User;
@@ -6,7 +6,7 @@ using FluentAssertions;
 using Moq;
 using System.Security.Claims;
 
-namespace CashManager.Banking.Test;
+namespace CashManager.Banking.Test.Account;
 
 public class GetAccountsByCurrentUserQueryHandlerHandleShould
 {
@@ -76,12 +76,12 @@ public class GetAccountsByCurrentUserQueryHandlerHandleShould
         result
             .Should()
             .BeOfType<Result<GetAccountsByCurrentUserResponse>>();
-        
+
         result
             .IsFailure
             .Should()
             .BeTrue();
-        
+
         result
             .Error
             .Should()
