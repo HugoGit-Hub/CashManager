@@ -1,6 +1,7 @@
-﻿using CashManager.Banking.Domain.Accounts;
+﻿using CashManager.Banking.Application.Accounts;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +11,18 @@ namespace CashManager.Banking.Api.Controllers;
 [ApiController]
 public class AccountController : Controller
 {
-    private readonly IAccountService _accountService;
+    private readonly ISender _sender;
 
-    public AccountController(IAccountService accountService)
+    public AccountController(ISender sender)
     {
-        _accountService = accountService;
+        _sender = sender;
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(Get))]
-    public async Task<ActionResult<IEnumerable<AccountDto>>> Get(CancellationToken cancellationToken)
+    public async Task<ActionResult<GetAccountsByCurrentUserResponse>> Get(CancellationToken cancellationToken)
     {
-        var result = await _accountService.Get(cancellationToken);
+        var result = await _sender.Send(new GetAccountsByCurrentUserQuery(), cancellationToken);
         if (result.IsFailure)
         {
             return BadRequest(result.Error);
