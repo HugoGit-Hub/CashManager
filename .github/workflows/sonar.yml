@@ -41,12 +41,17 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Install dotnet-coverage tool
+        shell: powershell
+        run: dotnet tool install --global dotnet-coverage
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: e9a85fb6d7ba0deb86539de15b005489c522b03b
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"HugoGit-Hub_CashManager" /o:"hugogit-hub" /d:sonar.token="e9a85fb6d7ba0deb86539de15b005489c522b03b" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"HugoGit-Hub_CashManager" /o:"hugogit-hub" /d:sonar.token="e9a85fb6d7ba0deb86539de15b005489c522b03b" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build CashManager.Banking.sln
+          dotnet-coverage collect "dotnet test .\CashManager.Banking\CashManager.Banking.Test\CashManager.Banking.Test.csproj --no-build" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="e9a85fb6d7ba0deb86539de15b005489c522b03b"
+
