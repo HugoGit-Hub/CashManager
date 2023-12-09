@@ -1,6 +1,5 @@
 ﻿using CashManager.Banking.Application.Accounts;
-using CashManager.Banking.Presentation.Dto;
-using Mapster;
+using CashManager.Banking.Application.Accounts.GetAccountByCurrentUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ public class AccountController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(Get))]
-    public async Task<ActionResult<GetAccountsByCurrentUserResponse>> Get(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<AccountResponse>>> Get(CancellationToken cancellationToken)
     {
         var result = await _sender.Send(new GetAccountsByCurrentUserQuery(), cancellationToken);
         if (result.IsFailure)
@@ -28,6 +27,6 @@ public class AccountController : Controller
             return BadRequest(result.Error);
         }
 
-        return Ok(result.Value.Adapt<IEnumerable<AccountDto>>());
+        return Ok(result.Value);
     }
 }
