@@ -18,8 +18,8 @@ public class AccountController : Controller
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [HttpGet(nameof(Get))]
-    public async Task<ActionResult<IEnumerable<AccountResponse>>> Get(CancellationToken cancellationToken)
+    [HttpGet(nameof(GetAccountsByCurrentUser))]
+    public async Task<ActionResult<IEnumerable<AccountResponse>>> GetAccountsByCurrentUser(CancellationToken cancellationToken)
     {
         var result = await _sender.Send(new GetAccountsByCurrentUserQuery(), cancellationToken);
         if (result.IsFailure)
