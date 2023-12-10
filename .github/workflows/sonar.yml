@@ -1,4 +1,4 @@
-name: SonarCloud
+name: SonarCloud linter
 on:
   push:
     branches:
