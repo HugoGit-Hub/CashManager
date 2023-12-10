@@ -1,3 +1,4 @@
+using CashManager.Banking.Application.Accounts;
 using CashManager.Banking.Application.Accounts.GetAccountByCurrentUser;
 using CashManager.Banking.Domain.CurrentUser;
 using CashManager.Banking.Domain.ErrorHandling;
@@ -5,7 +6,6 @@ using CashManager.Banking.Domain.User;
 using FluentAssertions;
 using Moq;
 using System.Security.Claims;
-using CashManager.Banking.Application.Accounts;
 
 namespace CashManager.Banking.Test.Account;
 
