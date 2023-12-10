@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CashManager.Banking.Presentation.Dto;
+namespace CashManager.Banking.Domain.Accounts;
 
-public record AccountDto
+public record AccoutBase
 {
-    public int Id { get; set; }
-
     [Required]
     [MaxLength(50)]
     public string Owner { get; set; } = null!;

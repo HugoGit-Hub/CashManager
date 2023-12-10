@@ -4,28 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashManager.Banking.Domain.Accounts;
 
-public class Account
+public record Account : AccoutBase
 {
     [Key]
     public int Id { get; set; }
-
-    [Required]
-    [MaxLength(50)]
-    public string Owner { get; set; } = null!;
-
-    [Required]
-    [MaxLength(34)]
-    public string Number { get; set; } = null!;
-
-    [Required]
-    public double Value { get; set; }
-
-    [Required]
-    [DataType(DataType.Date)]
-    public DateTime OpenDateTime { get; set; }
-
-    [DataType(DataType.Date)]
-    public DateTime CloseDateTime { get; set; }
 
     [ForeignKey(nameof(UserId))]
     public int UserId { get; set; }
