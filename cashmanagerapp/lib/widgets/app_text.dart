@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 class AppText extends StatelessWidget {
-  final double size = 16;
+  final double size = 12;
   final String text;
   final Color color;
    AppText({Key? key, 
