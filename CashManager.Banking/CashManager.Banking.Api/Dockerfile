@@ -1,20 +1,22 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+ENV ASPNETCORE_ENVIRONMENT=Development
+
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["CashManager.BankingApi/CashManager.BankingApi.csproj", "CashManager.BankingApi/"]
-RUN dotnet restore "CashManager.BankingApi/CashManager.BankingApi.csproj"
+COPY ["CashManager.Banking.Api/CashManager.Banking.Api.csproj", "CashManager.Banking.Api/"]
+RUN dotnet restore "CashManager.Banking.Api/CashManager.Banking.Api.csproj"
 COPY . .
-WORKDIR "/src/CashManager.BankingApi"
-RUN dotnet build "CashManager.BankingApi.csproj" -c Release -o /app/build
+WORKDIR "/src/CashManager.Banking.Api"
+RUN dotnet build "CashManager.Banking.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "CashManager.BankingApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "CashManager.Banking.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CashManager.BankingApi.dll"]
+ENTRYPOINT ["dotnet", "CashManager.Banking.Api.dll"]
