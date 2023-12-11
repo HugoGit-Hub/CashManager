@@ -1,4 +1,6 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+ENV ASPNETCORE_ENVIRONMENT=Development
+
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -9,10 +11,10 @@ COPY ["CashManager.Banking.Api/CashManager.Banking.Api.csproj", "CashManager.Ban
 RUN dotnet restore "CashManager.Banking.Api/CashManager.Banking.Api.csproj"
 COPY . .
 WORKDIR "/src/CashManager.Banking.Api"
-RUN dotnet build "CashManager.Banking.Api.csproj" -c Debug -o /app/build
+RUN dotnet build "CashManager.Banking.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "CashManager.Banking.Api.csproj" -c Debug -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "CashManager.Banking.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

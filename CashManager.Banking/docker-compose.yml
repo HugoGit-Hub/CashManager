@@ -1,17 +1,4 @@
 services:
-  banking-api:
-    image: banking-api
-    build:
-      context: .
-      dockerfile: CashManager.Banking.Api/Dockerfile
-    container_name: banking-api
-    ports:
-      - "5000:80"
-    depends_on:
-      - sqlserver
-    networks:
-      - banking-network
-
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     user: root
@@ -25,6 +12,19 @@ services:
       - ./data:/var/opt/mssql/data
       - ./log:/var/opt/mssql/log
       - ./secrets:/var/opt/mssql/secrets
+    networks:
+      - banking-network
+    
+  banking-api:
+    image: banking-api
+    build:
+      context: .
+      dockerfile: CashManager.Banking.Api/Dockerfile
+    container_name: banking-api
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
     networks:
       - banking-network
 volumes:
