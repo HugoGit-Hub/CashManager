@@ -1,0 +1,50 @@
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    container_name: sqlserver
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=Password123!"
+    ports:
+      - 1433:1433
+    volumes:
+      - ./data:/var/opt/mssql/data
+      - ./log:/var/opt/mssql/log
+      - ./secrets:/var/opt/mssql/secrets
+    networks:
+      - cash-manager-network
+    
+  banking-api:
+    image: banking-api
+    build:
+      context: .
+      dockerfile: CashManager.Banking/CashManager.Banking.Api/Dockerfile
+    container_name: banking-api
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
+    networks:
+      - cash-manager-network
+
+  consumer-api:
+    image: consumer-api
+    build:
+      context: .
+      dockerfile: CashManager.Consumer/CashManager.Consumer.Api/Dockerfile
+    container_name: consumer-api
+    ports:
+      - "5001:80"
+    depends_on:
+      - sqlserver
+    networks:
+      - cash-manager-network
+
+volumes:
+  sqlserver_data:
+
+networks:
+  cash-manager-network:
+    driver: bridge
