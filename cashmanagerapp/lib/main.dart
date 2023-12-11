@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
@@ -31,7 +29,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 231, 19)),
         ),
-      initialRoute: '/',
+      initialRoute: '/welcome',
       routes: {
         '/': (context) => HomePage(),
         '/scanHome': (context) => scanHome,
@@ -66,6 +64,9 @@ class _MyHomePageState extends State<HomePage> {
         break;
       case 2:
         page = Category();
+        break;
+      case 3:
+        page = Introduction();
         break;
       // case 3:
       //   page = UserPage();
@@ -259,3 +260,4 @@ class Accueil extends StatelessWidget {
   Navigator.pushNamed(context, route);
   }
 }
+
