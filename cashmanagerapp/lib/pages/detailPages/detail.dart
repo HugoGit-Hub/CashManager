@@ -1,28 +1,6 @@
 import 'package:flutter/material.dart';
-
-class ButtonLike extends StatelessWidget {
-  const ButtonLike({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-        ),
-        child: MaterialButton(
-          onPressed: () {},
-          color: Color(0xFF12B76A),
-          child: Row(
-            children: [
-              Icon(Icons.favorite, color: Colors.white),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+import 'package:cashmanagerapp/widgets/button_like.dart';
+import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 
 class Detail extends StatelessWidget {
   @override
@@ -60,19 +38,19 @@ class Detail extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10.0),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '5€/kg',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            color: Colors.yellow[600],
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                      ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Text(
+                      '5€/kg',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Colors.yellow[600],
+                      ),
+                    ),
+                    SizedBox(width: 60),
+                    QuantitySelector(),
+                    SizedBox(width: 10),
+                  ]),
                   SizedBox(height: 15.0),
                   Text(
                     'Description',
