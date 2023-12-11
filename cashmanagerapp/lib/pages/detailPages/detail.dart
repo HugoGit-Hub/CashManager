@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cashmanagerapp/widgets/button_like.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
+import 'package:cashmanagerapp/widgets/button_add_to_cart.dart';
 
 class Detail extends StatelessWidget {
   @override
@@ -9,15 +10,18 @@ class Detail extends StatelessWidget {
       appBar: AppBar(
         title: Text('Detail page'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Image.asset(
-              'lib/images/top-view-raw-potatoes-table.jpg',
-              fit: BoxFit.cover,
-            ),
+      body: Stack(
+        children: <Widget>[
+          Image.asset(
+            'lib/images/top-view-raw-potatoes-table.jpg',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
           ),
-          Expanded(
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
             child: Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -64,22 +68,21 @@ class Detail extends StatelessWidget {
                   SizedBox(height: 12.0),
                   Expanded(
                     child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Text(
-                            'Les pommes de terre sont bénéfiques pour la santé en raison de leur richesse en nutriments essentiels tels que les glucides complexes, les fibres alimentaires, les vitamines (notamment la vitamine C et certaines du groupe B) et les minéraux tels que le potassium et le magnésium. Ces composants contribuent à la fourniture d\'énergie, au maintien d\'une fonction musculaire adéquate, à la régulation de la pression artérielle et au soutien du système immunitaire. De plus, les pommes de terre contiennent des antioxydants qui peuvent aider à neutraliser les radicaux libres dans le corps, contribuant ainsi à la prévention de certaines maladies chroniques. Il est important de souligner que la manière dont les pommes de terre sont préparées, comme la cuisson à la vapeur ou au four plutôt que la friture, peut également influencer leurs bienfaits pour la santé.')),
+                      scrollDirection: Axis.vertical,
+                      child: Text(
+                        'Les pommes de terre sont bénéfiques pour la santé en raison de leur richesse en nutriments essentiels tels que les glucides complexes, les fibres alimentaires, les vitamines (notamment la vitamine C et certaines du groupe B) et les minéraux tels que le potassium et le magnésium. Ces composants contribuent à la fourniture d\'énergie, au maintien d\'une fonction musculaire adéquate, à la régulation de la pression artérielle et au soutien du système immunitaire. De plus, les pommes de terre contiennent des antioxydants qui peuvent aider à neutraliser les radicaux libres dans le corps, contribuant ainsi à la prévention de certaines maladies chroniques. Il est important de souligner que la manière dont les pommes de terre sont préparées, comme la cuisson à la vapeur ou au four plutôt que la friture, peut également influencer leurs bienfaits pour la santé.',
+                      ),
+                    ),
                   ),
                   SizedBox(height: 12.0),
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ButtonLike(),
-                        SizedBox(width: 10),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.add_shopping_cart),
-                          label: Text('Ajouter au panier'),
-                        ),
-                      ]),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ButtonLike(),
+                      SizedBox(width: 10),
+                      ButtonAddToCart(),
+                    ],
+                  ),
                 ],
               ),
             ),
