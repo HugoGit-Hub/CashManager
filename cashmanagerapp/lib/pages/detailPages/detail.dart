@@ -10,27 +10,25 @@ class Detail extends StatelessWidget {
       appBar: AppBar(
         title: Text('Detail page'),
       ),
-      body: Stack(
-        children: <Widget>[
-          Image.asset(
-            'lib/images/top-view-raw-potatoes-table.jpg',
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/images/top-view-raw-potatoes-table.jpg'),
             fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(16.0),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
+                  topLeft: Radius.circular(40.0),
+                  topRight: Radius.circular(40.0),
                 ),
               ),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,33 +59,37 @@ class Detail extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontSize: 16.0,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.yellow[600],
                     ),
                   ),
-                  SizedBox(height: 12.0),
-                  Expanded(
-                    child: SingleChildScrollView(
+                  SizedBox(height: 10.0),
+                  SizedBox(
+                    height: 100.0,
+                    child: ListView(
                       scrollDirection: Axis.vertical,
-                      child: Text(
-                        'Les pommes de terre sont bénéfiques pour la santé en raison de leur richesse en nutriments essentiels tels que les glucides complexes, les fibres alimentaires, les vitamines (notamment la vitamine C et certaines du groupe B) et les minéraux tels que le potassium et le magnésium. Ces composants contribuent à la fourniture d\'énergie, au maintien d\'une fonction musculaire adéquate, à la régulation de la pression artérielle et au soutien du système immunitaire. De plus, les pommes de terre contiennent des antioxydants qui peuvent aider à neutraliser les radicaux libres dans le corps, contribuant ainsi à la prévention de certaines maladies chroniques. Il est important de souligner que la manière dont les pommes de terre sont préparées, comme la cuisson à la vapeur ou au four plutôt que la friture, peut également influencer leurs bienfaits pour la santé.',
-                      ),
+                      children: [
+                        Text(
+                          'Les pommes de terre sont bénéfiques pour la santé en raison de leur richesse en nutriments essentiels tels que les glucides complexes, les fibres alimentaires, les vitamines (notamment la vitamine C et certaines du groupe B) et les minéraux tels que le potassium et le magnésium. Ces composants contribuent à la fourniture d\'énergie, au maintien d\'une fonction musculaire adéquate, à la régulation de la pression artérielle et au soutien du système immunitaire. De plus, les pommes de terre contiennent des antioxydants qui peuvent aider à neutraliser les radicaux libres dans le corps, contribuant ainsi à la prévention de certaines maladies chroniques. Il est important de souligner que la manière dont les pommes de terre sont préparées, comme la cuisson à la vapeur ou au four plutôt que la friture, peut également influencer leurs bienfaits pour la santé.',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 12.0),
+                  SizedBox(height: 15.0),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ButtonLike(),
-                      SizedBox(width: 10),
+                      SizedBox(width: 10.0),
                       ButtonAddToCart(),
                     ],
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

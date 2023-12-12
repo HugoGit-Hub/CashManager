@@ -69,7 +69,7 @@ class _MyHomePageState extends State<HomePage> {
         page = Category();
         break;
       case 3:
-        page = Introduction();
+        page = Detail();
         break;
       // case 3:
       //   page = UserPage();
