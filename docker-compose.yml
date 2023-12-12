@@ -42,6 +42,19 @@ services:
     networks:
       - cash-manager-network
 
+  banking-client:
+    image: banking-client
+    build:
+      context: .
+      dockerfile: cashmanager-banking-web/Dockerfile
+    container_name: banking-client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - banking-api
+    networks:
+      - cash-manager-network
+
 volumes:
   sqlserver_data:
 
