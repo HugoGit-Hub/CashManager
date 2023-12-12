@@ -1,4 +1,3 @@
-import 'package:cashmanagerapp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cashmanagerapp/widgets/app_large_text.dart';
 import 'package:cashmanagerapp/widgets/app_text.dart';
@@ -54,7 +53,7 @@ class _IntroductionState extends State<Introduction> {
                     child: AppLargeText(text: textLarge[index], color: Colors.black),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 100),
+                    padding: EdgeInsets.only(bottom: 30),
                     child: AppText(text: text[index], color: Colors.black),
                   ),
                   SizedBox(height: 20), // Adjust as needed
