@@ -69,7 +69,8 @@ flutter:
      - lib/images/intro1.png
      - lib/images/intro2.png
      - lib/images/intro3.png
-
+     - lib/images/login.jpg
+     - lib/images/register.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
