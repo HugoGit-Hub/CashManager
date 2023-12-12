@@ -3,6 +3,8 @@ import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
 import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
+import 'package:cashmanagerapp/pages/loginPages/login.dart';
+import 'package:cashmanagerapp/pages/loginPages/register.dart';
 import 'package:flutter/material.dart';
 import 'pages/scanPages/scan_home.dart';
 import 'pages/categoryPages/category.dart';
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
   final Cart cart = Cart();
   final Detail detail = Detail();
   final Introduction introduction = Introduction();
+  final Login login = Login();
+  final Register register = Register();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 231, 19)),
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/': (context) => HomePage(),
         '/scanHome': (context) => scanHome,
@@ -40,8 +44,10 @@ class MyApp extends StatelessWidget {
         '/category/vegetable': (context) => categoryVegetable,
         '/category/dairy': (context) => categoryDairy,
         '/cart': (context) => cart,
-        '/welcome' : (context) => introduction,
+        '/login' : (context) => login,
         '/detail': (context) => detail,
+        '/register': (context) => register,
+        '/welcome': (context) => introduction,
       },
     );
   }
