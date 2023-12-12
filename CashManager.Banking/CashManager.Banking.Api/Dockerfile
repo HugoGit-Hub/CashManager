@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["CashManager.Banking.Api/CashManager.Banking.Api.csproj", "CashManager.Banking.Api/"]
-RUN dotnet restore "CashManager.Banking.Api/CashManager.Banking.Api.csproj"
+COPY ["CashManager.Banking/CashManager.Banking.Api/CashManager.Banking.Api.csproj", "CashManager.Banking/CashManager.Banking.Api/"]
+RUN dotnet restore "CashManager.Banking/CashManager.Banking.Api/CashManager.Banking.Api.csproj"
 COPY . .
-WORKDIR "/src/CashManager.Banking.Api"
+WORKDIR "/src/CashManager.Banking/CashManager.Banking.Api"
 RUN dotnet build "CashManager.Banking.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
