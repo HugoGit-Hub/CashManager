@@ -55,6 +55,19 @@ services:
     networks:
       - cash-manager-network
 
+  consumer-client:
+    image: consumer-client
+    build:
+      context: .
+      dockerfile: cashmanagerapp/Dockerfile
+    container_name: consumer-client
+    ports:
+      - "3001:8080"
+    depends_on:
+      - consumer-api
+    networks:
+      - cash-manager-network
+
 volumes:
   sqlserver_data:
 
