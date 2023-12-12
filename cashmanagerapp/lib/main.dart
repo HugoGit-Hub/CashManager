@@ -2,6 +2,7 @@ import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
+import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:flutter/material.dart';
 import 'pages/scanPages/scan_home.dart';
 import 'pages/categoryPages/category.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   final CategoryVegetable categoryVegetable = CategoryVegetable();
   final CategoryFruit categoryFruit = CategoryFruit();
   final Cart cart = Cart();
+  final Introduction introduction = Introduction();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 231, 19)),
         ),
-      initialRoute: '/',
+      initialRoute: '/welcome',
       routes: {
         '/': (context) => HomePage(),
         '/scanHome': (context) => scanHome,
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/category/vegetable' : (context) => categoryVegetable,
         '/category/dairy' : (context) => categoryDairy,
         '/cart' : (context) => cart,
+        '/welcome' : (context) => introduction,
       },
     );
   }
@@ -61,6 +64,9 @@ class _MyHomePageState extends State<HomePage> {
         break;
       case 2:
         page = Category();
+        break;
+      case 3:
+        page = Introduction();
         break;
       // case 3:
       //   page = UserPage();
@@ -254,3 +260,4 @@ class Accueil extends StatelessWidget {
   Navigator.pushNamed(context, route);
   }
 }
+
