@@ -4,6 +4,7 @@ using CashManager.Consumer.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CashManager.Consumer.Infrastructure.Migrations
 {
     [DbContext(typeof(CashManagerConsumerContext))]
-    partial class CashManagerConsumerContextModelSnapshot : ModelSnapshot
+    [Migration("20231212152101_UserSession")]
+    partial class UserSession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,16 +101,13 @@ namespace CashManager.Consumer.Infrastructure.Migrations
                     b.ToTable("CartItem");
                 });
 
-            modelBuilder.Entity("CashManager.Consumer.Domain.ShoppingSessions.ShoppingSession", b =>
+            modelBuilder.Entity("CashManager.Consumer.Domain.ShoppingSession", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("State")
-                        .HasColumnType("bit");
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
@@ -216,7 +216,7 @@ namespace CashManager.Consumer.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CashManager.Consumer.Domain.ShoppingSessions.ShoppingSession", "ShoppingSession")
+                    b.HasOne("CashManager.Consumer.Domain.ShoppingSession", "ShoppingSession")
                         .WithMany("CartItems")
                         .HasForeignKey("ShoppingSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -227,7 +227,7 @@ namespace CashManager.Consumer.Infrastructure.Migrations
                     b.Navigation("ShoppingSession");
                 });
 
-            modelBuilder.Entity("CashManager.Consumer.Domain.ShoppingSessions.ShoppingSession", b =>
+            modelBuilder.Entity("CashManager.Consumer.Domain.ShoppingSession", b =>
                 {
                     b.HasOne("CashManager.Consumer.Domain.User.Users", "User")
                         .WithMany("ShoppingSessions")
@@ -238,7 +238,7 @@ namespace CashManager.Consumer.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CashManager.Consumer.Domain.ShoppingSessions.ShoppingSession", b =>
+            modelBuilder.Entity("CashManager.Consumer.Domain.ShoppingSession", b =>
                 {
                     b.Navigation("CartItems");
                 });
