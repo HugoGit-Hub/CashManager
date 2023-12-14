@@ -24,4 +24,14 @@ internal class UserRepository : IUserRepository
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public Task<bool> AreCredentialsCorrects(string email, string password, CancellationToken cancellationToken)
+    {
+        return _context.Users.AnyAsync(u => u.Email == email && u.Password == password, cancellationToken);
+    }
+
+    public Task<Users?> GetUserByEmail(string email, CancellationToken cancellationToken)
+    {
+        return _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+    }
 }
