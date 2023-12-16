@@ -1,4 +1,6 @@
-﻿namespace CashManager.Consumer.Domain.Articles;
+﻿using CashManager.Consumer.Domain.Articles;
+
+namespace CashManager.Consumer.Application.Articles;
 
 public interface IArticleRepository
 {
