@@ -1,4 +1,7 @@
-﻿using CashManager.Consumer.Domain.Articles;
+﻿using CashManager.Consumer.Application.Articles.GetArticleById;
+using CashManager.Consumer.Application.Articles.GetArticles;
+using CashManager.Consumer.Domain.Articles;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashManager.Consumer.Api.Controllers;
@@ -8,29 +11,35 @@ namespace CashManager.Consumer.Api.Controllers;
 public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
+    private readonly ISender _sender;
 
-    public ArticleController(IArticleService articleService)
+    public ArticleController(IArticleService articleService, ISender sender)
     {
         _articleService = articleService;
+        _sender = sender;
     }
 
-    [HttpGet(nameof(Get))]
-    public async Task<ActionResult<Article>> Get(int id, CancellationToken cancellationToken)
+    [HttpGet(nameof(GetById))]
+    public async Task<ActionResult<Article>> GetById(int id)
     {
-        var result = await _articleService.Get(id, cancellationToken);
-        if (result.IsFailure)
+        var handler = await _sender.Send(new GetArticleByIdQuery(id));
+        if (handler.IsFailure)
         {
-            return BadRequest(result.Error);
+            return BadRequest(handler.Error);
         }
 
-        return Ok(result.Value);
+        return Ok(handler.Value);
     }
 
     [HttpGet(nameof(GetAll))]
-    public async Task<ActionResult<IEnumerable<Article>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<Article>>> GetAll()
     {
-        var result = await _articleService.GetAll(cancellationToken);
-        
-        return Ok(result);
+        var handler = await _sender.Send(new GetArticlesQuery());
+        if (handler.IsFailure)
+        {
+            return BadRequest(handler.Error);
+        }
+
+        return Ok(handler.Value);
     }
 }
