@@ -1,4 +1,6 @@
 ﻿using CashManager.Consumer.Application.Articles;
+using CashManager.Consumer.Application.Articles.GetArticleById;
+using CashManager.Consumer.Application.Articles.GetArticles;
 using CashManager.Consumer.Application.Authentication.Login;
 using CashManager.Consumer.Application.Authentication.Register;
 using CashManager.Consumer.Application.Transactions;
@@ -22,6 +24,8 @@ public static class DependencyInjection
 
         services.AddScoped<IRequestHandler<RegisterCommand, Result<string>>, RegisterCommandHandler>();
         services.AddScoped<IRequestHandler<LoginQuery, Result<string>>, LoginQueryHandler>();
+        services.AddScoped<IRequestHandler<GetArticleByIdQuery, Result<Article>>, GetArticleByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetArticlesQuery, Result<IEnumerable<Article>>>, GetArticlesQueryHandler>();
         
         return services;
     }
