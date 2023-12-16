@@ -1,5 +1,6 @@
 ﻿using CashManager.Consumer.Domain.Articles;
 using CashManager.Consumer.Domain.ShoppingSessions;
+using CashManager.Consumer.Domain.Transactions;
 using System.ComponentModel.DataAnnotations;
 
 namespace CashManager.Consumer.Domain.User;
@@ -24,6 +25,8 @@ public record Users
     [Required]
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
+
+    public ICollection<Transaction> Transactions { get; } = new List<Transaction>();
 
     public ICollection<ShoppingSession> ShoppingSessions { get; } = new List<ShoppingSession>();
 
