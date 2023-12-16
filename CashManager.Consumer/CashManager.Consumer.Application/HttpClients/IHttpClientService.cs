@@ -1,7 +1,7 @@
 ﻿using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.Transactions;
 
-namespace CashManager.Consumer.Domain.HttpClients;
+namespace CashManager.Consumer.Application.HttpClients;
 
 public interface IHttpClientService
 {
