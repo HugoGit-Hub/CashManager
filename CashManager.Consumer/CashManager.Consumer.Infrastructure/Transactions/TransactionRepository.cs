@@ -1,4 +1,5 @@
-﻿using CashManager.Consumer.Domain.Transactions;
+﻿using CashManager.Consumer.Application.Transactions;
+using CashManager.Consumer.Domain.Transactions;
 using CashManager.Consumer.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

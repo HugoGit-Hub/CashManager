@@ -1,4 +1,6 @@
-﻿namespace CashManager.Consumer.Domain.Transactions;
+﻿using CashManager.Consumer.Domain.Transactions;
+
+namespace CashManager.Consumer.Application.Transactions;
 
 public interface ITransactionRepository
 {

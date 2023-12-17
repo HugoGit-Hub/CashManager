@@ -1,9 +1,9 @@
-﻿using CashManager.Consumer.Application.Security;
+﻿using CashManager.Consumer.Application.Articles;
+using CashManager.Consumer.Application.HttpClients;
+using CashManager.Consumer.Application.Security;
 using CashManager.Consumer.Application.Token;
+using CashManager.Consumer.Application.Transactions;
 using CashManager.Consumer.Application.User;
-using CashManager.Consumer.Domain.Articles;
-using CashManager.Consumer.Domain.HttpClients;
-using CashManager.Consumer.Domain.Transactions;
 using CashManager.Consumer.Infrastructure.Articles;
 using CashManager.Consumer.Infrastructure.Context;
 using CashManager.Consumer.Infrastructure.HttpClients;

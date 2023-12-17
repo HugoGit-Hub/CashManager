@@ -1,4 +1,5 @@
-﻿using CashManager.Consumer.Domain.ErrorHandling;
+﻿using CashManager.Consumer.Application.HttpClients;
+using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.HttpClients;
 using CashManager.Consumer.Domain.Transactions;
 using System.Text;

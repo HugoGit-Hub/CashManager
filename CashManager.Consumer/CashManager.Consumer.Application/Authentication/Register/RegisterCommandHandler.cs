@@ -3,6 +3,7 @@ using CashManager.Consumer.Application.Token;
 using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.User;
 using MediatR;
+using System.Text.Json;
 
 namespace CashManager.Consumer.Application.Authentication.Register;
 
@@ -42,7 +43,8 @@ internal class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<
         await _userService.Add(user, cancellationToken);
 
         var token = _tokenService.GenerateToken(user);
+        var jsonToken = JsonSerializer.Serialize(token);
 
-        return Result<string>.Success(token);
+        return Result<string>.Success(jsonToken);
     }
 }
