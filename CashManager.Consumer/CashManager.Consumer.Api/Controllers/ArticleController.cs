@@ -3,6 +3,7 @@ using CashManager.Consumer.Application.Articles.GetArticleById;
 using CashManager.Consumer.Application.Articles.GetArticles;
 using CashManager.Consumer.Domain.Articles;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashManager.Consumer.Api.Controllers;
@@ -20,6 +21,7 @@ public class ArticleController : Controller
         _sender = sender;
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetById))]
     public async Task<ActionResult<ArticleResponse>> GetById(int id)
     {
@@ -32,6 +34,7 @@ public class ArticleController : Controller
         return Ok(handler.Value);
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetAll))]
     public async Task<ActionResult<IEnumerable<ArticleResponse>>> GetAll()
     {
