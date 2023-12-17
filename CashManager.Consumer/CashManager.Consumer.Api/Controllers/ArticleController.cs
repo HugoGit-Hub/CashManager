@@ -20,7 +20,7 @@ public class ArticleController : Controller
     }
 
     [HttpGet(nameof(GetById))]
-    public async Task<ActionResult<Article>> GetById(int id)
+    public async Task<ActionResult<ArticleResponse>> GetById(int id)
     {
         var handler = await _sender.Send(new GetArticleByIdQuery(id));
         if (handler.IsFailure)
