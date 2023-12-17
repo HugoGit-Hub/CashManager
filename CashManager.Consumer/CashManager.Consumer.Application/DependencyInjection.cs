@@ -24,8 +24,8 @@ public static class DependencyInjection
 
         services.AddScoped<IRequestHandler<RegisterCommand, Result<string>>, RegisterCommandHandler>();
         services.AddScoped<IRequestHandler<LoginQuery, Result<string>>, LoginQueryHandler>();
-        services.AddScoped<IRequestHandler<GetArticleByIdQuery, Result<Article>>, GetArticleByIdQueryHandler>();
-        services.AddScoped<IRequestHandler<GetArticlesQuery, Result<IEnumerable<Article>>>, GetArticlesQueryHandler>();
+        services.AddScoped<IRequestHandler<GetArticleByIdQuery, Result<ArticleResponse>>, GetArticleByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetArticlesQuery, Result<IEnumerable<ArticleResponse>>>, GetArticlesQueryHandler>();
         
         return services;
     }
