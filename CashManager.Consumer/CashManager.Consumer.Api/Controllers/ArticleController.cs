@@ -1,4 +1,5 @@
-﻿using CashManager.Consumer.Application.Articles.GetArticleById;
+﻿using CashManager.Consumer.Application.Articles;
+using CashManager.Consumer.Application.Articles.GetArticleById;
 using CashManager.Consumer.Application.Articles.GetArticles;
 using CashManager.Consumer.Domain.Articles;
 using MediatR;
@@ -20,7 +21,7 @@ public class ArticleController : Controller
     }
 
     [HttpGet(nameof(GetById))]
-    public async Task<ActionResult<Article>> GetById(int id)
+    public async Task<ActionResult<ArticleResponse>> GetById(int id)
     {
         var handler = await _sender.Send(new GetArticleByIdQuery(id));
         if (handler.IsFailure)
@@ -32,7 +33,7 @@ public class ArticleController : Controller
     }
 
     [HttpGet(nameof(GetAll))]
-    public async Task<ActionResult<IEnumerable<Article>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ArticleResponse>>> GetAll()
     {
         var handler = await _sender.Send(new GetArticlesQuery());
         if (handler.IsFailure)
