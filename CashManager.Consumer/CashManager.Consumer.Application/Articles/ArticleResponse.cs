@@ -1,11 +1,9 @@
-﻿using CashManager.Consumer.Domain.User;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace CashManager.Consumer.Domain.Articles;
+namespace CashManager.Consumer.Application.Articles;
 
-public class Article
+public record ArticleResponse
 {
-    [Key]
     public int Id { get; set; }
 
     [Required]
@@ -21,6 +19,4 @@ public class Article
     [MaxLength(512)]
     [DataType(DataType.ImageUrl)]
     public string? ImageUrl { get; set; }
-
-    public ICollection<Users> Users { get; } = new List<Users>();
 }
