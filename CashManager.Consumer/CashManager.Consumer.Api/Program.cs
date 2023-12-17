@@ -2,6 +2,7 @@ using CashManager.Consumer.Api.Configuration;
 using CashManager.Consumer.Application;
 using CashManager.Consumer.Infrastructure;
 using CashManager.Consumer.Presentation;
+using Mapster;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromA
 builder.Services.AddApplication()
                 .AddInfrastructure(builder.Configuration)
                 .AddPresentation();
+
+builder.Services.AddMapster();
 
 var app = builder.Build();
 
