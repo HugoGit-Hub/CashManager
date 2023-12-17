@@ -1,10 +1,11 @@
 ﻿using CashManager.Consumer.Domain.Articles;
 using CashManager.Consumer.Domain.ErrorHandling;
+using Mapster;
 using MediatR;
 
 namespace CashManager.Consumer.Application.Articles.GetArticles;
 
-internal class GetArticlesQueryHandler : IRequestHandler<GetArticlesQuery, Result<IEnumerable<Article>>>
+internal class GetArticlesQueryHandler : IRequestHandler<GetArticlesQuery, Result<IEnumerable<ArticleResponse>>>
 {
     private readonly IArticleService _articleService;
 
@@ -13,10 +14,10 @@ internal class GetArticlesQueryHandler : IRequestHandler<GetArticlesQuery, Resul
         _articleService = articleService;
     }
 
-    public async Task<Result<IEnumerable<Article>>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<ArticleResponse>>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
     {
         var articles = await _articleService.GetAll(cancellationToken);
 
-        return Result<IEnumerable<Article>>.Success(articles);
+        return Result<IEnumerable<ArticleResponse>>.Success(articles.Adapt<IEnumerable<ArticleResponse>>());
     }
 }
