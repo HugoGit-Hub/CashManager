@@ -4,6 +4,8 @@ using CashManager.Consumer.Application.Articles.GetArticles;
 using CashManager.Consumer.Application.Authentication.Login;
 using CashManager.Consumer.Application.Authentication.Register;
 using CashManager.Consumer.Application.Transactions;
+using CashManager.Consumer.Application.Transactions.CreateTransaction;
+using CashManager.Consumer.Application.Transactions.ValidateTransaction;
 using CashManager.Consumer.Application.User;
 using CashManager.Consumer.Domain.Articles;
 using CashManager.Consumer.Domain.ErrorHandling;
@@ -26,6 +28,8 @@ public static class DependencyInjection
         services.AddScoped<IRequestHandler<LoginQuery, Result<string>>, LoginQueryHandler>();
         services.AddScoped<IRequestHandler<GetArticleByIdQuery, Result<ArticleResponse>>, GetArticleByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetArticlesQuery, Result<IEnumerable<ArticleResponse>>>, GetArticlesQueryHandler>();
+        services.AddScoped<IRequestHandler<CreateTransactionCommand, Result>, CreateTransactionCommandHandler>();
+        services.AddScoped<IRequestHandler<ValidateTransactionCommand, Result>, ValidateTransactionCommandHandler>();
         
         return services;
     }

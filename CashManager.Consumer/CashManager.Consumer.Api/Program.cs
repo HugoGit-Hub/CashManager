@@ -1,7 +1,6 @@
 using CashManager.Consumer.Api.Configuration;
 using CashManager.Consumer.Application;
 using CashManager.Consumer.Infrastructure;
-using CashManager.Consumer.Presentation;
 using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -58,10 +57,12 @@ builder.Services
         };
     });
 
-builder.Services.AddApplication()
-                .AddInfrastructure(builder.Configuration)
-                .AddPresentation();
+builder.Services.AddHttpContextAccessor();
 
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
+    
 builder.Services.AddMapster();
 
 var app = builder.Build();

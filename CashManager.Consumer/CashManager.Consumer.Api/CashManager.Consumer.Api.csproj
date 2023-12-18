@@ -24,7 +24,6 @@
   <ItemGroup>
 	  <ProjectReference Include="..\CashManager.Consumer.Application\CashManager.Consumer.Application.csproj" />
 	  <ProjectReference Include="..\CashManager.Consumer.Infrastructure\CashManager.Consumer.Infrastructure.csproj" />
-	  <ProjectReference Include="..\CashManager.Consumer.Presentation\CashManager.Consumer.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
