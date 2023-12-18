@@ -1,3 +1,4 @@
+import 'package:cashmanagerapp/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -105,8 +106,10 @@ class _RegisterState extends State<Register>{
                   ),
                   SizedBox(height: 10.0),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/welcome');
+                    onPressed: () async {
+                    String token = await AuhtenticationService().register('firstname','lastname','user134436@exemple.com','password');
+                    print(token);
+                    Navigator.pushNamed(context, '/welcome');
                     },
                     style: ElevatedButton.styleFrom(
                       textStyle: TextStyle(
@@ -129,8 +132,8 @@ class _RegisterState extends State<Register>{
                   ),
                   SizedBox(height: 10.0),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/login');
+                    onTap: (){
+                      Navigator.pushNamed(context, '/login');             
                     },
                     child: Text(
                       'Already have an account? Sign in',
