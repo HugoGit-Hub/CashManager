@@ -5,7 +5,8 @@ namespace CashManager.Consumer.Domain.Transactions;
 
 public class Transaction
 {
-    [Key] public int Id { get; set; }
+    [Key] 
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(34)]
