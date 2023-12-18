@@ -16,10 +16,10 @@ internal class GetShoppingSessionCartItemsQueryHandler : IRequestHandler<GetShop
 
     public async Task<Result<IEnumerable<GetShoppingSessionCartItemsResponse>>> Handle(GetShoppingSessionCartItemsQuery request, CancellationToken cancellationToken)
     {
-        var cartItems = await _shoppingSessionService.GetShoppingSessionCartItems(request.Id);
+        var cartItems = await _shoppingSessionService.GetShoppinsSessionById(request.Id, cancellationToken);
         
         return cartItems.IsFailure 
             ? Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Failure(cartItems.Error)
-            : Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Success(cartItems.Value.Adapt<IEnumerable<GetShoppingSessionCartItemsResponse>>());
+            : Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Success(cartItems.Value.CartItems.Adapt<IEnumerable<GetShoppingSessionCartItemsResponse>>());
     }
 }
