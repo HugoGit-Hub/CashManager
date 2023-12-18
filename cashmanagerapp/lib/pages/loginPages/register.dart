@@ -1,5 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cashmanagerapp/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
+
+SnackBar snackBar = SnackBar(
+  content: Text('An error occured'),
+  backgroundColor: Colors.red,
+  behavior: SnackBarBehavior.floating,
+  duration: Duration(seconds: 3),
+);
+
 
 class Register extends StatefulWidget {
   @override
@@ -7,9 +17,14 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register>{
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(image:
@@ -45,6 +60,7 @@ class _RegisterState extends State<Register>{
                     children: [
                       Expanded(
                         child: TextField(
+                          controller: firstnameController,
                           decoration: InputDecoration(
                             hintText: 'First Name',
                             hintStyle: TextStyle(
@@ -61,6 +77,7 @@ class _RegisterState extends State<Register>{
                       SizedBox(width: 10.0),
                       Expanded(
                         child: TextField(
+                          controller: lastnameController,
                           decoration: InputDecoration(
                             hintText: 'Last Name',
                             hintStyle: TextStyle(
@@ -78,6 +95,7 @@ class _RegisterState extends State<Register>{
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       hintStyle: TextStyle(
@@ -92,6 +110,8 @@ class _RegisterState extends State<Register>{
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    obscureText: true,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       hintStyle: TextStyle(
@@ -107,9 +127,14 @@ class _RegisterState extends State<Register>{
                   SizedBox(height: 10.0),
                   ElevatedButton(
                     onPressed: () async {
-                    String token = await AuhtenticationService().register('firstname','lastname','user134436@exemple.com','password');
-                    print(token);
-                    Navigator.pushNamed(context, '/welcome');
+                    try {
+                      String token = await AuhtenticationService().register(firstnameController.text,lastnameController.text,emailController.text,passwordController.text);
+                      print(token);
+                      Navigator.pushNamed(context, '/welcome');
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                    
                     },
                     style: ElevatedButton.styleFrom(
                       textStyle: TextStyle(
