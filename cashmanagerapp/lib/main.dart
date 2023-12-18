@@ -7,7 +7,7 @@ import 'package:cashmanagerapp/pages/loginPages/login.dart';
 import 'package:cashmanagerapp/pages/loginPages/register.dart';
 import 'package:cashmanagerapp/services/articleservice.dart';
 import 'package:flutter/material.dart';
-import 'pages/scanPages/scan_home.dart';
+import 'pages/scanPages/scanhome.dart';
 import 'pages/categoryPages/category.dart';
 import 'pages/detailPages/detail.dart';
 import 'package:cashmanagerapp/models/cartitemmodel.dart';
@@ -42,7 +42,7 @@ class _MyApp extends State<MyApp> {
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 231, 19)),
       ),
-      initialRoute: '/login',
+      initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
         '/scanHome': (context) => scanHome,
