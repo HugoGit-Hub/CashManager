@@ -1,5 +1,4 @@
-﻿using CashManager.Consumer.Domain.CartItems;
-using CashManager.Consumer.Domain.ErrorHandling;
+﻿using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.ShoppingSessions;
 
 namespace CashManager.Consumer.Application.ShoppingSessions;
@@ -13,12 +12,12 @@ internal class ShoppingSessionService : IShoppingSessionService
         _shoppingSessionRepository = shoppingSessionRepository;
     }
 
-    public async Task<Result<IEnumerable<CartItem>>> GetShoppingSessionCartItems(int id)
+    public async Task<Result<ShoppingSession>> GetShoppinsSessionById(int id, CancellationToken cancellationToken)
     {
-        var shoppingSession = await _shoppingSessionRepository.GetShoppingSession(id);
-        
-        return shoppingSession is null 
-            ? Result<IEnumerable<CartItem>>.Failure(ShoppingSessionErrors.NotFound) 
-            : Result<IEnumerable<CartItem>>.Success(shoppingSession.CartItems);
+        var shoppingSession = await _shoppingSessionRepository.GetShoppingSession(id, cancellationToken);
+
+        return shoppingSession is null
+            ? Result<ShoppingSession>.Failure(ShoppingSessionErrors.NotFound)
+            : Result<ShoppingSession>.Success(shoppingSession);
     }
 }

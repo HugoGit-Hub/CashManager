@@ -13,9 +13,9 @@ internal class ShoppingSessionRepository : IShoppingSessionRepository
         _context = context;
     }
 
-    public async Task<ShoppingSession?> GetShoppingSession(int id)
+    public async Task<ShoppingSession?> GetShoppingSession(int id, CancellationToken cancellationToken)
     {
-        var cartItems = await _context.ShoppingSessions.FindAsync(id);
+        var cartItems = await _context.ShoppingSessions.FindAsync(new object?[] { id, cancellationToken }, cancellationToken);
 
         return cartItems;
     }
