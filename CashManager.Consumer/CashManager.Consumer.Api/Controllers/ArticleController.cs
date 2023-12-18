@@ -23,9 +23,9 @@ public class ArticleController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetById))]
-    public async Task<ActionResult<ArticleResponse>> GetById(int id)
+    public async Task<ActionResult<ArticleResponse>> GetById(int id, CancellationToken cancellationToken)
     {
-        var handler = await _sender.Send(new GetArticleByIdQuery(id));
+        var handler = await _sender.Send(new GetArticleByIdQuery(id), cancellationToken);
         if (handler.IsFailure)
         {
             return BadRequest(handler.Error);
@@ -36,9 +36,9 @@ public class ArticleController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet(nameof(GetAll))]
-    public async Task<ActionResult<IEnumerable<ArticleResponse>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ArticleResponse>>> GetAll(CancellationToken cancellationToken)
     {
-        var handler = await _sender.Send(new GetArticlesQuery());
+        var handler = await _sender.Send(new GetArticlesQuery(), cancellationToken);
         if (handler.IsFailure)
         {
             return BadRequest(handler.Error);

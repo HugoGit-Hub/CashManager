@@ -9,11 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Consumer.Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Consumer.Application", "CashManager.Consumer\CashManager.Consumer.Application\CashManager.Consumer.Application.csproj", "{C671F953-5398-4161-B5B1-15CF98D1E85F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Consumer.Presentation", "CashManager.Consumer\CashManager.Consumer.Presentation\CashManager.Consumer.Presentation.csproj", "{18608D1A-492C-4CA7-83F3-6AD062F9CCE5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Consumer.Api", "CashManager.Consumer\CashManager.Consumer.Api\CashManager.Consumer.Api.csproj", "{B2BA5BD9-2F1A-4BC0-AEF9-016FCEB67902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashManager.Consumer.Test", "CashManager.Consumer\CashManager.Consumer.Test\CashManager.Consumer.Test.csproj", "{4CCE7718-9CE1-456F-839B-466D6D64B23C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Consumer.Test", "CashManager.Consumer\CashManager.Consumer.Test\CashManager.Consumer.Test.csproj", "{4CCE7718-9CE1-456F-839B-466D6D64B23C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{C671F953-5398-4161-B5B1-15CF98D1E85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C671F953-5398-4161-B5B1-15CF98D1E85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C671F953-5398-4161-B5B1-15CF98D1E85F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18608D1A-492C-4CA7-83F3-6AD062F9CCE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18608D1A-492C-4CA7-83F3-6AD062F9CCE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18608D1A-492C-4CA7-83F3-6AD062F9CCE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18608D1A-492C-4CA7-83F3-6AD062F9CCE5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B2BA5BD9-2F1A-4BC0-AEF9-016FCEB67902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B2BA5BD9-2F1A-4BC0-AEF9-016FCEB67902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2BA5BD9-2F1A-4BC0-AEF9-016FCEB67902}.Release|Any CPU.ActiveCfg = Release|Any CPU

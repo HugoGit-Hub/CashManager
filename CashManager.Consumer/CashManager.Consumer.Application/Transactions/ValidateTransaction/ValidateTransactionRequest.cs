@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CashManager.Consumer.Domain.User;
+﻿using CashManager.Consumer.Domain.Transactions;
+using System.ComponentModel.DataAnnotations;
 
-namespace CashManager.Consumer.Domain.Transactions;
+namespace CashManager.Consumer.Application.Transactions.ValidateTransaction;
 
-public class Transaction
+public record ValidateTransactionRequest
 {
-    [Key] 
+    [Key]
     public int Id { get; set; }
 
     [Required]
@@ -32,10 +32,6 @@ public class Transaction
     [Required]
     public Guid Guid { get; set; }
 
-    [Required] 
+    [Required]
     public string Url { get; private set; } = "https://localhost:7270/api/Transaction/Validate";
-
-    public int UserId { get; set; }
-
-    public Users User { get; set; } = null!;
 }

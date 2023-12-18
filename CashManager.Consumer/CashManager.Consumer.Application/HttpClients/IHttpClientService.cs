@@ -1,9 +1,9 @@
-﻿using CashManager.Consumer.Domain.ErrorHandling;
-using CashManager.Consumer.Domain.Transactions;
+﻿using CashManager.Consumer.Application.Transactions.CreateTransaction.Requests;
+using CashManager.Consumer.Domain.ErrorHandling;
 
 namespace CashManager.Consumer.Application.HttpClients;
 
 public interface IHttpClientService
 {
-    public Task<Result> Post(Transaction transaction, CancellationToken cancellationToken);
+    public Task<Result> PostTransaction(CreateBankingTransactionRequest createBankingTransactionRequest, CancellationToken cancellationToken);
 }

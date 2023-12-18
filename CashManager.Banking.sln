@@ -9,16 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Banking.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Banking.Application", "CashManager.Banking\CashManager.Banking.Application\CashManager.Banking.Application.csproj", "{56595ADE-C358-4F32-9D55-79D86ED88B49}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86666C37-3EFE-4412-BFA5-42D05FD7BFA2}"
-	ProjectSection(SolutionItems) = preProject
-		CashManager.Banking\docker-compose.yml = CashManager.Banking\docker-compose.yml
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Banking.Api", "CashManager.Banking\CashManager.Banking.Api\CashManager.Banking.Api.csproj", "{1A1CFD9B-B6C9-4CD5-9C2F-63B1B0887321}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Banking.Presentation", "CashManager.Banking\CashManager.Banking.Presentation\CashManager.Banking.Presentation.csproj", "{25C7D13D-46E5-463E-909E-8D803E1BFDC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashManager.Banking.Test", "CashManager.Banking\CashManager.Banking.Test\CashManager.Banking.Test.csproj", "{ADDF3085-5E1E-41BC-A95F-D22F4EBF93F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashManager.Banking.Test", "CashManager.Banking\CashManager.Banking.Test\CashManager.Banking.Test.csproj", "{ADDF3085-5E1E-41BC-A95F-D22F4EBF93F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

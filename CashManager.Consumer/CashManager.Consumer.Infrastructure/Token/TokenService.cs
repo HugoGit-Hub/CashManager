@@ -25,7 +25,7 @@ internal class TokenService : ITokenService
             }),
             Issuer = Issuer,
             Audience = Audience,
-            Expires = DateTime.UtcNow.AddMinutes(5),
+            Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 

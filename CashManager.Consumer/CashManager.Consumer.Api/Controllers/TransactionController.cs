@@ -1,6 +1,9 @@
-﻿using CashManager.Consumer.Domain.Transactions;
-using CashManager.Consumer.Presentation.Dto;
-using Mapster;
+﻿using CashManager.Consumer.Application.Transactions.CreateTransaction;
+using CashManager.Consumer.Application.Transactions.CreateTransaction.Requests;
+using CashManager.Consumer.Application.Transactions.ValidateTransaction;
+using CashManager.Consumer.Domain.Transactions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashManager.Consumer.Api.Controllers;
@@ -9,34 +12,36 @@ namespace CashManager.Consumer.Api.Controllers;
 [Route("api/[controller]")]
 public class TransactionController : Controller
 {
-    private readonly ITransactionService _transactionService;
+    private readonly ISender _sender;
 
-    public TransactionController(ITransactionService transactionService)
+    public TransactionController(ISender sender)
     {
-        _transactionService = transactionService;
+        _sender = sender;
     }
 
-    [HttpPost(nameof(Post))]
-    public async Task<ActionResult<TransactionDto>> Post(TransactionDto transaction, CancellationToken cancellationToken)
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [HttpPost(nameof(Create))]
+    public async Task<ActionResult> Create(CreateTransactionRequest transactionRequest, CancellationToken cancellationToken)
     {
-        var result = await _transactionService.Post(transaction.Adapt<Transaction>(), cancellationToken);
-        if (result.IsFailure)
+        var handler = await _sender.Send(new CreateTransactionCommand(transactionRequest), cancellationToken);
+        if (handler.IsFailure)  
         {
-            return BadRequest(result.Error);
+            return BadRequest(handler.Error);
         }
 
-        return Ok(result.Value.Adapt<TransactionDto>());
+        return Ok();
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(Validate))]
-    public async Task<ActionResult> Validate(TransactionDto transaction, CancellationToken cancellationToken)
+    public async Task<ActionResult> Validate(ValidateTransactionRequest transaction, CancellationToken cancellationToken)
     {
-        var result = await _transactionService.Put(transaction.Adapt<Transaction>(), cancellationToken);
-        if (result.IsFailure)
+        var handler = await _sender.Send(new ValidateTransactionCommand(transaction), cancellationToken);
+        if (handler.IsFailure)
         {
-            return BadRequest(result.Error);
+            return BadRequest(handler.Error);
         }
-        
+
         return Ok();
     }
 }
