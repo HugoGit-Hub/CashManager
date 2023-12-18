@@ -1,4 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cashmanagerapp/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
+
+const snackBar = SnackBar(
+  content: Text('Wrong email or password'),
+  backgroundColor: Colors.red,
+  behavior: SnackBarBehavior.floating,
+  duration: Duration(seconds: 3),
+);
+
 
 class Login extends StatefulWidget {
   @override
@@ -6,6 +17,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login>{
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +53,7 @@ class _LoginState extends State<Login>{
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       hintStyle: TextStyle(
@@ -54,6 +68,8 @@ class _LoginState extends State<Login>{
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    obscureText: true,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       hintStyle: TextStyle(
@@ -68,8 +84,24 @@ class _LoginState extends State<Login>{
                   ),
                   SizedBox(height: 10.0),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/');
+                    onPressed: () async {
+                      if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        return;
+                      }
+                      final bool emailValid = 
+                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(emailController.text);
+                      if (emailValid) {
+                        try {
+                        String token  = await AuhtenticationService().login(emailController.text, passwordController.text);
+                        print(token);
+                        Navigator.pushNamed(context, '/');
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      }
+                      
                     },
                     style: ElevatedButton.styleFrom(
                       textStyle: TextStyle(
