@@ -3,7 +3,14 @@ import 'package:cashmanagerapp/widgets/button_like.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 import 'package:cashmanagerapp/widgets/button_add_to_cart.dart';
 
-class Detail extends StatelessWidget {
+class Detail extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _Detail();
+}
+
+class _Detail extends State<Detail> {
+  double itemPrice = 5.0;
+  double totalPrice = 5.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +57,14 @@ class Detail extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 60),
-                    QuantitySelector(),
+                    QuantitySelector(
+                      price: itemPrice,
+                      onQuantityChanged: (quantity, total) {
+                        setState(() {
+                          totalPrice = total;
+                        });
+                      },
+                    ),
                     SizedBox(width: 10),
                   ]),
                   SizedBox(height: 15.0),
@@ -82,7 +96,7 @@ class Detail extends StatelessWidget {
                     children: [
                       ButtonLike(),
                       SizedBox(width: 10.0),
-                      ButtonAddToCart(),
+                      ButtonAddToCart(totalPrice: totalPrice),
                     ],
                   ),
                 ],
