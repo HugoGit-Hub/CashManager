@@ -14,7 +14,7 @@ internal class TransactionRepository : ITransactionRepository
         _context = context;
     }
 
-    public async Task<Transaction> Post(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<Transaction> Create(Transaction transaction, CancellationToken cancellationToken)
     {
         var result = await _context.Transactions.AddAsync(transaction, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
