@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ButtonAddToCart extends StatelessWidget {
-  const ButtonAddToCart({Key? key}) : super(key: key);
+  final double totalPrice;
+  const ButtonAddToCart({Key? key, required this.totalPrice}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class ButtonAddToCart extends StatelessWidget {
               ),
             ),
             Text(
-              '5€',
+              '$totalPrice €',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
