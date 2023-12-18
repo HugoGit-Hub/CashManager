@@ -2,14 +2,17 @@
 using CashManager.Consumer.Application.CurrentUser;
 using CashManager.Consumer.Application.HttpClients;
 using CashManager.Consumer.Application.Security;
+using CashManager.Consumer.Application.ShoppingSessions;
 using CashManager.Consumer.Application.Token;
 using CashManager.Consumer.Application.Transactions;
 using CashManager.Consumer.Application.User;
+using CashManager.Consumer.Domain.ShoppingSessions;
 using CashManager.Consumer.Infrastructure.Articles;
 using CashManager.Consumer.Infrastructure.Context;
 using CashManager.Consumer.Infrastructure.CurrentUser;
 using CashManager.Consumer.Infrastructure.HttpClients;
 using CashManager.Consumer.Infrastructure.Security;
+using CashManager.Consumer.Infrastructure.ShoppingSessions;
 using CashManager.Consumer.Infrastructure.Token;
 using CashManager.Consumer.Infrastructure.Transactions;
 using CashManager.Consumer.Infrastructure.User;
@@ -29,6 +32,7 @@ public static class DependencyInjection
         services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IShoppingSessionRepository, ShoppingSessionRepository>();
 
         services.AddScoped<IHttpClientService, HttpClientService>();
         services.AddScoped<ISecurityService, SecurityService>();
