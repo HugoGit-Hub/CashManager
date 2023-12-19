@@ -19,7 +19,7 @@ public class CartItemController : ControllerBase
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPost(nameof(CreateCartItem))]
-    public async Task<ActionResult<CartItem>> CreateCartItem(
+    public async Task<ActionResult<CreateCartItemResponse>> CreateCartItem(
         CreateCartItemRequest createCartItemRequest,
         CancellationToken cancellationToken)
     {
