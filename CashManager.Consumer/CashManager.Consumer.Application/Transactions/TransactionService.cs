@@ -26,7 +26,9 @@ public class TransactionService : ITransactionService
         {
             return Result<Transaction>.Failure(result.Error);
         }
-        
+
+        result.Value.State = transaction.State;
+
         var put = await _transactionRepository.Put(result.Value, cancellationToken);
         
         return Result<Transaction>.Success(put);
