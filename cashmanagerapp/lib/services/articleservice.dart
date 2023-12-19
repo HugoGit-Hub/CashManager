@@ -71,4 +71,37 @@ class ArticleService {
       return [];
     }
   }
+
+  Future<ArticleModel> getArticleById(String idArticle) async {
+    const FlutterSecureStorage storage = FlutterSecureStorage();
+    final String? token = await storage.read(key: "access_token");
+
+    try {
+      int id = int.parse(idArticle);
+      final res = await Dio()
+          .get(
+        'http://localhost:5001/api/Article/GetById?id=$id',
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      )
+          .onError((DioError error, stackTrace) async {
+        return Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: error.response?.statusCode ?? 0,
+          data: error.response?.data ?? {},
+        );
+      });
+      if (res.statusCode != 200) {
+        print(res.statusCode);
+      }
+      ArticleModel article = ArticleModel.fromJson(res.data);
+      return article;
+    } catch (e) {
+      print(e);
+      return ArticleModel.fromJson({});
+    }
+  }
 }
