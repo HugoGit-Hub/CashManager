@@ -1,8 +1,8 @@
-﻿using CashManager.Banking.Domain.Accounts;
+﻿using CashManager.Banking.Application.HttpClients;
+using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.Authentication;
 using CashManager.Banking.Domain.CurrentUser;
 using CashManager.Banking.Domain.Encryption;
-using CashManager.Banking.Domain.HttpClients;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Domain.User;
 using CashManager.Banking.Infrastructure.Accounts;

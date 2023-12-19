@@ -1,6 +1,7 @@
-﻿using CashManager.Banking.Domain.ErrorHandling;
+﻿using CashManager.Banking.Application.HttpClients;
+using CashManager.Banking.Application.Transactions;
+using CashManager.Banking.Domain.ErrorHandling;
 using CashManager.Banking.Domain.HttpClients;
-using CashManager.Banking.Domain.Transactions;
 using System.Text;
 using System.Text.Json;
 
@@ -8,7 +9,7 @@ namespace CashManager.Banking.Infrastructure.HttpClients;
 
 internal class HttpClientService : IHttpClientService
 {
-    public async Task<Result> PutTransaction(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<Result> PutTransaction(ValidateTransactionCallBackRequest transaction, CancellationToken cancellationToken)
     {
         var uri = new Uri(transaction.Url);
         var client = new HttpClient

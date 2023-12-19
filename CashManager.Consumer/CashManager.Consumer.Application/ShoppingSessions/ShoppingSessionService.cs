@@ -38,7 +38,7 @@ internal class ShoppingSessionService : IShoppingSessionService
 
     public async Task<Result<ShoppingSession>> GetOrCreateShoppingSessionIfNullOrNotOpenShoppingSession(Users user, CancellationToken cancellationToken)
     {
-        var asShoppingSessionOpen = user.ShoppingSessions.All(x => x.State is false) && user.ShoppingSessions.Count is not 0;
+        var asShoppingSessionOpen = user.ShoppingSessions.Any(x => x.State is false) && user.ShoppingSessions.Count > 0;
         if (!asShoppingSessionOpen)
         {
             var createshoppingSession = new ShoppingSession

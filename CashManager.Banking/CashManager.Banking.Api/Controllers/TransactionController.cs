@@ -1,5 +1,6 @@
-﻿using CashManager.Banking.Domain.Accounts;
-using CashManager.Banking.Domain.HttpClients;
+﻿using CashManager.Banking.Application.HttpClients;
+using CashManager.Banking.Application.Transactions;
+using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
@@ -81,10 +82,10 @@ public class TransactionController : Controller
             return BadRequest(transaction.Error);
         }
 
-        var putTransaction = await _httpClientService.PutTransaction(transactionDto.Adapt<Transaction>(), cancellationToken);
+        var putTransaction = await _httpClientService.PutTransaction(transactionDto.Adapt<ValidateTransactionCallBackRequest>(), cancellationToken);
         if (putTransaction.IsFailure)
         {
-            return BadRequest(putTransaction.Error);
+            return BadRequest(putTransaction);
         }
 
         return Ok(validate.Value.Adapt<TransactionDto>());

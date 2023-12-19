@@ -26,10 +26,9 @@ internal class ValidateTransactionCommandHandler : IRequestHandler<ValidateTrans
             Id = getTransaction.Value.Id,
             Amount = getTransaction.Value.Amount,
             Creditor = getTransaction.Value.Creditor,
-            Date = getTransaction.Value.Date,
-            Guid = getTransaction.Value.Guid,
             State = TransactionStateEnum.Success,
             Type = getTransaction.Value.Type,
+            Guid = getTransaction.Value.Guid,
             UserId = getTransaction.Value.UserId,
             User = getTransaction.Value.User
         };

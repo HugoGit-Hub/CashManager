@@ -95,7 +95,7 @@ function NavigationBar() {
             </div>
             <div className="navbar-center">
                 <Link href={"/account"}>
-                    <Image className="w-10 h-10" src={provideBankImage(bank)} alt="" />
+                    <Image width={10} height={10} className="w-10 h-10" src={provideBankImage(bank)} alt="" />
                 </Link>
             </div>
             <div className="navbar-end">

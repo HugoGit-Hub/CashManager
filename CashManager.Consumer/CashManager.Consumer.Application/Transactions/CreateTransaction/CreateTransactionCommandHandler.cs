@@ -58,9 +58,7 @@ internal class CreateTransactionCommandHandler : IRequestHandler<CreateTransacti
         {
             Creditor = request.TransactionRequest.Creditor,
             Type = request.TransactionRequest.Type,
-            Amount = request.TransactionRequest.Amount,
-            Date = request.TransactionRequest.Date,
-            Guid = request.TransactionRequest.Guid,
+            Amount = currentShoppingSession.TotalPrice,
             UserId = currentUser.Value.Id,
             User = currentUser.Value
         };
@@ -75,9 +73,8 @@ internal class CreateTransactionCommandHandler : IRequestHandler<CreateTransacti
         {
             Creditor = request.TransactionRequest.Creditor,
             Type = request.TransactionRequest.Type,
-            Amount = request.TransactionRequest.Amount,
-            Date = request.TransactionRequest.Date,
-            Guid = request.TransactionRequest.Guid
+            Amount = currentShoppingSession.TotalPrice,
+            Guid = transaction.Guid
         };
 
         var result = await _httpClientService.PostTransaction(createBankingTransactionRequest, cancellationToken);

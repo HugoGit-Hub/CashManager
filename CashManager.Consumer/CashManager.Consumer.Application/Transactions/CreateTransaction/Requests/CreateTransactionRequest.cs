@@ -11,14 +11,4 @@ public record CreateTransactionRequest
 
     [Required]
     public TransactionTypeEnum Type { get; set; }
-
-    [Required]
-    public double Amount { get; set; }
-
-    [Required]
-    [DataType(DataType.Date)]
-    public DateTime Date { get; set; }
-
-    [Required]
-    public Guid Guid { get; set; }
 }
