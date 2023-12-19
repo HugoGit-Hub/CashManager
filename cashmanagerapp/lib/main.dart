@@ -1,4 +1,3 @@
-import 'package:cashmanagerapp/models/articlemodel.dart';
 import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'pages/scanPages/scan_home.dart';
 import 'pages/categoryPages/category.dart';
 import 'pages/detailPages/detail.dart';
+import 'package:cashmanagerapp/models/cartitemmodel.dart';
 
 void main() {
   runApp(MyApp());
@@ -124,18 +124,18 @@ class Accueil extends StatefulWidget {
 }
 
 class _Accueil extends State<Accueil> {
-  List<ArticleModel> articles = [];
+  List<CartItemModel> cartitems = [];
   @override
   void initState() {
     super.initState();
-    getArticles();
+    getAllCartItem();
   }
 
-  getArticles() async {
-    final List<ArticleModel> articles =
+  getAllCartItem() async {
+    final List<CartItemModel> cartitems =
         (await ArticleService().getAllCartItem()).toList();
     setState(() {
-      this.articles = articles;
+      this.cartitems = cartitems;
     });
   }
 
@@ -248,7 +248,7 @@ class _Accueil extends State<Accueil> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Pannier',
+                child: Text('Panier',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               ),
@@ -264,9 +264,9 @@ class _Accueil extends State<Accueil> {
           // Row 6 (Placeholder for the list of items)
           Expanded(
             child: ListView.builder(
-              itemCount: articles.length,
+              itemCount: cartitems.length,
               itemBuilder: (context, index) {
-                var article = articles[index];
+                var cartitem = cartitems[index];
                 return GestureDetector(
                     onTap: () {
                       navigateToPage(context, '/detail');
@@ -291,14 +291,14 @@ class _Accueil extends State<Accueil> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            article.name,
+                            cartitem.articleName,
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            article.price.toString(),
+                            cartitem.totalArticlePrice.toString(),
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
