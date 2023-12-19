@@ -76,6 +76,7 @@ flutter:
      - lib/images/login.jpg
      - lib/images/register.jpg
      - lib/images/tomate.jpeg
+     - lib/images/unknown.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
