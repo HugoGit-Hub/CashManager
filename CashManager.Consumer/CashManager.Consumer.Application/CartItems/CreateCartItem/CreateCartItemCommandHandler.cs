@@ -39,11 +39,12 @@ internal class CreateCartItemCommandHandler : IRequestHandler<CreateCartItemComm
         var cartItem = new CartItem
         {
             Quantity = request.CreateCartItemRequest.Quantity,
-            IdArticle = article.Value.Id,
-            IdShoppingSession = article.Value.Id,
             Article = article.Value,
             ShoppingSession = shoppingSession.Value
         };
+
+        shoppingSession.Value.TotalPrice = request.CreateCartItemRequest.Quantity * article.Value.Price;
+        await _shoppingSessionService.UpdateShoppingSession(shoppingSession.Value, cancellationToken);
 
         var createdCartItem = await _cartItemService.Create(cartItem, cancellationToken);
         var createCarteItemResponse = new CreateCartItemResponse

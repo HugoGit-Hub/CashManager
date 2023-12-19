@@ -1,6 +1,5 @@
 ﻿using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.ShoppingSessions;
-using Mapster;
 using MediatR;
 
 namespace CashManager.Consumer.Application.ShoppingSessions.GetShoppingSessionCartItems;
@@ -16,10 +15,18 @@ internal class GetShoppingSessionCartItemsQueryHandler : IRequestHandler<GetShop
 
     public async Task<Result<IEnumerable<GetShoppingSessionCartItemsResponse>>> Handle(GetShoppingSessionCartItemsQuery request, CancellationToken cancellationToken)
     {
-        var cartItems = await _shoppingSessionService.GetShoppinsSessionById(request.Id, cancellationToken);
-        
-        return cartItems.IsFailure 
-            ? Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Failure(cartItems.Error)
-            : Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Success(cartItems.Value.CartItems.Adapt<IEnumerable<GetShoppingSessionCartItemsResponse>>());
+        var shoppinsSession = await _shoppingSessionService.GetShoppinsSessionById(request.Id, cancellationToken);
+        var getShoppingSessionCartItemsResponseList = shoppinsSession.Value.CartItems
+            .Select(cartItem => 
+                new GetShoppingSessionCartItemsResponse 
+                {
+                    ArticleName = cartItem.Article.Name, 
+                    Quantity = cartItem.Quantity
+                })
+            .ToList();
+
+        return shoppinsSession.IsFailure 
+            ? Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Failure(shoppinsSession.Error)
+            : Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Success(getShoppingSessionCartItemsResponseList);
     }
 }
