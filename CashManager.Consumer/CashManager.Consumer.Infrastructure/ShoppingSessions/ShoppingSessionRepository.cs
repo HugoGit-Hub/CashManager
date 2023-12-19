@@ -25,14 +25,14 @@ internal class ShoppingSessionRepository : IShoppingSessionRepository
         return shoppingSession;
     }
 
-    public async Task<Result> CreateShoppingSession(
+    public async Task<Result<ShoppingSession>> CreateShoppingSession(
         ShoppingSession shoppingSession,
         CancellationToken cancellationToken)
     {
         await _context.ShoppingSessions.AddAsync(shoppingSession, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result<ShoppingSession>.Success(shoppingSession);
     }
 
     public async Task<Result> UpdateShoppingSession(ShoppingSession shoppingSession, CancellationToken cancellationToken)
