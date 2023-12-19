@@ -1,4 +1,5 @@
-﻿using CashManager.Consumer.Application.ShoppingSessions.GetCurrentOpenedShoppingSessionCartItems;
+﻿using CashManager.Consumer.Application.ShoppingSessions.DeleteCartItemFromCurrentShoppingSession;
+using CashManager.Consumer.Application.ShoppingSessions.GetCurrentOpenedShoppingSessionCartItems;
 using CashManager.Consumer.Application.ShoppingSessions.GetCurrentShoppingSession;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -41,5 +42,19 @@ public class ShoppingSessionController : ControllerBase
         }
 
         return Ok(handler.Value);
+    }
+
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [HttpDelete(nameof(DeleteCartItemFromCurrentShoppingSession))]
+    public async Task<ActionResult>
+        DeleteCartItemFromCurrentShoppingSession(int cartItemId, CancellationToken cancellationToken)
+    {
+        var handler = await _sender.Send(new DeleteCartItemFromCurrentShoppingSessionCommand(cartItemId), cancellationToken);
+        if (handler.IsFailure)
+        {
+            return BadRequest(handler.Error);
+        }
+
+        return Ok();
     }
 }
