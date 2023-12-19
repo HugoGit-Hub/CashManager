@@ -34,6 +34,7 @@ class _ScanHomeState extends State<ScanHome> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
+          //redirect to detail page when code is scanned
           Expanded(
             flex: 1,
             child: FittedBox(
@@ -41,29 +42,31 @@ class _ScanHomeState extends State<ScanHome> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  //if code is scanned, display the code
                   if (result != null)
                     Text(
                         'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
                   else
-                    const Text('Scan a code'),
+                    //if code is not scanned, display the text
+                    Text('Scan a code'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
+                      //if code is scanned, display the button to redirect to detail page
+                      if (result != null)
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/detail/');
                             },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
+                            child: Text('Go to detail page'))
+                      else
+                        //if code is not scanned, display the button to redirect to category page
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/category');
+                            },
+                            child: Text('Go to category page'))
                     ],
                   ),
                 ],
