@@ -281,8 +281,7 @@ class _Accueil extends State<Accueil> {
                         color: Colors.black.withOpacity(
                             0.5), // Apply dark overlay directly to the background
                         image: DecorationImage(
-                          image: AssetImage(
-                              'lib/images/top-view-raw-potatoes-table.jpg'),
+                          image: AssetImage(cartitem.imageUrl),
                           fit: BoxFit.cover,
                         ),
                       ),
