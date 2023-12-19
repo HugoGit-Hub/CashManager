@@ -5,6 +5,7 @@ import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
 import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:cashmanagerapp/pages/loginPages/login.dart';
 import 'package:cashmanagerapp/pages/loginPages/register.dart';
+import 'package:cashmanagerapp/services/articleservice.dart';
 import 'package:flutter/material.dart';
 import 'pages/scanPages/scan_home.dart';
 import 'pages/categoryPages/category.dart';
@@ -14,7 +15,12 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyApp();
+}
+
+class _MyApp extends State<MyApp> {
   final ScanHome scanHome = ScanHome();
   final Category category = Category();
   final CategoryDairy categoryDairy = CategoryDairy();
@@ -44,7 +50,7 @@ class MyApp extends StatelessWidget {
         '/category/vegetable': (context) => categoryVegetable,
         '/category/dairy': (context) => categoryDairy,
         '/cart': (context) => cart,
-        '/login' : (context) => login,
+        '/login': (context) => login,
         '/detail': (context) => detail,
         '/register': (context) => register,
         '/welcome': (context) => introduction,
@@ -111,7 +117,34 @@ class _MyHomePageState extends State<HomePage> {
   }
 }
 
-class Accueil extends StatelessWidget {
+class Accueil extends StatefulWidget {
+  @override
+  State<Accueil> createState() => _Accueil();
+}
+
+class _Accueil extends State<Accueil> {
+  List<dynamic> articles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getAllArticles();
+  }
+
+  Future<void> getAllArticles() async {
+    try {
+      ArticleService articleService = ArticleService();
+      await articleService.getAllArticles().then((List<dynamic> data) {
+        setState(() {
+          articles = data;
+        });
+      });
+    } catch (e) {
+      // Gérer les erreurs ici
+      print('Error fetching articles: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,8 +270,9 @@ class Accueil extends StatelessWidget {
           // Row 6 (Placeholder for the list of items)
           Expanded(
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: articles.length,
               itemBuilder: (context, index) {
+                var article = articles[index];
                 return GestureDetector(
                     onTap: () {
                       navigateToPage(context, '/detail');
@@ -263,14 +297,14 @@ class Accueil extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Patates',
+                            article['name'],
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            '10.00€', // Replace with the actual price
+                            article['price'],
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
