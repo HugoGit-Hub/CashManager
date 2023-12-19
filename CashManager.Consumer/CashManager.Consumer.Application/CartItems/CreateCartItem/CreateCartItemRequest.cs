@@ -9,7 +9,4 @@ public record CreateCartItemRequest
 
     [Required]
     public int IdArticle { get; set; }
-
-    [Required]
-    public int IdShoppingSession { get; set; }
 }
