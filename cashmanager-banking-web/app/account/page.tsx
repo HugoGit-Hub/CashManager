@@ -26,7 +26,7 @@ function AccountPage() {
         }),
       };
       
-      fetchBanking(`/Account/Get`, request)
+      fetchBanking(`/Account/GetAccountsByCurrentUser`, request)
       .then(async (response) => {
         if (response.ok) {
           notifications("success", "Compte(s) récupéré(s)");
