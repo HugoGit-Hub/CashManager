@@ -32,6 +32,8 @@ internal class UserRepository : IUserRepository
 
     public Task<Users?> GetUserByEmail(string email, CancellationToken cancellationToken)
     {
-        return _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        return _context.Users
+            .Include(x => x.ShoppingSessions)
+            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 }
