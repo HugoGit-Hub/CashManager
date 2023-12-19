@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -45,7 +44,7 @@ class _ScanHomeState extends State<ScanHome> {
                   //if code is scanned, display the code
                   if (result != null)
                     Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                        'code: ${result!.code}')
                   else
                     //if code is not scanned, display the text
                     Text('Scan a code'),
@@ -57,7 +56,7 @@ class _ScanHomeState extends State<ScanHome> {
                       if (result != null)
                         ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/detail/');
+                              Navigator.pushNamed(context, '/detail/${result!.code}');
                             },
                             child: Text('Go to detail page'))
                       else
