@@ -6,6 +6,7 @@ using CashManager.Consumer.Domain.Transactions;
 using CashManager.Consumer.Domain.User;
 using MediatR;
 using System.Security.Claims;
+using CashManager.Consumer.Domain.ShoppingSessions;
 
 namespace CashManager.Consumer.Application.Transactions.CreateTransaction;
 
@@ -15,17 +16,20 @@ internal class CreateTransactionCommandHandler : IRequestHandler<CreateTransacti
     private readonly IHttpClientService _httpClientService;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUserService _userService;
+    private readonly IShoppingSessionService _shoppingSessionService;
 
     public CreateTransactionCommandHandler(
         ITransactionService transactionService,
         IHttpClientService httpClientService,
         ICurrentUserService currentUserService,
-        IUserService userService)
+        IUserService userService,
+        IShoppingSessionService shoppingSessionService)
     {
         _transactionService = transactionService;
         _httpClientService = httpClientService;
         _currentUserService = currentUserService;
         _userService = userService;
+        _shoppingSessionService = shoppingSessionService;
     }
 
     public async Task<Result> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -34,6 +38,20 @@ internal class CreateTransactionCommandHandler : IRequestHandler<CreateTransacti
         if (currentUser.IsFailure)
         {
             return Result.Failure(currentUser.Error);
+        }
+
+        var currentShoppingSession = currentUser.Value.ShoppingSessions.SingleOrDefault(x => x.State is false);
+        if (currentShoppingSession is null)
+        {
+            return Result.Failure(ShoppingSessionErrors.NotFound);
+        }
+
+        currentShoppingSession.State = true;
+        
+        var updatedShoppingSession = await _shoppingSessionService.UpdateShoppingSession(currentShoppingSession, cancellationToken);
+        if (updatedShoppingSession.IsFailure)
+        {
+            return Result.Failure(updatedShoppingSession.Error);
         }
 
         var transaction = new Transaction
