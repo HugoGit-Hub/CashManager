@@ -1,3 +1,4 @@
+import 'package:cashmanagerapp/models/articlemodel.dart';
 import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
@@ -123,26 +124,19 @@ class Accueil extends StatefulWidget {
 }
 
 class _Accueil extends State<Accueil> {
-  List<dynamic> articles = [];
-
+  List<ArticleModel> articles = [];
   @override
   void initState() {
     super.initState();
-    getAllArticles();
+    getArticles();
   }
 
-  Future<void> getAllArticles() async {
-    try {
-      ArticleService articleService = ArticleService();
-      await articleService.getAllArticles().then((List<dynamic> data) {
-        setState(() {
-          articles = data;
-        });
-      });
-    } catch (e) {
-      // Gérer les erreurs ici
-      print('Error fetching articles: $e');
-    }
+  getArticles() async {
+    final List<ArticleModel> articles =
+        (await ArticleService().getAllCartItem()).toList();
+    setState(() {
+      this.articles = articles;
+    });
   }
 
   @override
@@ -297,14 +291,14 @@ class _Accueil extends State<Accueil> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            article['name'],
+                            article.name,
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            article['price'],
+                            article.price.toString(),
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,

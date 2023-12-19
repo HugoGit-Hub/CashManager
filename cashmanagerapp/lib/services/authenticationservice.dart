@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
 
 class AuhtenticationService {
   final Dio _dio = Dio();
@@ -18,6 +19,9 @@ class AuhtenticationService {
       if (response.statusCode == 200) {
         // Parse the response data
         String data = response.data;
+        String test = "test";
+        print(test);
+        print(data);
         storage.write(key: "access_token", value: data);
         return data;
       } else {
@@ -41,6 +45,7 @@ class AuhtenticationService {
       if (response.statusCode == 200) {
         // Parse the response data
         String data = response.data;
+        data = data.replaceAll('"', '');
         storage.write(key: "access_token", value: data);
         return data;
       } else {
