@@ -49,7 +49,9 @@ internal class GetShoppingSessionCartItemsQueryHandler : IRequestHandler<GetShop
                 new GetShoppingSessionCartItemsResponse 
                 {
                     ArticleName = cartItem.Article.Name, 
-                    Quantity = cartItem.Quantity
+                    Quantity = cartItem.Quantity,
+                    TotalArticlePrice = Math.Round(cartItem.Quantity * cartItem.Article.Price, 2),
+                    ImageUrl = cartItem.Article.ImageUrl
                 })
             .ToList();
 
