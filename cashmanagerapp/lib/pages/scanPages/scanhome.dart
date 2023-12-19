@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cashmanagerapp/pages/detailPages/detail.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -56,7 +57,14 @@ class _ScanHomeState extends State<ScanHome> {
                       if (result != null)
                         ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/detail/${result!.code}');
+                              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Detail(
+                          idArticle: result!.code,
+                        ),
+                      ),
+                    );
                             },
                             child: Text('Go to detail page'))
                       else

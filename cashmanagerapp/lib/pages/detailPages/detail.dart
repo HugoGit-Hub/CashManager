@@ -3,10 +3,9 @@ import 'package:cashmanagerapp/widgets/button_like.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 import 'package:cashmanagerapp/widgets/button_add_to_cart.dart';
 
-
 class Detail extends StatefulWidget {
-  const Detail({Key? key, required int idArticle}) : super(key: key);
-  final int idArticle;
+  const Detail({Key? key, required String? idArticle}) : super(key: key);
+  final int idArticle = 0;
   @override
   State<StatefulWidget> createState() => _DetailState();
 }
