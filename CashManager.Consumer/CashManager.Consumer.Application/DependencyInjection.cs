@@ -3,13 +3,17 @@ using CashManager.Consumer.Application.Articles.GetArticleById;
 using CashManager.Consumer.Application.Articles.GetArticles;
 using CashManager.Consumer.Application.Authentication.Login;
 using CashManager.Consumer.Application.Authentication.Register;
+using CashManager.Consumer.Application.CartItems;
+using CashManager.Consumer.Application.CartItems.CreateCartItem;
 using CashManager.Consumer.Application.ShoppingSessions;
+using CashManager.Consumer.Application.ShoppingSessions.CreateShoppingSession;
 using CashManager.Consumer.Application.ShoppingSessions.GetShoppingSessionCartItems;
 using CashManager.Consumer.Application.Transactions;
 using CashManager.Consumer.Application.Transactions.CreateTransaction;
 using CashManager.Consumer.Application.Transactions.ValidateTransaction;
 using CashManager.Consumer.Application.User;
 using CashManager.Consumer.Domain.Articles;
+using CashManager.Consumer.Domain.CartItems;
 using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.ShoppingSessions;
 using CashManager.Consumer.Domain.Transactions;
@@ -26,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IArticleService, ArticleService>();
         services.AddScoped<ITransactionService, TransactionService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICartItemService, CartItemService>();
         services.AddScoped<IShoppingSessionService, ShoppingSessionService>();
 
         services.AddScoped<IRequestHandler<RegisterCommand, Result<string>>, RegisterCommandHandler>();
@@ -35,6 +40,8 @@ public static class DependencyInjection
         services.AddScoped<IRequestHandler<CreateTransactionCommand, Result>, CreateTransactionCommandHandler>();
         services.AddScoped<IRequestHandler<ValidateTransactionCommand, Result>, ValidateTransactionCommandHandler>();
         services.AddScoped<IRequestHandler<GetShoppingSessionCartItemsQuery, Result<IEnumerable<GetShoppingSessionCartItemsResponse>>>, GetShoppingSessionCartItemsQueryHandler>();
+        services.AddScoped<IRequestHandler<CreateShoppingSessionCommand, Result>, CreateShoppingSessionCommandHandler>();
+        services.AddScoped<IRequestHandler<CreateCartItemCommand, Result<CreateCartItemResponse>>, CreateCartItemCommandHandler>();
 
         return services;
     }

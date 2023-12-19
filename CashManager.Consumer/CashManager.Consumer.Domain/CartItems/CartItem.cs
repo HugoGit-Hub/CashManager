@@ -12,10 +12,6 @@ public record CartItem
     [Required]
     public int Quantity { get; set; }
 
-    public int IdArticle { get; set; }
-
-    public int IdShoppingSession { get; set; }
-
     public Article Article { get; set; } = null!;
 
     public ShoppingSession ShoppingSession { get; set; } = null!;

@@ -1,4 +1,5 @@
 ﻿using CashManager.Consumer.Application.Articles;
+using CashManager.Consumer.Application.CartItems;
 using CashManager.Consumer.Application.CurrentUser;
 using CashManager.Consumer.Application.HttpClients;
 using CashManager.Consumer.Application.Security;
@@ -8,6 +9,7 @@ using CashManager.Consumer.Application.Transactions;
 using CashManager.Consumer.Application.User;
 using CashManager.Consumer.Domain.ShoppingSessions;
 using CashManager.Consumer.Infrastructure.Articles;
+using CashManager.Consumer.Infrastructure.CartItems;
 using CashManager.Consumer.Infrastructure.Context;
 using CashManager.Consumer.Infrastructure.CurrentUser;
 using CashManager.Consumer.Infrastructure.HttpClients;
@@ -32,6 +34,7 @@ public static class DependencyInjection
         services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICartItemRepository, CartItemRepository>();
         services.AddScoped<IShoppingSessionRepository, ShoppingSessionRepository>();
 
         services.AddScoped<IHttpClientService, HttpClientService>();

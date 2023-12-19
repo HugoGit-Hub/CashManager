@@ -20,4 +20,18 @@ internal class ShoppingSessionService : IShoppingSessionService
             ? Result<ShoppingSession>.Failure(ShoppingSessionErrors.NotFound)
             : Result<ShoppingSession>.Success(shoppingSession);
     }
+
+    public async Task<Result> CreateShoppingSession(ShoppingSession shoppingSession, CancellationToken cancellationToken)
+    {
+        await _shoppingSessionRepository.CreateShoppingSession(shoppingSession, cancellationToken);
+
+        return Result.Success();
+    }
+
+    public async Task<Result> UpdateShoppingSession(ShoppingSession shoppingSession, CancellationToken cancellationToken)
+    {
+        await _shoppingSessionRepository.UpdateShoppingSession(shoppingSession, cancellationToken);
+
+        return Result.Success();
+    }
 }
