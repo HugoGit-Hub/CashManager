@@ -12,4 +12,6 @@ public interface IShoppingSessionService
     public Task<Result> UpdateShoppingSession(ShoppingSession shoppingSession, CancellationToken cancellationToken);
 
     public Task<Result<ShoppingSession>> GetOrCreateShoppingSessionIfNullOrNotOpenShoppingSession(Users user, CancellationToken cancellationToken);
+
+    public Task<Result<ShoppingSession>> DeleteCartItemFromCurrentShoppingSession(int shoppingSessionId, int cartItemId, CancellationToken cancellationToken);
 }
