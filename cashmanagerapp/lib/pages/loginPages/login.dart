@@ -94,8 +94,9 @@ class _LoginState extends State<Login>{
                         .hasMatch(emailController.text);
                       if (emailValid) {
                         try {
-                        String token  = await AuhtenticationService().login(emailController.text, passwordController.text);
-                        print(token);
+                        // await AuhtenticationService().login(emailController.text, passwordController.text);
+                        // For dev :
+                        await AuhtenticationService().login("user@example.com", "string");
                         Navigator.pushNamed(context, '/');
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
