@@ -1,4 +1,5 @@
-﻿using CashManager.Consumer.Application.ShoppingSessions.GetShoppingSessionCartItems;
+﻿using CashManager.Consumer.Application.ShoppingSessions.GetCurrentOpenedShoppingSessionCartItems;
+using CashManager.Consumer.Application.ShoppingSessions.GetCurrentShoppingSession;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,23 @@ public class ShoppingSessionController : ControllerBase
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [HttpGet(nameof(GetShoppingSessionCartItems))]
-    public async Task<ActionResult<IEnumerable<GetShoppingSessionCartItemsResponse>>> GetShoppingSessionCartItems(
-        int id, 
-        CancellationToken cancellationToken)
+    [HttpGet(nameof(GetCurrentOpenedShoppingSessionCartItems))]
+    public async Task<ActionResult<IEnumerable<GetShoppingSessionCartItemsResponse>>> GetCurrentOpenedShoppingSessionCartItems(CancellationToken cancellationToken)
     {
-        var handler = await _sender.Send(new GetShoppingSessionCartItemsQuery(id), cancellationToken);
+        var handler = await _sender.Send(new GetShoppingSessionCartItemsQuery(), cancellationToken);
+        if (handler.IsFailure)
+        {
+            return BadRequest(handler.Error);
+        }
+
+        return Ok(handler.Value);
+    }
+
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [HttpGet(nameof(GetCurrentShoppingSession))]
+    public async Task<ActionResult<GetCurrentShoppingSessionResponse>> GetCurrentShoppingSession(CancellationToken cancellationToken)
+    {
+        var handler = await _sender.Send(new GetCurrentShoppingSessionQuery(), cancellationToken);
         if (handler.IsFailure)
         {
             return BadRequest(handler.Error);
