@@ -27,10 +27,10 @@ public class Transaction
 
     [Required]
     [DataType(DataType.Date)]
-    public DateTime Date { get; set; }
+    public DateTime Date { get; private set; } = DateTime.Now;
 
     [Required]
-    public Guid Guid { get; set; }
+    public Guid Guid { get; set; } = Guid.NewGuid(); 
 
     [Required] 
     public string Url { get; private set; } = "https://localhost:7270/api/Transaction/Validate";
