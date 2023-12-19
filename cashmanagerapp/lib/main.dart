@@ -28,7 +28,7 @@ class _MyApp extends State<MyApp> {
   final CategoryVegetable categoryVegetable = CategoryVegetable();
   final CategoryFruit categoryFruit = CategoryFruit();
   final Cart cart = Cart();
-  final Detail detail = Detail();
+  final Detail detail = Detail(idArticle: 0);
   final Introduction introduction = Introduction();
   final Login login = Login();
   final Register register = Register();
@@ -80,9 +80,6 @@ class _MyHomePageState extends State<HomePage> {
         break;
       case 2:
         page = Category();
-        break;
-      case 3:
-        page = Detail();
         break;
       // case 3:
       //   page = UserPage();
