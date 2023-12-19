@@ -42,7 +42,7 @@ class _MyApp extends State<MyApp> {
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 231, 19)),
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/': (context) => HomePage(),
         '/scanHome': (context) => scanHome,
