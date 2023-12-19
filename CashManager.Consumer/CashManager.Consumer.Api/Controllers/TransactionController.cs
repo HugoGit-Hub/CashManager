@@ -32,7 +32,6 @@ public class TransactionController : Controller
         return Ok();
     }
 
-    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(Validate))]
     public async Task<ActionResult> Validate(ValidateTransactionRequest transaction, CancellationToken cancellationToken)
     {
