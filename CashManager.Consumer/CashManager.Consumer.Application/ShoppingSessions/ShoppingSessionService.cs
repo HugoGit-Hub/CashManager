@@ -68,4 +68,16 @@ internal class ShoppingSessionService : IShoppingSessionService
             ? Result<ShoppingSession>.Failure(shoppingSession.Error)
             : Result<ShoppingSession>.Success(shoppingSession.Value);
     }
+
+    public async Task<Result<ShoppingSession>> DeleteCartItemFromCurrentShoppingSession(
+        int shoppingSessionId, 
+        int cartItemId,
+        CancellationToken cancellationToken)
+    {
+        var shoppingSession = await _shoppingSessionRepository.DeleteCartItemFromCurrentShoppingSession(shoppingSessionId, cartItemId, cancellationToken);
+
+        return shoppingSession.IsFailure
+            ? Result<ShoppingSession>.Failure(shoppingSession.Error)
+            : Result<ShoppingSession>.Success(shoppingSession.Value);
+    }
 }
