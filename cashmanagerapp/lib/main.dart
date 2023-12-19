@@ -5,16 +5,23 @@ import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
 import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:cashmanagerapp/pages/loginPages/login.dart';
 import 'package:cashmanagerapp/pages/loginPages/register.dart';
+import 'package:cashmanagerapp/services/articleservice.dart';
 import 'package:flutter/material.dart';
 import 'pages/scanPages/scan_home.dart';
 import 'pages/categoryPages/category.dart';
 import 'pages/detailPages/detail.dart';
+import 'package:cashmanagerapp/models/cartitemmodel.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyApp();
+}
+
+class _MyApp extends State<MyApp> {
   final ScanHome scanHome = ScanHome();
   final Category category = Category();
   final CategoryDairy categoryDairy = CategoryDairy();
@@ -44,7 +51,7 @@ class MyApp extends StatelessWidget {
         '/category/vegetable': (context) => categoryVegetable,
         '/category/dairy': (context) => categoryDairy,
         '/cart': (context) => cart,
-        '/login' : (context) => login,
+        '/login': (context) => login,
         '/detail': (context) => detail,
         '/register': (context) => register,
         '/welcome': (context) => introduction,
@@ -111,7 +118,27 @@ class _MyHomePageState extends State<HomePage> {
   }
 }
 
-class Accueil extends StatelessWidget {
+class Accueil extends StatefulWidget {
+  @override
+  State<Accueil> createState() => _Accueil();
+}
+
+class _Accueil extends State<Accueil> {
+  List<CartItemModel> cartitems = [];
+  @override
+  void initState() {
+    super.initState();
+    getAllCartItem();
+  }
+
+  getAllCartItem() async {
+    final List<CartItemModel> cartitems =
+        (await ArticleService().getAllCartItem()).toList();
+    setState(() {
+      this.cartitems = cartitems;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -221,7 +248,7 @@ class Accueil extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Pannier',
+                child: Text('Panier',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               ),
@@ -237,8 +264,9 @@ class Accueil extends StatelessWidget {
           // Row 6 (Placeholder for the list of items)
           Expanded(
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: cartitems.length,
               itemBuilder: (context, index) {
+                var cartitem = cartitems[index];
                 return GestureDetector(
                     onTap: () {
                       navigateToPage(context, '/detail');
@@ -253,8 +281,7 @@ class Accueil extends StatelessWidget {
                         color: Colors.black.withOpacity(
                             0.5), // Apply dark overlay directly to the background
                         image: DecorationImage(
-                          image: AssetImage(
-                              'lib/images/top-view-raw-potatoes-table.jpg'),
+                          image: AssetImage(cartitem.imageUrl),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -263,14 +290,14 @@ class Accueil extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Patates',
+                            cartitem.articleName,
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            '10.00€', // Replace with the actual price
+                            cartitem.totalArticlePrice.toString(),
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
