@@ -6,7 +6,6 @@ using CashManager.Consumer.Application.Authentication.Register;
 using CashManager.Consumer.Application.CartItems;
 using CashManager.Consumer.Application.CartItems.CreateCartItem;
 using CashManager.Consumer.Application.ShoppingSessions;
-using CashManager.Consumer.Application.ShoppingSessions.CreateShoppingSession;
 using CashManager.Consumer.Application.ShoppingSessions.GetShoppingSessionCartItems;
 using CashManager.Consumer.Application.Transactions;
 using CashManager.Consumer.Application.Transactions.CreateTransaction;
@@ -40,7 +39,6 @@ public static class DependencyInjection
         services.AddScoped<IRequestHandler<CreateTransactionCommand, Result>, CreateTransactionCommandHandler>();
         services.AddScoped<IRequestHandler<ValidateTransactionCommand, Result>, ValidateTransactionCommandHandler>();
         services.AddScoped<IRequestHandler<GetShoppingSessionCartItemsQuery, Result<IEnumerable<GetShoppingSessionCartItemsResponse>>>, GetShoppingSessionCartItemsQueryHandler>();
-        services.AddScoped<IRequestHandler<CreateShoppingSessionCommand, Result>, CreateShoppingSessionCommandHandler>();
         services.AddScoped<IRequestHandler<CreateCartItemCommand, Result<CreateCartItemResponse>>, CreateCartItemCommandHandler>();
 
         return services;

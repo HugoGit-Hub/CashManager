@@ -21,11 +21,11 @@ internal class ShoppingSessionService : IShoppingSessionService
             : Result<ShoppingSession>.Success(shoppingSession);
     }
 
-    public async Task<Result> CreateShoppingSession(ShoppingSession shoppingSession, CancellationToken cancellationToken)
+    public async Task<Result<ShoppingSession>> CreateShoppingSession(ShoppingSession shoppingSession, CancellationToken cancellationToken)
     {
-        await _shoppingSessionRepository.CreateShoppingSession(shoppingSession, cancellationToken);
+        var createdShoppingSession = await _shoppingSessionRepository.CreateShoppingSession(shoppingSession, cancellationToken);
 
-        return Result.Success();
+        return Result<ShoppingSession>.Success(createdShoppingSession.Value);
     }
 
     public async Task<Result> UpdateShoppingSession(ShoppingSession shoppingSession, CancellationToken cancellationToken)

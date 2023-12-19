@@ -1,5 +1,4 @@
-﻿using CashManager.Consumer.Application.ShoppingSessions.CreateShoppingSession;
-using CashManager.Consumer.Application.ShoppingSessions.GetShoppingSessionCartItems;
+﻿using CashManager.Consumer.Application.ShoppingSessions.GetShoppingSessionCartItems;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,18 +29,5 @@ public class ShoppingSessionController : ControllerBase
         }
 
         return Ok(handler.Value);
-    }
-
-    [Authorize(AuthenticationSchemes = "Bearer")]
-    [HttpPost(nameof(CreateShoppingSession))]
-    public async Task<ActionResult> CreateShoppingSession(CancellationToken cancellationToken)
-    {
-        var handler = await _sender.Send(new CreateShoppingSessionCommand(), cancellationToken);
-        if (handler.IsFailure)
-        {
-            return BadRequest(handler.Error);
-        }
-
-        return Ok();
     }
 }
