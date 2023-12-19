@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CashManager.Consumer.Application.ShoppingSessions.GetShoppingSessionCartItems;
+namespace CashManager.Consumer.Application.ShoppingSessions.GetCurrentOpenedShoppingSessionCartItems;
 
 public record GetShoppingSessionCartItemsResponse
 {

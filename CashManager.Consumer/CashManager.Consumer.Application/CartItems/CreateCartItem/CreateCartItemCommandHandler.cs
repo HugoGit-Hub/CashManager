@@ -51,7 +51,7 @@ internal class CreateCartItemCommandHandler : IRequestHandler<CreateCartItemComm
             return Result<CreateCartItemResponse>.Failure(user.Error);
         }
 
-        var shoppingSession = await CreateShoppingSessionIfNullOrNotOpenShoppingSession(user.Value, cancellationToken);
+        var shoppingSession = await _shoppingSessionService.GetOrCreateShoppingSessionIfNullOrNotOpenShoppingSession(user.Value, cancellationToken);
         if (shoppingSession.IsFailure)
         {
             return Result<CreateCartItemResponse>.Failure(shoppingSession.Error);
@@ -77,38 +77,5 @@ internal class CreateCartItemCommandHandler : IRequestHandler<CreateCartItemComm
         return createdCartItem.IsFailure 
             ? Result<CreateCartItemResponse>.Failure(createdCartItem.Error) 
             : Result<CreateCartItemResponse>.Success(createCarteItemResponse);
-    }
-
-    private async Task<Result<ShoppingSession>> CreateShoppingSessionIfNullOrNotOpenShoppingSession(Users user, CancellationToken cancellationToken)
-    {
-        var asShoppingSessionOpen = user.ShoppingSessions.All(x => x.State is false);
-        if (!asShoppingSessionOpen)
-        {
-            var createshoppingSession = new ShoppingSession
-            {
-                State = false,
-                TotalPrice = 0,
-                UserId = user.Id,
-                User = user
-            };
-
-            var createdShoppingSession = await _shoppingSessionService.CreateShoppingSession(createshoppingSession, cancellationToken);
-            
-            return createdShoppingSession.IsFailure 
-                ? Result<ShoppingSession>.Failure(createdShoppingSession.Error) 
-                : Result<ShoppingSession>.Success(createdShoppingSession.Value);
-        }
-
-        var shoppingSessionId = user.ShoppingSessions.SingleOrDefault(x => x.State is false);
-        if (shoppingSessionId is null)
-        {
-            return Result<ShoppingSession>.Failure(ShoppingSessionErrors.NotFound);
-        }
-
-        var shoppingSession = await _shoppingSessionService.GetShoppinsSessionById(shoppingSessionId.Id, cancellationToken);
-        
-        return shoppingSession.IsFailure 
-            ? Result<ShoppingSession>.Failure(shoppingSession.Error) 
-            : Result<ShoppingSession>.Success(shoppingSession.Value);
     }
 }
