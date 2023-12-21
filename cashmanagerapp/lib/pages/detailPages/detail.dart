@@ -1,16 +1,35 @@
+import 'package:cashmanagerapp/models/articlemodel.dart';
+import 'package:cashmanagerapp/services/articleservice.dart';
 import 'package:flutter/material.dart';
 import 'package:cashmanagerapp/widgets/button_like.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 import 'package:cashmanagerapp/widgets/button_add_to_cart.dart';
 
 class Detail extends StatefulWidget {
+  Detail({Key? key, required this.idArticle}) : super(key: key);
+
+  final String? idArticle;
+
   @override
-  State<StatefulWidget> createState() => _Detail();
+  State<StatefulWidget> createState() => _DetailState();
 }
 
-class _Detail extends State<Detail> {
-  double itemPrice = 5.0;
-  double totalPrice = 5.0;
+
+class _DetailState extends State<Detail> {
+  ArticleModel? article;
+  double totalPrice = 0;
+  @override
+  void initState() {
+    super.initState();
+    ArticleService().getArticleById(widget.idArticle!).then((value) {
+      setState(() {
+        article = value;
+        totalPrice = article?.price ?? 0;
+      });
+    });
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +39,7 @@ class _Detail extends State<Detail> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/images/top-view-raw-potatoes-table.jpg'),
+            image: AssetImage(article?.imageUrl ?? 'lib/images/unknown.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -40,7 +59,7 @@ class _Detail extends State<Detail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Pommes de terre fraiches',
+                    article?.name ?? 'unknown',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24.0,
@@ -49,7 +68,7 @@ class _Detail extends State<Detail> {
                   SizedBox(height: 10.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(
-                      '5€/kg',
+                      '${article?.price.toString() ?? 'unknown'} €/unité' ,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -58,7 +77,7 @@ class _Detail extends State<Detail> {
                     ),
                     SizedBox(width: 60),
                     QuantitySelector(
-                      price: itemPrice,
+                      price: article?.price ?? 0,
                       onQuantityChanged: (quantity, total) {
                         setState(() {
                           totalPrice = total;
@@ -82,7 +101,7 @@ class _Detail extends State<Detail> {
                       scrollDirection: Axis.vertical,
                       children: [
                         Text(
-                          'Les pommes de terre sont bénéfiques pour la santé en raison de leur richesse en nutriments essentiels tels que les glucides complexes, les fibres alimentaires, les vitamines (notamment la vitamine C et certaines du groupe B) et les minéraux tels que le potassium et le magnésium. Ces composants contribuent à la fourniture d\'énergie, au maintien d\'une fonction musculaire adéquate, à la régulation de la pression artérielle et au soutien du système immunitaire. De plus, les pommes de terre contiennent des antioxydants qui peuvent aider à neutraliser les radicaux libres dans le corps, contribuant ainsi à la prévention de certaines maladies chroniques. Il est important de souligner que la manière dont les pommes de terre sont préparées, comme la cuisson à la vapeur ou au four plutôt que la friture, peut également influencer leurs bienfaits pour la santé.',
+                          article?.description ?? 'unknown',
                           style: TextStyle(
                             fontSize: 16.0,
                           ),

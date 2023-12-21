@@ -40,6 +40,8 @@ dependencies:
   navbar_router: ^0.6.3
   dio: ^4.0.0
   flutter_secure_storage: ^9.0.0
+  qr_flutter: ^4.1.0
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +76,7 @@ flutter:
      - lib/images/login.jpg
      - lib/images/register.jpg
      - lib/images/tomate.jpeg
+     - lib/images/unknown.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
