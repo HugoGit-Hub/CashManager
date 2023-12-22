@@ -9,6 +9,7 @@ using CashManager.Consumer.Application.ShoppingSessions;
 using CashManager.Consumer.Application.ShoppingSessions.DeleteCartItemFromCurrentShoppingSession;
 using CashManager.Consumer.Application.ShoppingSessions.GetCurrentOpenedShoppingSessionCartItems;
 using CashManager.Consumer.Application.ShoppingSessions.GetCurrentShoppingSession;
+using CashManager.Consumer.Application.ShoppingSessions.UpdateCartItemFromCurrentShoppingSession;
 using CashManager.Consumer.Application.Transactions;
 using CashManager.Consumer.Application.Transactions.CreateTransaction;
 using CashManager.Consumer.Application.Transactions.ValidateTransaction;
@@ -44,6 +45,7 @@ public static class DependencyInjection
         services.AddScoped<IRequestHandler<CreateCartItemCommand, Result<CreateCartItemResponse>>, CreateCartItemCommandHandler>();
         services.AddScoped<IRequestHandler<GetCurrentShoppingSessionQuery, Result<GetCurrentShoppingSessionResponse>>, GetCurrentShoppingSessionQueryHandler>();
         services.AddScoped<IRequestHandler<DeleteCartItemFromCurrentShoppingSessionCommand, Result>, DeleteCartItemFromCurrentShoppingSessionCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateCartItemFromCurrentShoppingSessionCommand, Result>, UpdateCartItemFromCurrentShoppingSessionCommandHandler>();
 
         return services;
     }

@@ -1,4 +1,5 @@
-﻿using CashManager.Consumer.Domain.ErrorHandling;
+﻿using CashManager.Consumer.Domain.CartItems;
+using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.ShoppingSessions;
 
 namespace CashManager.Consumer.Application.ShoppingSessions;
