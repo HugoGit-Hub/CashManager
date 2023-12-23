@@ -2,6 +2,7 @@ import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
+import 'package:cashmanagerapp/pages/checkoutPages/paiement.dart';
 import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:cashmanagerapp/pages/loginPages/login.dart';
 import 'package:cashmanagerapp/pages/loginPages/register.dart';
@@ -32,6 +33,7 @@ class _MyApp extends State<MyApp> {
   final Introduction introduction = Introduction();
   final Login login = Login();
   final Register register = Register();
+  final Paiement paiement = Paiement();
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class _MyApp extends State<MyApp> {
         '/detail': (context) => detail,
         '/register': (context) => register,
         '/welcome': (context) => introduction,
+        '/paiement': (context) => paiement,
       },
     );
   }
