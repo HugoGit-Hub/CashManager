@@ -18,6 +18,7 @@ class Detail extends StatefulWidget {
 class _DetailState extends State<Detail> {
   ArticleModel? article;
   double totalPrice = 0;
+  int totalquantity = 1;
   @override
   void initState() {
     super.initState();
@@ -80,6 +81,7 @@ class _DetailState extends State<Detail> {
                       price: article?.price ?? 0,
                       onQuantityChanged: (quantity, total) {
                         setState(() {
+                          totalquantity = quantity;
                           totalPrice = total;
                         });
                       },
@@ -115,7 +117,7 @@ class _DetailState extends State<Detail> {
                     children: [
                       ButtonLike(),
                       SizedBox(width: 10.0),
-                      ButtonAddToCart(totalPrice: totalPrice),
+                      ButtonAddToCart(totalPrice: totalPrice, idArticle: article?.id ?? 0, quantity: totalquantity),
                     ],
                   ),
                 ],
