@@ -8,8 +8,7 @@ class ButtonPlaceOrder extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(
-              '/'); // Ajoutez la redirection vers la page de paiements
+          Navigator.of(context).pushNamed('/paiement');
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.yellow[600]!,
