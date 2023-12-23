@@ -29,6 +29,17 @@ class DebitCardPage extends StatefulWidget {
 }
 
 class _DebitCardPageState extends State<DebitCardPage> {
+  ElevatedButton buildDebitCardButton() {
+  return ElevatedButton(
+    onPressed: () {
+      setState(() {
+        widget.pos = 0;
+      });
+    },
+    style: debitCardButtonStyle,
+    child: Text('Credit Card'),
+  );
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,45 +53,21 @@ class _DebitCardPageState extends State<DebitCardPage> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      // Switch to Debit Card content
                       widget.pos = 0;
                     });
                   },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                    ),
-                    backgroundColor: Colors.yellow,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
+                  style: widget.pos == 0 ? checkButtonStyle : debitCardButtonStyle ,
                   child: Text('Credit Card'),
                 ),
+
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      // Switch to Check content
                       widget.pos = 1;
                     });
                   },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),  
-                      side: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                  child: Text('Check'),
+                  style: widget.pos == 1 ?   checkButtonStyle : debitCardButtonStyle,
+                  child: Text('     Check     '),
                 ),
               ],
             ),
@@ -240,6 +227,17 @@ class CheckPage extends StatefulWidget {
 }
 
 class _CheckPageState extends State<CheckPage>{
+  ElevatedButton buildCheckButton() {
+  return ElevatedButton(
+    onPressed: () {
+      setState(() {
+        widget.pos = 1;
+      });
+    },
+    style: checkButtonStyle,
+    child: Text('Check'),
+  );
+}
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -247,3 +245,30 @@ class _CheckPageState extends State<CheckPage>{
   }
 
 }
+
+final ButtonStyle debitCardButtonStyle = ElevatedButton.styleFrom(
+  padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+  textStyle: TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20.0,
+  ),
+  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+  foregroundColor: Colors.black,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15.0),
+  ),
+  side: BorderSide(color: Colors.black, width: 2.0),
+);
+
+final ButtonStyle checkButtonStyle = ElevatedButton.styleFrom(
+  padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+  textStyle: TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20.0,
+  ),
+  backgroundColor: Colors.yellow,
+  foregroundColor: Colors.white,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15.0),
+  ),
+);
