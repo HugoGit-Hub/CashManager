@@ -77,6 +77,8 @@ flutter:
      - lib/images/register.jpg
      - lib/images/tomate.jpeg
      - lib/images/unknown.jpg
+     - lib/images/Creditcard.png
+     - lib/images/check.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
