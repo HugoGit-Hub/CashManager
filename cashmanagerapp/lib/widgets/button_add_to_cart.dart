@@ -1,14 +1,27 @@
+import 'package:cashmanagerapp/services/cartservice.dart';
 import 'package:flutter/material.dart';
 
 class ButtonAddToCart extends StatelessWidget {
   final double totalPrice;
-  const ButtonAddToCart({Key? key, required this.totalPrice}) : super(key: key);
+  final int idArticle;
+  final int quantity;
+  const ButtonAddToCart({Key? key, required this.totalPrice, required this.idArticle ,required this.quantity}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          CartService().addArticleToCart(idArticle, quantity);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Article ajouté au panier'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+          Navigator.of(context).pushNamed('/');
+
+        },
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.only(
             top: 15.0,
