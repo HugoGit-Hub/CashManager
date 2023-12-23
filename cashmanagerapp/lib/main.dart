@@ -266,7 +266,14 @@ class _Accueil extends State<Accueil> {
                 var cartitem = cartitems[index];
                 return GestureDetector(
                     onTap: () {
-                      navigateToPage(context, '/detail');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Detail(
+                            idArticle: cartitem.articleId.toString(),
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(
