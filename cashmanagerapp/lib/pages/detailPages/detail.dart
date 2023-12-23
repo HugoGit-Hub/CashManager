@@ -14,7 +14,6 @@ class Detail extends StatefulWidget {
   State<StatefulWidget> createState() => _DetailState();
 }
 
-
 class _DetailState extends State<Detail> {
   ArticleModel? article;
   double totalPrice = 0;
@@ -30,12 +29,11 @@ class _DetailState extends State<Detail> {
     });
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail page'),
+        title: Text('Détail de l\'article'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -69,7 +67,7 @@ class _DetailState extends State<Detail> {
                   SizedBox(height: 10.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(
-                      '${article?.price.toString() ?? 'unknown'} €/unité' ,
+                      '${article?.price.toString() ?? 'unknown'} €/unité',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -117,7 +115,10 @@ class _DetailState extends State<Detail> {
                     children: [
                       ButtonLike(),
                       SizedBox(width: 10.0),
-                      ButtonAddToCart(totalPrice: totalPrice, idArticle: article?.id ?? 0, quantity: totalquantity),
+                      ButtonAddToCart(
+                          totalPrice: totalPrice,
+                          idArticle: article?.id ?? 0,
+                          quantity: totalquantity),
                     ],
                   ),
                 ],
