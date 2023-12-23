@@ -33,7 +33,7 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détail de l\'article'),
+        title: Text('Detail page'),
       ),
       body: Container(
         decoration: BoxDecoration(
