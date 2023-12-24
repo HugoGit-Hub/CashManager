@@ -1,3 +1,4 @@
+import 'package:cashmanagerapp/services/transactionservice.dart';
 import 'package:flutter/material.dart';
 
 class Paiement extends StatefulWidget {
@@ -40,7 +41,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
       child: Text('Credit Card'),
     );
   }
-
+  TextEditingController creditorController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,6 +125,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
+                        controller: creditorController,
                         decoration: InputDecoration(
                           hintText: '4275 3156 0372 5493',
                           enabledBorder: OutlineInputBorder(
@@ -208,7 +210,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Additional action for Debit Card validation
+                        TransactionService().createTransaction(creditorController.text,  widget.pos);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
