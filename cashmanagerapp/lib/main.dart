@@ -145,11 +145,11 @@ class _Accueil extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 40,
-        title: Text('Accueil',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-      ),
+      // appBar: AppBar(
+      //   toolbarHeight: 40,
+      //   title: Text('Accueil',
+      //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -254,12 +254,6 @@ class _Accueil extends State<Accueil> {
                 child: Text('Panier',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              ),
-              TextButton(
-                onPressed: () {
-                  navigateToPage(context, '/cart');
-                },
-                child: Text('Plus'),
               ),
             ],
           ),
