@@ -161,7 +161,7 @@ class _Accueil extends State<Accueil> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text('Bienvenue',
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
               ),
               IconButton(
                 icon: Icon(Icons.notifications),
