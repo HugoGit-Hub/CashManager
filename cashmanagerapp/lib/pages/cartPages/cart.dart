@@ -1,5 +1,7 @@
 import 'package:cashmanagerapp/models/cartitem_model.dart';
+import 'package:cashmanagerapp/models/shopping_session_model.dart';
 import 'package:cashmanagerapp/services/article_service.dart';
+import 'package:cashmanagerapp/services/shopping_session_service.dart';
 import 'package:cashmanagerapp/widgets/button_place_order.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +15,13 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   List<CartItemModel> cartitems = [];
+  double totalPrice = 0.0;
+
   @override
   void initState() {
     super.initState();
     getAllCartItem();
+    getTotalPrice();
   }
 
   getAllCartItem() async {
@@ -24,6 +29,15 @@ class _CartState extends State<Cart> {
         (await ArticleService().getAllCartItem()).toList();
     setState(() {
       this.cartitems = cartitems;
+    });
+  }
+
+  getTotalPrice() async {
+    final ShoppingSessionModel totalPrice =
+        (await ShoppingSessionService().getTotalPrice());
+
+    setState(() {
+      this.totalPrice = totalPrice.totalPrice;
     });
   }
 
@@ -148,16 +162,10 @@ class _CartState extends State<Cart> {
                 Column(
                   children: [
                     Text(
-                      'Total',
+                      'Total : $totalPrice €',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
-                      ),
-                    ),
-                    Text(
-                      'Détail du prix',
-                      style: TextStyle(
-                        fontSize: 14.0,
                       ),
                     ),
                   ],
