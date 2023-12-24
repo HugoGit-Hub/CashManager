@@ -63,6 +63,7 @@ class _ListArticlesState extends State<ListArticles> {
                                   MaterialPageRoute(
                                     builder: (context) => Detail(
                                       idArticle: article.id.toString(),
+                                      quantity: 1,
                                     ),
                                   ),
                                 );

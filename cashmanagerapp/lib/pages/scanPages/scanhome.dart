@@ -62,6 +62,7 @@ class _ScanHomeState extends State<ScanHome> {
                       MaterialPageRoute(
                         builder: (context) => Detail(
                           idArticle: result!.code,
+                          quantity: 1,
                         ),
                       ),
                     );

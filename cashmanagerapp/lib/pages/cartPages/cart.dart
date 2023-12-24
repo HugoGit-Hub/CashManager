@@ -102,6 +102,7 @@ class _CartState extends State<Cart> {
                           QuantitySelector(
                             price: 0,
                             onQuantityChanged: (quantity, total) {},
+                            quantity: cartitem.quantity,
                           ),
                         ],
                       ),

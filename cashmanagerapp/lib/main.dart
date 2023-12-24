@@ -30,7 +30,7 @@ class _MyApp extends State<MyApp> {
   final CategoryVegetable categoryVegetable = CategoryVegetable();
   final CategoryFruit categoryFruit = CategoryFruit();
   final Cart cart = Cart();
-  final Detail detail = Detail(idArticle: "0");
+  final Detail detail = Detail(idArticle: "0", quantity: 1);
   final Introduction introduction = Introduction();
   final Login login = Login();
   final Register register = Register();
@@ -277,6 +277,7 @@ class _Accueil extends State<Accueil> {
                         MaterialPageRoute(
                           builder: (context) => Detail(
                             idArticle: cartitem.articleId.toString(),
+                            quantity: cartitem.quantity,
                           ),
                         ),
                       );
