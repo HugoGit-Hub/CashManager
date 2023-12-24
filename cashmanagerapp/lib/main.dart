@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'pages/scanPages/scanhome.dart';
 import 'pages/categoryPages/category.dart';
 import 'pages/detailPages/detail.dart';
-import 'package:cashmanagerapp/models/cartitemmodel.dart';
+import 'package:cashmanagerapp/models/cartitem_model.dart';
 
 void main() {
   runApp(MyApp());

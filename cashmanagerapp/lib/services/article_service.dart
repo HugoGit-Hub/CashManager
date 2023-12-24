@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:cashmanagerapp/models/cartitemmodel.dart';
-import 'package:cashmanagerapp/models/articlemodel.dart';
+import 'package:cashmanagerapp/models/cartitem_model.dart';
+import 'package:cashmanagerapp/models/article_model.dart';
 
 class ArticleService {
   Future<List<CartItemModel>> getAllCartItem() async {

@@ -1,4 +1,4 @@
-import 'package:cashmanagerapp/models/cartitemmodel.dart';
+import 'package:cashmanagerapp/models/cartitem_model.dart';
 import 'package:cashmanagerapp/services/article_service.dart';
 import 'package:cashmanagerapp/widgets/button_place_order.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
