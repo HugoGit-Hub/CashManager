@@ -31,6 +31,9 @@ class _ScanHomeState extends State<ScanHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Scan page'),
+      ),
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
@@ -62,6 +65,7 @@ class _ScanHomeState extends State<ScanHome> {
                       MaterialPageRoute(
                         builder: (context) => Detail(
                           idArticle: result!.code,
+                          quantity: 1,
                         ),
                       ),
                     );

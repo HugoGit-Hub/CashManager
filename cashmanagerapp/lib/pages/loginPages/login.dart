@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cashmanagerapp/services/authenticationservice.dart';
+import 'package:cashmanagerapp/services/authentication_service.dart';
 import 'package:flutter/material.dart';
 
 const snackBar = SnackBar(

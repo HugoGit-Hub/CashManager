@@ -44,6 +44,9 @@ class _DebitCardPageState extends State<DebitCardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Paiement'),
+      ),
       body: Column(
         children: [
           Container(

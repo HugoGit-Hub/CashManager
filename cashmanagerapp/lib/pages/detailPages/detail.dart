@@ -1,15 +1,15 @@
-import 'package:cashmanagerapp/models/articlemodel.dart';
-import 'package:cashmanagerapp/services/articleservice.dart';
+import 'package:cashmanagerapp/models/article_model.dart';
+import 'package:cashmanagerapp/services/article_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cashmanagerapp/widgets/button_like.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 import 'package:cashmanagerapp/widgets/button_add_to_cart.dart';
 
 class Detail extends StatefulWidget {
-  Detail({Key? key, required this.idArticle}) : super(key: key);
+  Detail({Key? key, required this.idArticle, required this.quantity}) : super(key: key);
 
   final String? idArticle;
-
+  final int quantity;
   @override
   State<StatefulWidget> createState() => _DetailState();
 }
@@ -17,14 +17,15 @@ class Detail extends StatefulWidget {
 class _DetailState extends State<Detail> {
   ArticleModel? article;
   double totalPrice = 0;
-  int totalquantity = 1;
+  late int totalquantity;
   @override
   void initState() {
     super.initState();
+    totalquantity = widget.quantity;
     ArticleService().getArticleById(widget.idArticle!).then((value) {
       setState(() {
         article = value;
-        totalPrice = article?.price ?? 0;
+        totalPrice = (article?.price  ?? 0) * widget.quantity; 
       });
     });
   }
@@ -82,7 +83,8 @@ class _DetailState extends State<Detail> {
                           totalquantity = quantity;
                           totalPrice = total;
                         });
-                      },
+                      }, 
+                      quantity: totalquantity,
                     ),
                     SizedBox(width: 10),
                   ]),

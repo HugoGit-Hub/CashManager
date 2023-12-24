@@ -1,4 +1,4 @@
-import 'package:cashmanagerapp/pages/articlesPages/listarticles.dart';
+import 'package:cashmanagerapp/pages/articlesPages/list_articles.dart';
 import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
@@ -7,12 +7,12 @@ import 'package:cashmanagerapp/pages/checkoutPages/paiement.dart';
 import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:cashmanagerapp/pages/loginPages/login.dart';
 import 'package:cashmanagerapp/pages/loginPages/register.dart';
-import 'package:cashmanagerapp/services/articleservice.dart';
+import 'package:cashmanagerapp/services/article_service.dart';
 import 'package:flutter/material.dart';
 import 'pages/scanPages/scanhome.dart';
 import 'pages/categoryPages/category.dart';
 import 'pages/detailPages/detail.dart';
-import 'package:cashmanagerapp/models/cartitemmodel.dart';
+import 'package:cashmanagerapp/models/cartitem_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,7 +30,7 @@ class _MyApp extends State<MyApp> {
   final CategoryVegetable categoryVegetable = CategoryVegetable();
   final CategoryFruit categoryFruit = CategoryFruit();
   final Cart cart = Cart();
-  final Detail detail = Detail(idArticle: "0");
+  final Detail detail = Detail(idArticle: "0", quantity: 1);
   final Introduction introduction = Introduction();
   final Login login = Login();
   final Register register = Register();
@@ -145,11 +145,11 @@ class _Accueil extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 40,
-        title: Text('Accueil',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-      ),
+      // appBar: AppBar(
+      //   toolbarHeight: 40,
+      //   title: Text('Accueil',
+      //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -161,7 +161,7 @@ class _Accueil extends State<Accueil> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text('Bienvenue',
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
               ),
               IconButton(
                 icon: Icon(Icons.notifications),
@@ -255,12 +255,6 @@ class _Accueil extends State<Accueil> {
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               ),
-              TextButton(
-                onPressed: () {
-                  navigateToPage(context, '/cart');
-                },
-                child: Text('Plus'),
-              ),
             ],
           ),
           SizedBox(height: 10), // Add spacing
@@ -277,6 +271,7 @@ class _Accueil extends State<Accueil> {
                         MaterialPageRoute(
                           builder: (context) => Detail(
                             idArticle: cartitem.articleId.toString(),
+                            quantity: cartitem.quantity,
                           ),
                         ),
                       );
