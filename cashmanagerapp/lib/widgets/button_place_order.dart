@@ -31,7 +31,7 @@ class ButtonPlaceOrder extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'Place order'.toUpperCase(),
+              'Payer'.toUpperCase(),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 12.0,

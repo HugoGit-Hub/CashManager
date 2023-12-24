@@ -27,12 +27,12 @@ class _ScanHomeState extends State<ScanHome> {
     }
     controller!.resumeCamera();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Scan page'),
+        title: Text('Scan'),
       ),
       body: Column(
         children: <Widget>[
@@ -47,11 +47,10 @@ class _ScanHomeState extends State<ScanHome> {
                 children: <Widget>[
                   //if code is scanned, display the code
                   if (result != null)
-                    Text(
-                        'code: ${result!.code}')
+                    Text('code: ${result!.code}')
                   else
                     //if code is not scanned, display the text
-                    Text('Scan a code'),
+                    Text('Scanner un code'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,23 +60,23 @@ class _ScanHomeState extends State<ScanHome> {
                         ElevatedButton(
                             onPressed: () {
                               Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Detail(
-                          idArticle: result!.code,
-                          quantity: 1,
-                        ),
-                      ),
-                    );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Detail(
+                                    idArticle: result!.code,
+                                    quantity: 1,
+                                  ),
+                                ),
+                              );
                             },
-                            child: Text('Go to detail page'))
+                            child: Text('Aller à la page détail'))
                       else
                         //if code is not scanned, display the button to redirect to category page
                         ElevatedButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/category');
                             },
-                            child: Text('Go to category page'))
+                            child: Text('Aller à la page catégories'))
                     ],
                   ),
                 ],
@@ -89,7 +88,7 @@ class _ScanHomeState extends State<ScanHome> {
     );
   }
 
-Widget _buildQrView(BuildContext context) {
+  Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)

@@ -41,7 +41,7 @@ class _CartState extends State<Cart> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Item details'.toUpperCase(),
+                  'Détail des articles'.toUpperCase(),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -129,7 +129,7 @@ class _CartState extends State<Cart> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Text(
-              'Add items worth 5€ more for FREE delivery',
+              'Ajoutez des articles d\'une valeur supplémentaire de 5€ pour une livraison GRATUITE',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14.0,
@@ -155,7 +155,7 @@ class _CartState extends State<Cart> {
                       ),
                     ),
                     Text(
-                      'Price details',
+                      'Détail du prix',
                       style: TextStyle(
                         fontSize: 14.0,
                       ),
