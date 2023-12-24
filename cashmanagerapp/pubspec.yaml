@@ -69,6 +69,7 @@ flutter:
   assets:
      - lib/images/bananas-1119790_1280.jpg
      - lib/images/cauliflower-isolated.jpg
+     - lib/images/premium-fresh-organic-carrots.jpg
      - lib/images/top-view-raw-potatoes-table.jpg
      - lib/images/intro1.png
      - lib/images/intro2.png
