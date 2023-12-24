@@ -5,10 +5,10 @@ class CategoryFruit extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Category'),
+        title: Text('Catégories'),
       ),
       body: Center(
-        child: Text('This is Category Fruit'),
+        child: Text('Voici la page de la catégorie fruits !'),
       ),
     );
   }

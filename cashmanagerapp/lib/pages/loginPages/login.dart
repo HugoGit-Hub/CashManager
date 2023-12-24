@@ -4,19 +4,18 @@ import 'package:cashmanagerapp/services/authentication_service.dart';
 import 'package:flutter/material.dart';
 
 const snackBar = SnackBar(
-  content: Text('Wrong email or password'),
+  content: Text('Mauvais email ou mot de passe renseigné'),
   backgroundColor: Colors.red,
   behavior: SnackBarBehavior.floating,
   duration: Duration(seconds: 3),
 );
-
 
 class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login>{
+class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
@@ -24,9 +23,9 @@ class _LoginState extends State<Login>{
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(image:
-          AssetImage('lib/images/login.jpg'),
-          fit: BoxFit.cover,
+          image: DecorationImage(
+            image: AssetImage('lib/images/login.jpg'),
+            fit: BoxFit.cover,
           ),
         ),
         child: Column(
@@ -34,18 +33,16 @@ class _LoginState extends State<Login>{
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40.0),
-                  topRight: Radius.circular(40.0)
-                )
-              ),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40.0),
+                      topRight: Radius.circular(40.0))),
               padding: EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'SIGN IN',
+                    'Se connecter',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24.0,
@@ -57,11 +54,9 @@ class _LoginState extends State<Login>{
                     decoration: InputDecoration(
                       hintText: 'Email',
                       hintStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                      ),
+                          color: Colors.black, fontWeight: FontWeight.bold),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.yellow, width:3),
+                        borderSide: BorderSide(color: Colors.yellow, width: 3),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
@@ -71,13 +66,11 @@ class _LoginState extends State<Login>{
                     obscureText: true,
                     controller: passwordController,
                     decoration: InputDecoration(
-                      hintText: 'Password',
+                      hintText: 'Mot de passe',
                       hintStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                      ),
+                          color: Colors.black, fontWeight: FontWeight.bold),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.yellow, width:3),
+                        borderSide: BorderSide(color: Colors.yellow, width: 3),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
@@ -85,13 +78,14 @@ class _LoginState extends State<Login>{
                   SizedBox(height: 10.0),
                   ElevatedButton(
                     onPressed: () async {
-                      if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+                      if (emailController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         return;
                       }
-                      final bool emailValid = 
-                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(emailController.text);
+                      final bool emailValid = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(emailController.text);
                       if (emailValid) {
                         // try {
                         // // await AuhtenticationService().login(emailController.text, passwordController.text);
@@ -100,9 +94,9 @@ class _LoginState extends State<Login>{
                         // }
                       }
                       // FOR DEVELOPMENT PURPOSES ONLY
-                      await AuhtenticationService().login("user@example.com", "string");
+                      await AuhtenticationService()
+                          .login("user@example.com", "string");
                       Navigator.pushNamed(context, '/');
-                      
                     },
                     style: ElevatedButton.styleFrom(
                       textStyle: TextStyle(
@@ -114,13 +108,15 @@ class _LoginState extends State<Login>{
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 50.0, left: 50.0, top: 15.0, bottom: 15.0),
-                      child: Text('Sign in',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black,
+                      padding: const EdgeInsets.only(
+                          right: 50.0, left: 50.0, top: 15.0, bottom: 15.0),
+                      child: Text(
+                        'Se connecter',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
                     ),
                   ),
                   SizedBox(height: 10.0),
@@ -129,15 +125,16 @@ class _LoginState extends State<Login>{
                       Navigator.pushNamed(context, '/register');
                     },
                     child: Text(
-                      'Create an account',
+                      'Créer un compte',
                       style: TextStyle(
                         color: Color.fromARGB(240, 242, 223, 52),
                         fontWeight: FontWeight.bold,
                       ),
-                    ),),
+                    ),
+                  ),
                 ],
               ),
-            ),    
+            ),
           ],
         ),
       ),

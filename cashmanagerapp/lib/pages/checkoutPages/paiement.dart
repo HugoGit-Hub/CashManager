@@ -62,7 +62,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                   },
                   style:
                       widget.pos == 0 ? checkButtonStyle : debitCardButtonStyle,
-                  child: Text('Credit Card'),
+                  child: Text('Carte de crédit'),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -72,7 +72,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                   },
                   style:
                       widget.pos == 1 ? checkButtonStyle : debitCardButtonStyle,
-                  child: Text('     Check     '),
+                  child: Text('Chèque'),
                 ),
               ],
             ),
@@ -90,7 +90,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                           EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Card Holder Name',
+                        'Nom sur la carte',
                         style: TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.bold),
                       ),
@@ -116,7 +116,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                           EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Card Number',
+                        'Numéro de carte',
                         style: TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.bold),
                       ),
@@ -145,7 +145,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                'Month/Year',
+                                'Mois/Année',
                                 style: TextStyle(
                                     fontSize: 15.0,
                                     fontWeight: FontWeight.bold),
@@ -223,7 +223,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
-                      child: Text('Confirm Order'.toUpperCase()),
+                      child: Text('Confirmer le paiement'.toUpperCase()),
                     ),
                   ],
                 )
@@ -258,7 +258,7 @@ class _CheckPageState extends State<CheckPage> {
         });
       },
       style: checkButtonStyle,
-      child: Text('Check'),
+      child: Text('Chèque'),
     );
   }
 

@@ -159,7 +159,7 @@ class _Accueil extends State<Accueil> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Bienvenue',
+                child: Text('Bienvenue !',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
               ),
@@ -207,7 +207,7 @@ class _Accueil extends State<Accueil> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Categories',
+                child: Text('Catégories',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               ),

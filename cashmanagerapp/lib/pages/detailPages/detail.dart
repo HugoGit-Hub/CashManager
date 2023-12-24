@@ -6,7 +6,8 @@ import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 import 'package:cashmanagerapp/widgets/button_add_to_cart.dart';
 
 class Detail extends StatefulWidget {
-  Detail({Key? key, required this.idArticle, required this.quantity}) : super(key: key);
+  Detail({Key? key, required this.idArticle, required this.quantity})
+      : super(key: key);
 
   final String? idArticle;
   final int quantity;
@@ -25,7 +26,7 @@ class _DetailState extends State<Detail> {
     ArticleService().getArticleById(widget.idArticle!).then((value) {
       setState(() {
         article = value;
-        totalPrice = (article?.price  ?? 0) * widget.quantity; 
+        totalPrice = (article?.price ?? 0) * widget.quantity;
       });
     });
   }
@@ -34,7 +35,7 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail page'),
+        title: Text('Détail de l\'article'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -83,7 +84,7 @@ class _DetailState extends State<Detail> {
                           totalquantity = quantity;
                           totalPrice = total;
                         });
-                      }, 
+                      },
                       quantity: totalquantity,
                     ),
                     SizedBox(width: 10),
