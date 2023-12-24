@@ -1,3 +1,4 @@
+import 'package:cashmanagerapp/pages/articlesPages/listarticles.dart';
 import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
@@ -34,6 +35,7 @@ class _MyApp extends State<MyApp> {
   final Login login = Login();
   final Register register = Register();
   final Paiement paiement = Paiement();
+  final ListArticles listArticles = ListArticles();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class _MyApp extends State<MyApp> {
         '/register': (context) => register,
         '/welcome': (context) => introduction,
         '/paiement': (context) => paiement,
+        '/listArticles': (context) => listArticles,
       },
     );
   }
@@ -210,7 +213,7 @@ class _Accueil extends State<Accueil> {
               ),
               TextButton(
                 onPressed: () {
-                  navigateToPage(context, '/category');
+                  navigateToPage(context, '/listArticles');
                 },
                 child: Text('Plus'),
               ),
