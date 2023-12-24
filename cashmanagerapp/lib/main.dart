@@ -1,4 +1,4 @@
-import 'package:cashmanagerapp/pages/articlesPages/listarticles.dart';
+import 'package:cashmanagerapp/pages/articlesPages/list_articles.dart';
 import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
@@ -7,7 +7,7 @@ import 'package:cashmanagerapp/pages/checkoutPages/paiement.dart';
 import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:cashmanagerapp/pages/loginPages/login.dart';
 import 'package:cashmanagerapp/pages/loginPages/register.dart';
-import 'package:cashmanagerapp/services/articleservice.dart';
+import 'package:cashmanagerapp/services/article_service.dart';
 import 'package:flutter/material.dart';
 import 'pages/scanPages/scanhome.dart';
 import 'pages/categoryPages/category.dart';

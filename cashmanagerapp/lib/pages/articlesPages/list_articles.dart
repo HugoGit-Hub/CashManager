@@ -1,6 +1,6 @@
 import 'package:cashmanagerapp/models/articlemodel.dart';
 import 'package:cashmanagerapp/pages/detailPages/detail.dart';
-import 'package:cashmanagerapp/services/articleservice.dart';
+import 'package:cashmanagerapp/services/article_service.dart';
 import 'package:flutter/material.dart';
 
 class ListArticles extends StatefulWidget {
