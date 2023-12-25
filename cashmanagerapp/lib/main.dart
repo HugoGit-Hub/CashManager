@@ -174,7 +174,7 @@ class _Accueil extends State<Accueil> {
           SizedBox(height: 10), // Add spacing
           // Row 2
           Container(
-            height: 75, // Adjust the height as needed
+            height: 130, // Adjust the height as needed
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
               onPressed: () {
@@ -189,7 +189,7 @@ class _Accueil extends State<Accueil> {
                   Row(
                     children: [
                       Icon(Icons.qr_code_2_sharp,
-                          size: 50, color: Colors.black), // Add barcode icon
+                          size: 100, color: Colors.black), // Add barcode icon
                       SizedBox(width: 8), // Add spacing between icon and text
                       Text('Mode scanner',
                           style: TextStyle(fontSize: 24, color: Colors.black)),
