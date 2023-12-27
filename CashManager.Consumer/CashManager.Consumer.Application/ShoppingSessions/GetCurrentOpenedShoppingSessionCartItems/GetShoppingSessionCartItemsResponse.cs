@@ -5,6 +5,9 @@ namespace CashManager.Consumer.Application.ShoppingSessions.GetCurrentOpenedShop
 public record GetShoppingSessionCartItemsResponse
 {
     [Required]
+    public int Id { get; set; }
+    
+    [Required]
     public string ArticleName { get; set; } = null!;
 
     [Required]
