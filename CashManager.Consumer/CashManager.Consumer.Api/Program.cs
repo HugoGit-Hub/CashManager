@@ -1,8 +1,10 @@
 using CashManager.Consumer.Api.Configuration;
 using CashManager.Consumer.Application;
 using CashManager.Consumer.Infrastructure;
+using CashManager.Consumer.Infrastructure.Context;
 using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -66,6 +68,17 @@ builder.Services
 builder.Services.AddMapster();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<CashManagerConsumerContext>();
+
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {

@@ -11,7 +11,7 @@ internal class HttpClientService : IHttpClientService
 {
     public async Task<Result> PostTransaction(CreateBankingTransactionRequest createBankingTransactionRequest, CancellationToken cancellationToken)
     {
-        var uri = new Uri("http://localhost:5154/api/Transaction/Post");
+        var uri = new Uri("http://banking-api:80/api/Transaction/Post");
         var client = new HttpClient
         {
             BaseAddress = new Uri(uri.GetLeftPart(UriPartial.Authority))
@@ -24,6 +24,6 @@ internal class HttpClientService : IHttpClientService
 
         return response.IsSuccessStatusCode
             ? Result.Success()
-            : Result.Failure(HttpClientErrors.HttpCallbackRequestError(response.StatusCode));
+            : Result.Failure(HttpClientErrors.HttpCallbackRequestError(await response.Content.ReadAsStringAsync(cancellationToken)));
     }
 }

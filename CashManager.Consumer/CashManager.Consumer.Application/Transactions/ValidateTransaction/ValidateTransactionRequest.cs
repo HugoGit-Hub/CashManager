@@ -33,5 +33,5 @@ public record ValidateTransactionRequest
     public Guid Guid { get; set; }
 
     [Required]
-    public string Url { get; private set; } = "https://localhost:7270/api/Transaction/Validate";
+    public string Url { get; private set; } = "http://consumer-api:80/api/Transaction/Validate";
 }

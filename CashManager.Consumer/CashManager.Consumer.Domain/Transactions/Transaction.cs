@@ -33,7 +33,7 @@ public class Transaction
     public Guid Guid { get; set; } = Guid.NewGuid(); 
 
     [Required] 
-    public string Url { get; private set; } = "https://localhost:7270/api/Transaction/Validate";
+    public string Url { get; private set; } = "http://consumer-api:80/api/Transaction/Validate";
 
     public int UserId { get; set; }
 
