@@ -1,6 +1,7 @@
 import 'package:cashmanagerapp/models/cartitem_model.dart';
 import 'package:cashmanagerapp/models/shopping_session_model.dart';
 import 'package:cashmanagerapp/services/article_service.dart';
+import 'package:cashmanagerapp/services/cart_service.dart';
 import 'package:cashmanagerapp/services/shopping_session_service.dart';
 import 'package:cashmanagerapp/widgets/button_place_order.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
@@ -101,7 +102,7 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               Text(
-                                cartitem.totalArticlePrice.toString(),
+                                '${cartitem.totalArticlePrice} €',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18.0,
@@ -123,7 +124,13 @@ class _CartState extends State<Cart> {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              CartService()
+                                  .deleteCartItemFromCurrentShoppingSessionById(
+                                      cartitem.articleId.toString());
+                              getAllCartItem();
+                              getTotalPrice();
+                            },
                             icon: Icon(Icons.delete),
                           ),
                         ],
