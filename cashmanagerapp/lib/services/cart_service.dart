@@ -28,7 +28,7 @@ class CartService {
     try {
       int id = int.parse(cartitemId);
       await Dio().delete(
-          'http://localhost:5001/api/ShoppingSession/DeleteCartItemFromCurrentShoppingSession?=$id',
+          'http://localhost:5001/api/ShoppingSession/DeleteCartItemFromCurrentShoppingSession?cartItemId=$id',
           options: Options(headers: {
             "Authorization": "Bearer $token",
           }));

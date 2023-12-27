@@ -127,7 +127,7 @@ class _CartState extends State<Cart> {
                             onPressed: () {
                               CartService()
                                   .deleteCartItemFromCurrentShoppingSessionById(
-                                      cartitem.articleId.toString());
+                                      cartitem.id.toString());
                               getAllCartItem();
                               getTotalPrice();
                             },

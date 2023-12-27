@@ -1,18 +1,21 @@
 class CartItemModel {
+  int id;
   String articleName;
   int quantity;
   double totalArticlePrice;
   String imageUrl;
   int articleId;
   CartItemModel(
-      {required this.articleName,
+      {required this.id,
+      required this.articleName,
       required this.quantity,
       required this.totalArticlePrice,
       required this.imageUrl,
       required this.articleId});
 
   CartItemModel.fromJson(Map<String, dynamic> json)
-      : articleName = json['articleName'] ?? '',
+      : id = json['id'] ?? 0,
+        articleName = json['articleName'] ?? '',
         quantity = json['quantity'] ?? '',
         totalArticlePrice = (json['totalArticlePrice'] as num).toDouble(),
         imageUrl = json['imageUrl'] ?? '',
@@ -20,6 +23,7 @@ class CartItemModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
+    data['id'] = id;
     data['articleName'] = articleName;
     data['quantity'] = quantity;
     data['totalArticlePrice'] = totalArticlePrice.toDouble();
