@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'package:cashmanagerapp/services/transactionservice.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class Paiement extends StatefulWidget {
   Paiement({Key? key}) : super(key: key);
@@ -30,6 +32,10 @@ class DebitCardPage extends StatefulWidget {
 }
 
 class _DebitCardPageState extends State<DebitCardPage> {
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
   ElevatedButton buildDebitCardButton() {
     return ElevatedButton(
       onPressed: () {
@@ -63,7 +69,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                   },
                   style:
                       widget.pos == 0 ? checkButtonStyle : debitCardButtonStyle,
-                  child: Text('Carte de crédit'),
+                  child: Text('Carte Bleue'),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -73,7 +79,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                   },
                   style:
                       widget.pos == 1 ? checkButtonStyle : debitCardButtonStyle,
-                  child: Text('Chèque'),
+                  child: Text('   Chèque   '),
                 ),
               ],
             ),
@@ -229,15 +235,107 @@ class _DebitCardPageState extends State<DebitCardPage> {
                     ),
                   ],
                 )
-              : Container(
-                  margin: EdgeInsets.only(top: 50.0),
-                  child: Image(
-                    image: AssetImage('lib/images/check.png'),
+              : Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 50.0),
+                      child: Image(
+                        image: AssetImage('lib/images/check.png'),
+                      ),
                   ),
-                ),
+                  SizedBox(height: 10.0),
+                  Container(child: _buildQrView(context)), 
+                  if (result != null)
+                    Text('code: ${result!.code}')
+                  else
+                    //if code is not scanned, display the text
+                    Text('Scanner un chèque'),
+                  ElevatedButton(
+                      onPressed: () {
+                        if (result != null) {
+                          TransactionService().createTransaction(result!.code!,  widget.pos);
+                        }
+                        else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Scanner un chèque')),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 20.0),
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        ),
+                        backgroundColor: Colors.yellow,
+                        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                      ),
+                      child: Text('Confirmer le paiement'.toUpperCase()),
+                    ),                
+                ],
+              ),
         ],
       ),
     );
+  }
+
+    Widget _buildQrView(BuildContext context) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+                SizedBox(
+                  height: 150,
+                  width: 300,
+                ),
+              Positioned.fill(
+                child: QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                  overlay: QrScannerOverlayShape(
+                    borderColor: Colors.red,
+                    borderRadius: 10,
+                    borderLength: 30,
+                    borderWidth: 10,
+                    cutOutSize: 300.0,
+                  ),
+                  onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        result = scanData;
+      });
+    });
+  }
+
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }
 
