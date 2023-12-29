@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.AllowAnyOrigin();
+            policy.WithOrigins("http://localhost:3000", "http://localhost:5001");
             policy.AllowAnyHeader();
             policy.AllowAnyMethod();
         });
@@ -82,6 +82,19 @@ builder.Services
 builder.Services.AddMapster();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<CashManagerBankingContext>();
+
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+
+    DataSeeder.Initialize(services);
+}
 
 if (app.Environment.IsDevelopment())
 {

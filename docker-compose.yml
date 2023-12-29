@@ -13,6 +13,12 @@ services:
       - ./data:/var/opt/mssql/data
       - ./log:/var/opt/mssql/log
       - ./secrets:/var/opt/mssql/secrets
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Password123!" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     networks:
       - cash-manager-network
     
@@ -25,7 +31,8 @@ services:
     ports:
       - "5000:80"
     depends_on:
-      - sqlserver
+      sqlserver:
+        condition: service_healthy
     networks:
       - cash-manager-network
 
@@ -38,7 +45,8 @@ services:
     ports:
       - "5001:80"
     depends_on:
-      - sqlserver
+      sqlserver:
+        condition: service_healthy
     networks:
       - cash-manager-network
 
@@ -55,18 +63,18 @@ services:
     networks:
       - cash-manager-network
 
-  consumer-client:
-    image: consumer-client
-    build:
-      context: .
-      dockerfile: cashmanagerapp/Dockerfile
-    container_name: consumer-client
-    ports:
-      - "3001:8080"
-    depends_on:
-      - consumer-api
-    networks:
-      - cash-manager-network
+  # consumer-client:
+  #   image: consumer-client
+  #   build:
+  #     context: .
+  #     dockerfile: cashmanagerapp/Dockerfile
+  #   container_name: consumer-client
+  #   ports:
+  #     - "3001:8080"
+  #   depends_on:
+  #     - consumer-api
+  #   networks:
+  #     - cash-manager-network
 
 volumes:
   sqlserver_data:

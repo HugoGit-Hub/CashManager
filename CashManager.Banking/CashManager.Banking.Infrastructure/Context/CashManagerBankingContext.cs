@@ -17,4 +17,9 @@ public class CashManagerBankingContext : DbContext
     public DbSet<Transaction> Transactions { get; set; } = null!;
 
     public DbSet<Users> Users { get; set; } = null!;
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer("server=sqlserver;Database=CashManager.Banking;User Id=SA;Password=Password123!;TrustServerCertificate=True;");
+    }
 }
