@@ -153,7 +153,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                'Mois/Année',
+                                'Date d\'expiration',
                                 style: TextStyle(
                                     fontSize: 15.0,
                                     fontWeight: FontWeight.bold),
