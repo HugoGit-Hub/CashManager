@@ -36,4 +36,19 @@ class CartService {
       print(e);
     }
   }
+
+  Future<void> updateCartItemQuantity(
+      int id, int newQuantity) async {
+    const FlutterSecureStorage storage = FlutterSecureStorage();
+    final String? token = await storage.read(key: "access_token");
+    try {
+      await Dio().put(
+          'http://localhost:5001/api/ShoppingSession/UpdateCartItemFromCurrentShoppingSession?cartItemId=$id&quantity=$newQuantity',
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
+    } catch (e) {
+      print(e);
+    }
+  }
 }
