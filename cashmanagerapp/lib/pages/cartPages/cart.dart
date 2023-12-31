@@ -6,6 +6,7 @@ import 'package:cashmanagerapp/services/shopping_session_service.dart';
 import 'package:cashmanagerapp/widgets/button_place_order.dart';
 import 'package:cashmanagerapp/widgets/quantity_selector.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class Cart extends StatefulWidget {
   Cart({Key? key}) : super(key: key);
@@ -16,32 +17,56 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   List<CartItemModel> cartitems = [];
-  double totalPrice = 0.0;
+  double totalPrice = 0.00;
 
   @override
   void initState() {
     super.initState();
-    getAllCartItem();
-    getTotalPrice();
+    _loadData();
   }
 
-  getAllCartItem() async {
+  Future<void> _loadData() async {
+    await _getAllCartItem();
+    await _getTotalPrice();
+  }
+
+  Future<void> _getAllCartItem() async {
     final List<CartItemModel> cartitems =
-        (await ArticleService().getAllCartItem()).toList();
+        await ArticleService().getAllCartItem();
     setState(() {
       this.cartitems = cartitems;
     });
   }
 
-  getTotalPrice() async {
+  Future<void> _getTotalPrice() async {
     final ShoppingSessionModel totalPrice =
-        (await ShoppingSessionService().getTotalPrice());
-
+        await ShoppingSessionService().getTotalPrice();
     setState(() {
       this.totalPrice = totalPrice.totalPrice;
     });
   }
 
+  double roundDouble(double value, int places){ 
+   num mod = pow(10.0, places); 
+   return ((value * mod).round().toDouble() / mod); 
+}
+
+  Future<void> _deleteCartItem(String cartItemId) async {
+    await CartService()
+        .deleteCartItemFromCurrentShoppingSessionById(cartItemId);
+    await _loadData(); // Reload data after deletion
+  }
+
+  void _updateTotalPrice() {
+    double newTotalPrice = 0.0;
+    for (var item in cartitems) {
+      newTotalPrice += item.totalArticlePrice;
+    }
+    setState(() {
+      totalPrice = roundDouble(newTotalPrice, 2);
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +127,7 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               Text(
-                                '${cartitem.totalArticlePrice} €',
+                                '${roundDouble(cartitem.totalArticlePrice, 2)} €',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18.0,
@@ -114,9 +139,20 @@ class _CartState extends State<Cart> {
                       ),
                       Row(
                         children: [
+                          
                           QuantitySelector(
-                            price: 0,
-                            onQuantityChanged: (quantity, total) {},
+                            
+                            price: cartitem.totalArticlePrice / cartitem.quantity , // Change this to the actual price of your item
+                            onQuantityChanged: (quantity, total) {
+                              // Update the quantity and total price for the specific item
+                              setState(() {
+                                cartitem.quantity = quantity;
+                                cartitem.totalArticlePrice = total;
+                              });
+
+                              // Recalculate the total price for the entire cart
+                              _updateTotalPrice();
+                            },
                             quantity: cartitem.quantity,
                           ),
                         ],
@@ -125,11 +161,7 @@ class _CartState extends State<Cart> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              CartService()
-                                  .deleteCartItemFromCurrentShoppingSessionById(
-                                      cartitem.id.toString());
-                              getAllCartItem();
-                              getTotalPrice();
+                              _deleteCartItem(cartitem.id.toString());
                             },
                             icon: Icon(Icons.delete),
                           ),
@@ -169,7 +201,7 @@ class _CartState extends State<Cart> {
                 Column(
                   children: [
                     Text(
-                      'Total : $totalPrice €',
+                      'Total : $totalPrice : €',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
