@@ -217,6 +217,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                     ElevatedButton(
                       onPressed: () {
                         TransactionService().createTransaction(creditorController.text,  widget.pos);
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
