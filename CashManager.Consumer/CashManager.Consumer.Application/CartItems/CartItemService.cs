@@ -25,7 +25,7 @@ internal class CartItemService : ICartItemService
         var getCartItem = await _cartItemRepository.GetById(cartItemId, cancellationToken);
         
         return getCartItem is null 
-            ? Result<CartItem>.Failure(ArticleErrors.ArticleNotFound) 
+            ? Result<CartItem>.Failure(CartItemErrors.NotFound) 
             : Result<CartItem>.Success(getCartItem);
     }
 

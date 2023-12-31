@@ -1,49 +1,38 @@
-﻿using CashManager.Consumer.Application.CurrentUser;
+﻿using CashManager.Consumer.Domain.CartItems;
 using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.ShoppingSessions;
-using CashManager.Consumer.Domain.User;
 using MediatR;
-using System.Security.Claims;
 
 namespace CashManager.Consumer.Application.ShoppingSessions.DeleteCartItemFromCurrentShoppingSession;
 
 internal class DeleteCartItemFromCurrentShoppingSessionCommandHandler : IRequestHandler<DeleteCartItemFromCurrentShoppingSessionCommand, Result>
 {
     private readonly IShoppingSessionService _shoppingSessionService;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IUserService _userService;
+    private readonly ICartItemService _cartItemService;
 
     public DeleteCartItemFromCurrentShoppingSessionCommandHandler(
         IShoppingSessionService shoppingSessionService,
-        ICurrentUserService currentUserService,
-        IUserService userService)
+        ICartItemService cartItemService)
     {
         _shoppingSessionService = shoppingSessionService;
-        _currentUserService = currentUserService;
-        _userService = userService;
+        _cartItemService = cartItemService;
     }
 
     public async Task<Result> Handle(DeleteCartItemFromCurrentShoppingSessionCommand request, CancellationToken cancellationToken)
     {
-        var currentUserEmail = _currentUserService.GetClaim(ClaimTypes.Email);
-        if (currentUserEmail.IsFailure)
-        {
-            return Result.Failure(currentUserEmail.Error);
-        }
-
-        var currentUser = await _userService.GetUserByEmail(currentUserEmail.Value, cancellationToken);
-        if (currentUser.IsFailure)
-        {
-            return Result.Failure(currentUser.Error);
-        }
-
-        var currentShoppingSession = await _shoppingSessionService.GetOrCreateShoppingSessionIfNullOrNotOpenShoppingSession(currentUser.Value, cancellationToken);
+        var currentShoppingSession = await _shoppingSessionService.GetCurrentShoppingSession(cancellationToken);
         if (currentShoppingSession.IsFailure)
         {
-            return Result.Failure(currentShoppingSession.Error);
+            return Result<ShoppingSession>.Failure(currentShoppingSession.Error);
         }
 
-        var deleteCartItemFromShoppingSession = await _shoppingSessionService.DeleteCartItemFromCurrentShoppingSession(currentShoppingSession.Value.Id, request.CartItemId, cancellationToken);
+        var cartItem = await _cartItemService.GetById(request.CartItemId, cancellationToken);
+        if (cartItem.IsFailure)
+        {
+            return Result.Failure(cartItem.Error);
+        }
+
+        var deleteCartItemFromShoppingSession = await _shoppingSessionService.UpdateOrDeleteCartItemInCurrentShoppingSession(0, cartItem.Value, currentShoppingSession.Value, cancellationToken);
 
         return deleteCartItemFromShoppingSession.IsFailure
             ? Result.Failure(deleteCartItemFromShoppingSession.Error)
