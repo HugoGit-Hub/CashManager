@@ -1,5 +1,6 @@
 ﻿using CashManager.Consumer.Domain.CartItems;
 using CashManager.Consumer.Domain.ErrorHandling;
+using CashManager.Consumer.Domain.ShoppingSessions;
 using MediatR;
 
 namespace CashManager.Consumer.Application.ShoppingSessions.UpdateCartItemFromCurrentShoppingSession;
@@ -7,24 +8,32 @@ namespace CashManager.Consumer.Application.ShoppingSessions.UpdateCartItemFromCu
 internal class UpdateCartItemFromCurrentShoppingSessionCommandHandler : IRequestHandler<UpdateCartItemFromCurrentShoppingSessionCommand, Result>
 {
     private readonly ICartItemService _cartItemService;
+    private readonly IShoppingSessionService _shoppingSessionService;
 
-    public UpdateCartItemFromCurrentShoppingSessionCommandHandler(ICartItemService cartItemService)
+    public UpdateCartItemFromCurrentShoppingSessionCommandHandler(
+        ICartItemService cartItemService,
+        IShoppingSessionService shoppingSessionService)
     {
         _cartItemService = cartItemService;
+        _shoppingSessionService = shoppingSessionService;
     }
 
     public async Task<Result> Handle(UpdateCartItemFromCurrentShoppingSessionCommand request, CancellationToken cancellationToken)
     {
+        var currentShoppingSession = await _shoppingSessionService.GetCurrentShoppingSession(cancellationToken);
+        if (currentShoppingSession.IsFailure)
+        {
+            return Result<ShoppingSession>.Failure(currentShoppingSession.Error);
+        }
+
         var cartItem = await _cartItemService.GetById(request.CartItemId, cancellationToken);
         if (cartItem.IsFailure)
         {
             return Result.Failure(cartItem.Error);
         }
 
-        cartItem.Value.Quantity = request.Quantity;
+        var updateCartItem = await _shoppingSessionService.UpdateOrDeleteCartItemInCurrentShoppingSession(request.Quantity, cartItem.Value, currentShoppingSession.Value, cancellationToken);
 
-        var updateCartItem = await _cartItemService.Update(cartItem.Value, cancellationToken);
-        
         return updateCartItem.IsFailure 
             ? Result.Failure(updateCartItem.Error) 
             : Result.Success();
