@@ -66,6 +66,9 @@ class _CartState extends State<Cart> {
       totalPrice = roundDouble(newTotalPrice, 2);
     });
   }
+  void _updateQuandity(int cartItemId, int quantity) {
+    CartService().updateCartItemQuantity(cartItemId, quantity);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -152,6 +155,7 @@ class _CartState extends State<Cart> {
 
                               // Recalculate the total price for the entire cart
                               _updateTotalPrice();
+                              _updateQuandity(cartitem.id, cartitem.quantity);
                             },
                             quantity: cartitem.quantity,
                           ),
