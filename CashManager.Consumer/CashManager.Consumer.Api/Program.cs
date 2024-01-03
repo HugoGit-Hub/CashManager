@@ -78,6 +78,8 @@ using (var scope = app.Services.CreateScope())
     {
         context.Database.Migrate();
     }
+
+    DataSeeder.Initialize(services);
 }
 
 if (app.Environment.IsDevelopment())
