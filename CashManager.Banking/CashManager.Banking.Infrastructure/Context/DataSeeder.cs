@@ -12,7 +12,7 @@ public static class DataSeeder
         using var context = new CashManagerBankingContext(
             serviceProvider.GetRequiredService<DbContextOptions<CashManagerBankingContext>>());
 
-        if (!context.Users.Any() && context.Accounts.Any())
+        if (context.Users.Any() || context.Accounts.Any())
         {
             return;
         }
