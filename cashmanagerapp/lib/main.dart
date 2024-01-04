@@ -126,13 +126,27 @@ class Accueil extends StatefulWidget {
   State<Accueil> createState() => _Accueil();
 }
 
-class _Accueil extends State<Accueil> {
+class _Accueil extends State<Accueil>  with WidgetsBindingObserver {
   List<CartItemModel> cartitems = [];
   @override
   void initState() {
     super.initState();
     getAllCartItem();
   }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      getAllCartItem();
+    }
+  }
+
 
   getAllCartItem() async {
     final List<CartItemModel> cartitems =
