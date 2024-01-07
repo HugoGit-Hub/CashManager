@@ -87,15 +87,12 @@ class _LoginState extends State<Login> {
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(emailController.text);
                       if (emailValid) {
-                        // try {
-                        // // await AuhtenticationService().login(emailController.text, passwordController.text);
-                        // } catch (e) {
-                        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        // }
+                        try {
+                          await AuhtenticationService().login(emailController.text, passwordController.text);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       }
-                      // FOR DEVELOPMENT PURPOSES ONLY
-                      await AuhtenticationService()
-                          .login("user@example.com", "string");
                       Navigator.pushNamed(context, '/');
                     },
                     style: ElevatedButton.styleFrom(
