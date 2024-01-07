@@ -3,6 +3,7 @@ import 'package:cashmanagerapp/pages/cartPages/cart.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_dairy.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_fruit.dart';
 import 'package:cashmanagerapp/pages/categoryPages/category_vegetable.dart';
+import 'package:cashmanagerapp/pages/checkoutPages/banking_checkout.dart';
 import 'package:cashmanagerapp/pages/checkoutPages/paiement.dart';
 import 'package:cashmanagerapp/pages/introductionPages/introduction.dart';
 import 'package:cashmanagerapp/pages/loginPages/login.dart';
@@ -61,6 +62,7 @@ class _MyApp extends State<MyApp> {
         '/welcome': (context) => introduction,
         '/paiement': (context) => paiement,
         '/listArticles': (context) => listArticles,
+        '/paiement/confirmation': (context) => BankingCheckout(),
       },
     );
   }
@@ -85,7 +87,7 @@ class _MyHomePageState extends State<HomePage> {
         page = Cart();
         break;
       case 2:
-        page = Category();
+        page = ListArticles();
         break;
       // case 3:
       //   page = UserPage();
@@ -112,7 +114,7 @@ class _MyHomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.category),
-              label: 'Catégories',
+              label: 'Articles',
             ),
           ],
         ),
