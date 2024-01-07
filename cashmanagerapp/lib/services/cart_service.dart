@@ -8,7 +8,7 @@ class CartService {
 
     try {
       await Dio().post(
-        'http://localhost:5001/api/CartItem/CreateCartItem',
+        'http://g24.epihub.eu/api/CartItem/CreateCartItem',
         data: {'idArticle': idArticle, 'quantity': quantity},
         options: Options(
           headers: {
@@ -28,7 +28,7 @@ class CartService {
     try {
       int id = int.parse(cartitemId);
       await Dio().delete(
-          'http://localhost:5001/api/ShoppingSession/DeleteCartItemFromCurrentShoppingSession?cartItemId=$id',
+          'http://g24.epihub.eu/api/ShoppingSession/DeleteCartItemFromCurrentShoppingSession?cartItemId=$id',
           options: Options(headers: {
             "Authorization": "Bearer $token",
           }));
@@ -43,7 +43,7 @@ class CartService {
     final String? token = await storage.read(key: "access_token");
     try {
       await Dio().put(
-          'http://localhost:5001/api/ShoppingSession/UpdateCartItemFromCurrentShoppingSession?cartItemId=$id&quantity=$newQuantity',
+          'http://g24.epihub.eu/api/ShoppingSession/UpdateCartItemFromCurrentShoppingSession?cartItemId=$id&quantity=$newQuantity',
           options: Options(headers: {
             "Authorization": "Bearer $token",
           }));

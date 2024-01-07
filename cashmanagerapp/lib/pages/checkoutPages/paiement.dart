@@ -1,7 +1,9 @@
 import 'dart:developer';
-import 'package:cashmanagerapp/services/transactionservice.dart';
+import 'package:cashmanagerapp/pages/checkoutPages/banking_checkout.dart';
+import 'package:cashmanagerapp/services/transaction_service.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 
 class Paiement extends StatefulWidget {
   Paiement({Key? key}) : super(key: key);
@@ -50,6 +52,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
   TextEditingController creditorController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Paiement'),
@@ -217,7 +220,10 @@ class _DebitCardPageState extends State<DebitCardPage> {
                     ElevatedButton(
                       onPressed: () {
                         TransactionService().createTransaction(creditorController.text,  widget.pos);
-                        Navigator.pop(context);
+                        Navigator.of(context).pushNamed('/paiement/confirmation');
+
+                        // Navigator.pop(context);
+                        
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
@@ -255,6 +261,7 @@ class _DebitCardPageState extends State<DebitCardPage> {
                       onPressed: () {
                         if (result != null) {
                           TransactionService().createTransaction(result!.code!,  widget.pos);
+                          Navigator.of(context).pushNamed('/paiement/confirmation');
                         }
                         else{
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -365,7 +372,6 @@ class _CheckPageState extends State<CheckPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     throw UnimplementedError();
   }
 }

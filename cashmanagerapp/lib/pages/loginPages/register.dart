@@ -144,7 +144,7 @@ class _RegisterState extends State<Register> {
                       padding: const EdgeInsets.only(
                           right: 50.0, left: 50.0, top: 15.0, bottom: 15.0),
                       child: Text(
-                        'Se connecter',
+                        'S\'inscrire',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: const Color.fromRGBO(0, 0, 0, 1),

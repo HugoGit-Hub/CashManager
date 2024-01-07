@@ -8,7 +8,7 @@ class AuhtenticationService {
     const FlutterSecureStorage storage = FlutterSecureStorage();
     try {
       Response response = await _dio
-          .post("http://localhost:5001/api/Authentication/Register", data: {
+          .post("http://g24.epihub.eu/api/Authentication/Register", data: {
         "firstname": firstname,
         "lastname": lastname,
         "email": email,
@@ -35,7 +35,7 @@ class AuhtenticationService {
     const FlutterSecureStorage storage = FlutterSecureStorage();
     try {
       Response response = await _dio.post(
-          "http://localhost:5001/api/Authentication/Login",
+          "http://g24.epihub.eu/api/Authentication/Login",
           data: {"email": email, "password": password});
       // Check if the request was successful
       if (response.statusCode == 200) {
