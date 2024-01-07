@@ -1,4 +1,4 @@
-using CashManager.Banking.Api.Configuration;
+ using CashManager.Banking.Api.Configuration;
 using CashManager.Banking.Api.Configuration.Schemes;
 using CashManager.Banking.Application;
 using CashManager.Banking.Infrastructure;
@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "http://localhost:5001");
+            policy.AllowAnyOrigin();
             policy.AllowAnyHeader();
             policy.AllowAnyMethod();
         });
