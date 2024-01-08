@@ -11,14 +11,15 @@ class ButtonAddToCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          CartService().addArticleToCart(idArticle, quantity);
+        onPressed: () async {
+          await CartService().addArticleToCart(idArticle, quantity);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Article ajouté au panier'),
               duration: Duration(seconds: 1),
             ),
           );
+          //await Future.delayed(Duration(seconds: 1));
           Navigator.of(context).pushNamed('/');
 
         },
