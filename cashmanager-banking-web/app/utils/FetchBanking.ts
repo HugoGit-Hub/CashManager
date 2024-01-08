@@ -1,5 +1,5 @@
 export function fetchBanking(url: string, options: any) {
-    const baseUrl = 'http://g24.epihub.eu:81/api';
+    const baseUrl = 'https://g24.epihub.eu/api';
     
     return fetch(baseUrl + url, options);
 }
