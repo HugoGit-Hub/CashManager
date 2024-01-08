@@ -9,7 +9,7 @@ class ShoppingSessionService {
     try {
       final res = await Dio()
           .get(
-        'http://g24.epihub.eu/api/ShoppingSession/GetCurrentShoppingSession',
+        'https://vh71wppn-5001.uks1.devtunnels.ms/api/ShoppingSession/GetCurrentShoppingSession',
         options: Options(
           headers: {
             "Authorization": "Bearer $token",

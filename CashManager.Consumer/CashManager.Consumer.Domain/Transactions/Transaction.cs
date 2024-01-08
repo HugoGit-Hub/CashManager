@@ -33,7 +33,7 @@ public class Transaction
     public Guid Guid { get; set; } = Guid.NewGuid(); 
 
     [Required] 
-    public string Url { get; private set; } = "http://g24.epihub.eu/api/Transaction/Validate";
+    public string Url { get; private set; } = "https://vh71wppn-5001.uks1.devtunnels.ms/api/Transaction/Validate";
 
     public int UserId { get; set; }
 

@@ -8,7 +8,7 @@ class TransactionService {
 
     try {
       await Dio().post(
-        'http://g24.epihub.eu/api/Transaction/Create',
+        'https://vh71wppn-5001.uks1.devtunnels.ms/api/Transaction/Create',
         data: {
           'creditor': creditor,
           'method' : methodPaiement
