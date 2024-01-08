@@ -10,7 +10,7 @@ class ArticleService {
     try {
       final res = await Dio()
           .get(
-        'http://g24.epihub.eu/api/ShoppingSession/GetCurrentOpenedShoppingSessionCartItems',
+        'https://g24.epihub.eu:444/api/ShoppingSession/GetCurrentOpenedShoppingSessionCartItems',
         options: Options(
           headers: {
             "Authorization": "Bearer $token",
@@ -44,7 +44,7 @@ class ArticleService {
     try {
       final res = await Dio()
           .get(
-        'http://g24.epihub.eu/api/Article/GetAll',
+        'https://g24.epihub.eu:444/api/Article/GetAll',
         options: Options(
           headers: {
             "Authorization": "Bearer $token",
@@ -80,7 +80,7 @@ class ArticleService {
       int id = int.parse(idArticle);
       final res = await Dio()
           .get(
-        'http://g24.epihub.eu/api/Article/GetById?id=$id',
+        'https://g24.epihub.eu:444/api/Article/GetById?id=$id',
         options: Options(
           headers: {
             "Authorization": "Bearer $token",

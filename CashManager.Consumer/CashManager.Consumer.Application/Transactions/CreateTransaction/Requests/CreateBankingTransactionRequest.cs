@@ -32,5 +32,5 @@ public record CreateBankingTransactionRequest
     public Guid Guid { get; set; }
 
     [Required]
-    public string Url { get; private set; } = "http://g24.epihub.eu/api/Transaction/Validate";
+    public string Url { get; private set; } = "https://g24.epihub.eu:444/api/Transaction/Validate";
 }

@@ -11,7 +11,7 @@ class BankingCheckout extends StatefulWidget {
 class _BankingCheckout extends State<BankingCheckout> {
   final controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..loadRequest(Uri.parse('https://vh71wppn-3000.uks1.devtunnels.ms/'));
+  ..loadRequest(Uri.parse('https://cash-manager-nine.vercel.app/'));
   
   var loadingPercentage = 0;
 

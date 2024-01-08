@@ -11,7 +11,7 @@ internal class HttpClientService : IHttpClientService
 {
     public async Task<Result> PostTransaction(CreateBankingTransactionRequest createBankingTransactionRequest, CancellationToken cancellationToken)
     {
-        var uri = new Uri("http://g24.epihub.eu:81/api/Transaction/Post");
+        var uri = new Uri("https://g24.epihub.eu:445/api/Transaction/Post");
         var client = new HttpClient
         {
             BaseAddress = new Uri(uri.GetLeftPart(UriPartial.Authority))
