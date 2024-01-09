@@ -43,7 +43,7 @@ internal class GetShoppingSessionCartItemsQueryHandler : IRequestHandler<GetShop
             return Result<IEnumerable<GetShoppingSessionCartItemsResponse>>.Failure(currentShoppingSession.Error);
         }
         
-        var shoppinsSession = await _shoppingSessionService.GetShoppinsSessionById(currentShoppingSession.Value.Id, cancellationToken);
+        var shoppinsSession = await _shoppingSessionService.GetShoppingSessionById(currentShoppingSession.Value.Id, cancellationToken);
         var getShoppingSessionCartItemsResponseList = shoppinsSession.Value.CartItems
             .Select(cartItem => 
                 new GetShoppingSessionCartItemsResponse 
