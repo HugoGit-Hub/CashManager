@@ -16,12 +16,17 @@ function LoginForm() {
     
     const Login = async (credentials: { email: string; password: string }) => {
         try {
+            var login = {
+                email: credentials.email,
+                password: credentials.password,
+            };
+            
             var request = {
                 method: 'POST',
                 headers: new Headers({ "Content-Type": "application/json" }),
             };
     
-            await fetchBanking(`/Authentication/Login?email=${credentials.email}&password=${credentials.password}`, request)
+            await fetchBanking(`/Authentication/Login`, request)
             .then(response => {
                 if (response.ok) {
                     notifications("success", "Connecté");
