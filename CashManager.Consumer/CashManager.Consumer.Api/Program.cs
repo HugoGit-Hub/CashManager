@@ -1,4 +1,5 @@
 using CashManager.Consumer.Api.Configuration;
+using CashManager.Consumer.Api.Configuration.Middlewares;
 using CashManager.Consumer.Application;
 using CashManager.Consumer.Infrastructure;
 using CashManager.Consumer.Infrastructure.Context;
@@ -80,6 +81,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     DataSeeder.Initialize(services);
+    DatabaseUpdaterMiddleware.Update();
 }
 
 if (app.Environment.IsDevelopment())
