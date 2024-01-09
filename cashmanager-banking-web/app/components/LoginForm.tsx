@@ -15,7 +15,7 @@ function LoginForm() {
     };
     
     const Login = async (credentials: { email: string; password: string }) => {
-        try {
+        try {          
             var request = {
                 method: 'POST',
                 headers: new Headers({ "Content-Type": "application/json" }),
