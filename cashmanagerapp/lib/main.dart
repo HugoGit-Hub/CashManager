@@ -169,6 +169,7 @@ class _Accueil extends State<Accueil>  with WidgetsBindingObserver {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: 50), // Add spacing
           // Row 1
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,13 +226,13 @@ class _Accueil extends State<Accueil>  with WidgetsBindingObserver {
                 padding: const EdgeInsets.all(8.0),
                 child: Text('Catégories',
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
               ),
               TextButton(
                 onPressed: () {
-                  navigateToPage(context, '/listArticles');
+                  navigateToPage(context, '/category');
                 },
-                child: Text('Plus'),
+                child: Icon(Icons.arrow_forward_ios),
               ),
             ],
           ),
@@ -244,19 +245,44 @@ class _Accueil extends State<Accueil>  with WidgetsBindingObserver {
                 onPressed: () {
                   navigateToPage(context, '/category/fruit');
                 },
-                child: Text('Fruits'),
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12))),
+
+                child: ImageIcon(
+                    AssetImage("lib/images/fruit.png"),
+                    color: const Color.fromARGB(230, 127, 30, 1),
+                    size: 50,
+                ),
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () { 
                   navigateToPage(context, '/category/vegetable');
                 },
-                child: Text('Légumes'),
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12))),
+                 child: ImageIcon(
+                    AssetImage("lib/images/vegetable.png"),
+                    color: const Color.fromARGB(230, 127, 30, 1),
+                    size: 50,
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
                   navigateToPage(context, '/category/dairy');
                 },
-                child: Text('Laitiers'),
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12))),
+                child: ImageIcon(
+                    AssetImage("lib/images/dairy.png"),
+                    color: const Color.fromARGB(230, 127, 30, 1),
+                    size: 50,
+                ),
               ),
             ],
           ),
@@ -269,11 +295,10 @@ class _Accueil extends State<Accueil>  with WidgetsBindingObserver {
                 padding: const EdgeInsets.all(8.0),
                 child: Text('Panier',
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
               ),
             ],
           ),
-          SizedBox(height: 10), // Add spacing
           // Row 6 (Placeholder for the list of items)
           Expanded(
             child: ListView.builder(

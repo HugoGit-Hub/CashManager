@@ -76,6 +76,10 @@ flutter:
      - lib/images/cauliflower-isolated.jpg
      - lib/images/premium-fresh-organic-carrots.jpg
      - lib/images/top-view-raw-potatoes-table.jpg
+     - lib/images/champignon.png
+     - lib/images/boeuf.jpg
+     - lib/images/orange.jpg
+     - lib/images/SauceSoja.jpg
      - lib/images/intro1.png
      - lib/images/intro2.png
      - lib/images/intro3.png
@@ -85,6 +89,13 @@ flutter:
      - lib/images/unknown.jpg
      - lib/images/Creditcard.png
      - lib/images/check.png
+     - lib/images/dairy.png
+     - lib/images/fruit.png
+     - lib/images/vegetable.png
+     - lib/images/mushroom.png
+     - lib/images/eggs.png
+     - lib/images/sweet.png
+     - lib/images/cereal.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
