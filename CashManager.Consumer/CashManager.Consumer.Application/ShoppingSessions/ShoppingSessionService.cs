@@ -26,7 +26,7 @@ internal class ShoppingSessionService : IShoppingSessionService
         _cartItemService = cartItemService;
     }
 
-    public async Task<Result<ShoppingSession>> GetShoppinsSessionById(int id, CancellationToken cancellationToken)
+    public async Task<Result<ShoppingSession>> GetShoppingSessionById(int id, CancellationToken cancellationToken)
     {
         var shoppingSession = await _shoppingSessionRepository.GetShoppingSession(id, cancellationToken);
 
@@ -75,7 +75,7 @@ internal class ShoppingSessionService : IShoppingSessionService
             return Result<ShoppingSession>.Failure(ShoppingSessionErrors.NotFound);
         }
 
-        var shoppingSession = await GetShoppinsSessionById(shoppingSessionId.Id, cancellationToken);
+        var shoppingSession = await GetShoppingSessionById(shoppingSessionId.Id, cancellationToken);
 
         return shoppingSession.IsFailure
             ? Result<ShoppingSession>.Failure(shoppingSession.Error)
@@ -137,4 +137,5 @@ internal class ShoppingSessionService : IShoppingSessionService
             ? Result.Failure(updateCartItem.Error) 
             : Result.Success();
     }
+    
 }

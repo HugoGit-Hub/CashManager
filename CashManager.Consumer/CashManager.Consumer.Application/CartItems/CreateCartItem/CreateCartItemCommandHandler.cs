@@ -1,11 +1,8 @@
-﻿using CashManager.Consumer.Application.CurrentUser;
-using CashManager.Consumer.Domain.Articles;
+﻿using CashManager.Consumer.Domain.Articles;
 using CashManager.Consumer.Domain.CartItems;
 using CashManager.Consumer.Domain.ErrorHandling;
 using CashManager.Consumer.Domain.ShoppingSessions;
-using CashManager.Consumer.Domain.User;
 using MediatR;
-using System.Security.Claims;
 
 namespace CashManager.Consumer.Application.CartItems.CreateCartItem;
 
@@ -14,21 +11,15 @@ internal class CreateCartItemCommandHandler : IRequestHandler<CreateCartItemComm
     private readonly ICartItemService _cartItemService;
     private readonly IArticleService _articleService;
     private readonly IShoppingSessionService _shoppingSessionService;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IUserService _userService;
-
+    
     public CreateCartItemCommandHandler(
         ICartItemService cartItemService,
         IArticleService articleService,
-        IShoppingSessionService shoppingSessionService,
-        ICurrentUserService currentUserService,
-        IUserService userService)
+        IShoppingSessionService shoppingSessionService)
     {
         _cartItemService = cartItemService;
         _articleService = articleService;
         _shoppingSessionService = shoppingSessionService;
-        _currentUserService = currentUserService;
-        _userService = userService;
     }
 
     public async Task<Result<CreateCartItemResponse>> Handle(CreateCartItemCommand request, CancellationToken cancellationToken)
@@ -38,33 +29,43 @@ internal class CreateCartItemCommandHandler : IRequestHandler<CreateCartItemComm
         {
             return Result<CreateCartItemResponse>.Failure(article.Error);
         }
-
-        var currentUserEmail = _currentUserService.GetClaim(ClaimTypes.Email);
-        if (currentUserEmail.IsFailure)
+        
+        var currentShoppingSession = await _shoppingSessionService.GetCurrentShoppingSession(cancellationToken);
+        if (currentShoppingSession.IsFailure)
         {
-            return Result<CreateCartItemResponse>.Failure(currentUserEmail.Error);
+            return Result<CreateCartItemResponse>.Failure(currentShoppingSession.Error);
         }
-
-        var user = await _userService.GetUserByEmail(currentUserEmail.Value, cancellationToken);
-        if (user.IsFailure)
+        var isCartItemPresent = currentShoppingSession.Value.CartItems.Any(x => x.Article.Id == request.CreateCartItemRequest.IdArticle);
+        if (isCartItemPresent)
         {
-            return Result<CreateCartItemResponse>.Failure(user.Error);
-        }
+            var currentCartItem = currentShoppingSession.Value.CartItems.FirstOrDefault(x => x.Article.Id == request.CreateCartItemRequest.IdArticle);
+            if (currentCartItem is null)
+            {
+                return Result<CreateCartItemResponse>.Failure(ShoppingSessionErrors.NotFound);
+            }
 
-        var shoppingSession = await _shoppingSessionService.GetOrCreateShoppingSessionIfNullOrNotOpenShoppingSession(user.Value, cancellationToken);
-        if (shoppingSession.IsFailure)
-        {
-            return Result<CreateCartItemResponse>.Failure(shoppingSession.Error);
-        }
+            await _shoppingSessionService.UpdateOrDeleteCartItemInCurrentShoppingSession(request.CreateCartItemRequest.Quantity, currentCartItem, currentShoppingSession.Value, cancellationToken);
+            if (currentShoppingSession.IsFailure)
+            {
+                return Result<CreateCartItemResponse>.Failure(currentShoppingSession.Error);
+            }
 
-        shoppingSession.Value.TotalPrice += request.CreateCartItemRequest.Quantity * article.Value.Price;
-        await _shoppingSessionService.UpdateShoppingSession(shoppingSession.Value, cancellationToken);
+            var createCarteItemResponsee = new CreateCartItemResponse
+            {
+                Quantity = request.CreateCartItemRequest.Quantity,
+                ArticleName = article.Value.Name
+            };
+
+            return Result<CreateCartItemResponse>.Success(createCarteItemResponsee);
+        }
+        currentShoppingSession.Value.TotalPrice += request.CreateCartItemRequest.Quantity * article.Value.Price;
+        await _shoppingSessionService.UpdateShoppingSession(currentShoppingSession.Value, cancellationToken);
 
         var cartItem = new CartItem
         {
             Quantity = request.CreateCartItemRequest.Quantity,
             Article = article.Value,
-            ShoppingSession = shoppingSession.Value
+            ShoppingSession = currentShoppingSession.Value
         };
 
         var createdCartItem = await _cartItemService.Create(cartItem, cancellationToken);
