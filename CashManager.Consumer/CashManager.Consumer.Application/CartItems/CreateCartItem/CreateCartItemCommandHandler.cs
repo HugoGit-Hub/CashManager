@@ -72,13 +72,13 @@ internal class CreateCartItemCommandHandler : IRequestHandler<CreateCartItemComm
                 return Result<CreateCartItemResponse>.Failure(shoppingSession.Error);
             }
             
-            var createCarteItemResponse = new CreateCartItemResponse
+            var createCarteItemResponsee = new CreateCartItemResponse
             {
                 Quantity = request.CreateCartItemRequest.Quantity,
                 ArticleName = article.Value.Name
             };
             
-            return Result<CreateCartItemResponse>.Success(createCarteItemResponse);
+            return Result<CreateCartItemResponse>.Success(createCarteItemResponsee);
         }
             
         shoppingSession.Value.TotalPrice += request.CreateCartItemRequest.Quantity * article.Value.Price;
