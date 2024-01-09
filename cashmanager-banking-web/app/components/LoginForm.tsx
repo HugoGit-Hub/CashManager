@@ -18,7 +18,7 @@ function LoginForm() {
         try {
             var request = {
                 method: 'POST',
-                headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+                headers: new Headers({ "Content-Type": "application/json" }),
             };
     
             await fetchBanking(`/Authentication/Login?email=${credentials.email}&password=${credentials.password}`, request)
