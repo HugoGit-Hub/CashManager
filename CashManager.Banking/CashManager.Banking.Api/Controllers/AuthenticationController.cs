@@ -21,9 +21,12 @@ public class AuthenticationController : Controller
 
     [AllowAnonymous]
     [HttpPost(nameof(Login))]
-    public async Task<ActionResult<string>> Login(LoginDto loginDto, CancellationToken cancellationToken)
+    public async Task<ActionResult<string>> Login(
+        [DataType(DataType.EmailAddress)] string email,
+        [DataType(DataType.Password)] string password,
+        CancellationToken cancellationToken)
     {
-        var result = await _authenticationService.Login(loginDto.Email, loginDto.Password, cancellationToken);
+        var result = await _authenticationService.Login(email, password, cancellationToken);
         if (result.Error == AuthenticationErrors.InvalidCredentialsError)
         {
             return Unauthorized();
