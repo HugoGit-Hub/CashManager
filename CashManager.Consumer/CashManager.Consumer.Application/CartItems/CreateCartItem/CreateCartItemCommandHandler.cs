@@ -56,7 +56,31 @@ internal class CreateCartItemCommandHandler : IRequestHandler<CreateCartItemComm
         {
             return Result<CreateCartItemResponse>.Failure(shoppingSession.Error);
         }
-
+        
+        var isCartItemPresent = shoppingSession.Value.CartItems.Any(x => x.Article.Id == request.CreateCartItemRequest.IdArticle);
+        if (isCartItemPresent)
+        {
+            var currentCartItem = shoppingSession.Value.CartItems.FirstOrDefault(x => x.Article.Id == request.CreateCartItemRequest.IdArticle);
+            if (currentCartItem is null)
+            {
+                return Result<CreateCartItemResponse>.Failure(ShoppingSessionErrors.NotFound);
+            }
+            
+            await _shoppingSessionService.UpdateOrDeleteCartItemInCurrentShoppingSession(request.CreateCartItemRequest.Quantity, currentCartItem, shoppingSession.Value, cancellationToken);
+            if (shoppingSession.IsFailure)
+            {
+                return Result<CreateCartItemResponse>.Failure(shoppingSession.Error);
+            }
+            
+            var createCarteItemResponse = new CreateCartItemResponse
+            {
+                Quantity = request.CreateCartItemRequest.Quantity,
+                ArticleName = article.Value.Name
+            };
+            
+            return Result<CreateCartItemResponse>.Success(createCarteItemResponse);
+        }
+            
         shoppingSession.Value.TotalPrice += request.CreateCartItemRequest.Quantity * article.Value.Price;
         await _shoppingSessionService.UpdateShoppingSession(shoppingSession.Value, cancellationToken);
 
