@@ -13,6 +13,7 @@ class ButtonAddToCart extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () async {
           await CartService().addArticleToCart(idArticle, quantity);
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Article ajouté au panier'),
@@ -20,6 +21,7 @@ class ButtonAddToCart extends StatelessWidget {
             ),
           );
           //await Future.delayed(Duration(seconds: 1));
+          // ignore: use_build_context_synchronously
           Navigator.of(context).pushNamed('/');
 
         },
