@@ -9,7 +9,7 @@ namespace CashManager.Banking.Infrastructure.HttpClients;
 
 internal class HttpClientService : IHttpClientService
 {
-    public async Task<Result> PutTransaction(ValidateTransactionCallBackRequest transaction, CancellationToken cancellationToken)
+    public async Task<Result> ValidateTransactionCallBack(ValidateTransactionCallBackRequest transaction, CancellationToken cancellationToken)
     {
         var uri = new Uri(transaction.Url);
         var client = new HttpClient

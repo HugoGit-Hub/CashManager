@@ -5,5 +5,5 @@ namespace CashManager.Banking.Application.HttpClients;
 
 public interface IHttpClientService
 {
-    public Task<Result> PutTransaction(ValidateTransactionCallBackRequest transaction, CancellationToken cancellationToken);
+    public Task<Result> ValidateTransactionCallBack(ValidateTransactionCallBackRequest transaction, CancellationToken cancellationToken);
 }
