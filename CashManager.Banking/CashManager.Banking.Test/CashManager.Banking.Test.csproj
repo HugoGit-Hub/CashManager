@@ -27,7 +27,6 @@
     <ProjectReference Include="..\CashManager.Banking.Api\CashManager.Banking.Api.csproj" />
     <ProjectReference Include="..\CashManager.Banking.Application\CashManager.Banking.Application.csproj" />
     <ProjectReference Include="..\CashManager.Banking.Domain\CashManager.Banking.Domain.csproj" />
-    <ProjectReference Include="..\CashManager.Banking.Presentation\CashManager.Banking.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
