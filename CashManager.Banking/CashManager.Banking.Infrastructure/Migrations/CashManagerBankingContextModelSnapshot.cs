@@ -59,7 +59,7 @@ namespace CashManager.Banking.Infrastructure.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("CashManager.Banking.Domain.Transactions.Transaction", b =>
+            modelBuilder.Entity("CashManager.Banking.Domain.Transactions.CreditAndDebit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace CashManager.Banking.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CashManager.Banking.Domain.Transactions.Transaction", b =>
+            modelBuilder.Entity("CashManager.Banking.Domain.Transactions.CreditAndDebit", b =>
                 {
                     b.HasOne("CashManager.Banking.Domain.User.Users", "User")
                         .WithMany("Transactions")

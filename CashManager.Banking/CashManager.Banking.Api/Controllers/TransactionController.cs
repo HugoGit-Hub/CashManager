@@ -1,9 +1,11 @@
 ﻿using CashManager.Banking.Application.HttpClients;
 using CashManager.Banking.Application.Transactions;
+using CashManager.Banking.Application.Transactions.ValidateTransaction;
 using CashManager.Banking.Domain.Accounts;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,17 +16,14 @@ namespace CashManager.Banking.Api.Controllers;
 public class TransactionController : Controller
 {
     private readonly ITransactionService _transactionService;
-    private readonly IAccountService _accountService;
-    private readonly IHttpClientService _httpClientService;
+    private readonly ISender _sender;
 
     public TransactionController(
         ITransactionService transactionService,
-        IAccountService accountService,
-        IHttpClientService httpClientService)
+        ISender sender)
     {
         _transactionService = transactionService;
-        _accountService = accountService;
-        _httpClientService = httpClientService;
+        _sender = sender;
     }
 
     [Authorize(AuthenticationSchemes = "ApiKeyScheme")]
@@ -68,27 +67,15 @@ public class TransactionController : Controller
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut(nameof(ValidateTransaction))]
-    public async Task<ActionResult<TransactionDto>> ValidateTransaction(TransactionDto transactionDto, CancellationToken cancellationToken)
+    public async Task<ActionResult<ValidateTransactionResponse>> ValidateTransaction(ValidateTransactionRequest validateTransactionRequest, CancellationToken cancellationToken)
     {
-        var validate = await _transactionService.ValidateOrAbort(transactionDto.Adapt<Transaction>(), TransactionStateEnum.Success, cancellationToken);
-        if (validate.IsFailure)
+        var validateCommand = await _sender.Send(new ValidateTransactionCommand(validateTransactionRequest), cancellationToken);
+        if (validateCommand.IsFailure)
         {
-            return BadRequest(validate.Error);
+            return BadRequest(validateCommand.Error);
         }
 
-        var transaction = await _accountService.Transaction(validate.Value.Creditor, validate.Value.Debtor, validate.Value.Amount, cancellationToken);
-        if (transaction.IsFailure)
-        {
-            return BadRequest(transaction.Error);
-        }
-
-        var putTransaction = await _httpClientService.PutTransaction(transactionDto.Adapt<ValidateTransactionCallBackRequest>(), cancellationToken);
-        if (putTransaction.IsFailure)
-        {
-            return BadRequest(putTransaction);
-        }
-
-        return Ok(validate.Value.Adapt<TransactionDto>());
+        return Ok(validateCommand.Value);
     }
 
     [Authorize(AuthenticationSchemes = "Bearer")]

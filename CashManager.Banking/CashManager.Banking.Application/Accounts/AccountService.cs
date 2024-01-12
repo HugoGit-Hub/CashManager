@@ -22,7 +22,7 @@ internal class AccountService : IAccountService
         _usersRepository = usersRepository;
     }
 
-    public async Task<Result> Transaction(string creditor, string debtor, double amount, CancellationToken cancellationToken)
+    public async Task<Result> CreditAndDebit(string creditor, string debtor, double amount, CancellationToken cancellationToken)
     {
         var creditorAccount = await _accountRepository.Get(creditor, cancellationToken);
         var debtorAccount = await _accountRepository.Get(debtor, cancellationToken);
