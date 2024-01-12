@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CashManager.Banking.Infrastructure\CashManager.Banking.Infrastructure.csproj" />
-    <ProjectReference Include="..\CashManager.Banking.Presentation\CashManager.Banking.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

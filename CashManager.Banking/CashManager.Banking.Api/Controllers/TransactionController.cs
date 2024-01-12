@@ -1,7 +1,4 @@
-﻿using CashManager.Banking.Application.HttpClients;
-using CashManager.Banking.Application.Transactions;
-using CashManager.Banking.Application.Transactions.ValidateTransaction;
-using CashManager.Banking.Domain.Accounts;
+﻿using CashManager.Banking.Application.Transactions.ValidateTransaction;
 using CashManager.Banking.Domain.Transactions;
 using CashManager.Banking.Presentation.Dto;
 using Mapster;
